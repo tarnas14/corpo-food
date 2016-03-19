@@ -4,7 +4,6 @@ import {createStore, combineReducers} from 'redux';
 import {Provider, connect} from 'react-redux';
 import {Router, Route, Link, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
-import orderNotices from '../store/orderNotices';
 
 import Index from './index';
 import NewOrderForm from './NewOrderForm';
@@ -16,8 +15,7 @@ const store = createStore(
     combineReducers({
         userData,
         orders,
-        routing: routerReducer,
-        orderNotices
+        routing: routerReducer
     })
 );
 

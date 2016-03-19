@@ -1,7 +1,7 @@
 import React from 'react';
 import {Col, Well} from 'react-bootstrap';
 
-const OrderNotice = React.createClass({
+const OrderTile = React.createClass({
     propTypes: {
         deliveryTime: React.PropTypes.object.isRequired,
         hungryGuysCount: React.PropTypes.number.isRequired,
@@ -10,7 +10,9 @@ const OrderNotice = React.createClass({
     },
 
     _dateToString (date) {
-        return `${date.getHours()}:${date.getMinutes()}`;
+        const minutes = date.getMinutes().toString().length === 1 ? '0' + date.getMinutes() : date.getMinutes();
+
+        return `${date.getHours()}:${minutes}`;
     },
 
     render () {
@@ -19,7 +21,7 @@ const OrderNotice = React.createClass({
         };
 
         return (
-            <Col className="OrderNotice" xs={3}>
+            <Col className="OrderTile" xs={3}>
                 <Well>
                     <h3>{this.props.restaurant}</h3>
                     <p>Dedlajn: {this._dateToString(this.props.deliveryTime)}</p>
@@ -31,4 +33,4 @@ const OrderNotice = React.createClass({
     }
 });
 
-export default OrderNotice;
+export default OrderTile;
