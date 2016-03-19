@@ -5,6 +5,7 @@ import {Provider, connect} from 'react-redux';
 import {Router, Route, Link, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 
+import Index from './index';
 import userData from '../store/userData';
 
 // Add the reducer to your store on the `routing` key
@@ -48,7 +49,8 @@ const ConnectedAla = connect(
 DOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={Korposzury} />
+            <Route path="/" component={Index} />
+            <Route path="/korposzury" component={Korposzury} />
             <Route path="/ala" component={ConnectedAla} />
         </Router>
     </Provider>,

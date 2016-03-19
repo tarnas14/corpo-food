@@ -31,3 +31,13 @@ node_modules
 
 # Optional REPL history
 .node_repl_history
+
+# Built JS files
+src/public
+!src/public/index.html
+
+# Webstorm config directory
+.idea
+
+# merge trash
+*.orig
