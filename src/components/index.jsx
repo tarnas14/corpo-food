@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Row, Col} from 'react-bootstrap';
+import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 
 import Dashboard from './dashboardComponent';
 
@@ -28,7 +28,7 @@ const Index = React.createClass({
             <Grid>
                 <Row>
                     <Col xs={12}>
-                        <h1>Corpo food <small>orderuj food bez fakapu</small></h1>
+                        <PageHeader>Corpo food <small>orderuj food bez fakapu</small></PageHeader>
                     </Col>
                 </Row>
                 <Row>
