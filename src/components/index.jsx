@@ -1,11 +1,18 @@
 import React from 'react';
+import {connect} from 'react-redux';
+import {hydrateOrderNotices} from '../store/orderNotices';
 import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 
 import Dashboard from './dashboardComponent';
 
 const Index = React.createClass({
-    _getOrderNotices () {
-        return [
+    propTypes: {
+        dispatch: React.PropTypes.func.isRequired,
+        orderNotices: React.PropTypes.array.isRequired
+    },
+
+    componentWillMount () {
+        const mockedOrderNotices = [
             {
                 id: 1,
                 restaurant: 'hello',
@@ -21,6 +28,8 @@ const Index = React.createClass({
                 hungryGuysCount: 2
             }
         ];
+
+        this.props.dispatch(hydrateOrderNotices(mockedOrderNotices));
     },
 
     render () {
@@ -33,7 +42,7 @@ const Index = React.createClass({
                 </Row>
                 <Row>
                     <Col xs={12}>
-                        <Dashboard orderNotices={this._getOrderNotices()} />
+                        <Dashboard orderNotices={this.props.orderNotices} />
                     </Col>
                 </Row>
             </Grid>
@@ -41,4 +50,8 @@ const Index = React.createClass({
     }
 });
 
-export default Index;
+const ConnectedIndex = connect(
+    (state) => ({orderNotices: state.orderNotices})
+)(Index);
+
+export default ConnectedIndex;

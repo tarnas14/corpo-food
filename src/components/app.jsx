@@ -1,9 +1,10 @@
 import React from 'react';
 import DOM from 'react-dom';
-import {createStore, combineReducers, applyMiddleware} from 'redux';
+import {createStore, combineReducers} from 'redux';
 import {Provider, connect} from 'react-redux';
 import {Router, Route, Link, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
+import {orderNotices} from '../store/orderNotices';
 
 import Index from './index';
 import userData from '../store/userData';
@@ -11,18 +12,19 @@ import userData from '../store/userData';
 // Add the reducer to your store on the `routing` key
 const store = createStore(
     combineReducers({
-        userData: userData,
-        routing: routerReducer
+        userData,
+        routing: routerReducer,
+        orderNotices
     })
 );
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const Korposzury = React.createClass({
+const Korposzczury = React.createClass({
     render () {
         return <div>
             <Link to="/ala">ala</Link>
-            Korposzury
+            Korposzczury
         </div>;
     }
 });
@@ -50,7 +52,7 @@ DOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route path="/" component={Index} />
-            <Route path="/korposzury" component={Korposzury} />
+            <Route path="/korposzczury" component={Korposzczury} />
             <Route path="/ala" component={ConnectedAla} />
         </Router>
     </Provider>,
