@@ -39,6 +39,10 @@ src/public
 # Webstorm config directory
 .idea
 
+#sublime files
+*.sublime-project
+*.sublime-workspace
+
 # merge trash
 *.orig
 

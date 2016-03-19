@@ -14,3 +14,10 @@ export function addNewOrder (order) {
         });
     };
 }
+
+export function hydrateOrders (notices) {
+    return {
+        type: 'HYDRATE_ORDERS',
+        notices
+    };
+}
