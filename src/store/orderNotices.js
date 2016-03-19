@@ -7,14 +7,4 @@ const orderNotices = (state = [], action) => {
     return [];
 };
 
-const hydrateOrderNotices = (notices) => {
-    return {
-        type: 'HYDRATE_ORDER_NOTICES',
-        notices
-    };
-};
-
-export {
-    hydrateOrderNotices,
-    orderNotices
-};
+export default orderNotices;

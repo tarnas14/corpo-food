@@ -4,7 +4,7 @@ import {createStore, combineReducers} from 'redux';
 import {Provider, connect} from 'react-redux';
 import {Router, Route, Link, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
-import {orderNotices} from '../store/orderNotices';
+import orderNotices from '../store/orderNotices';
 
 import Index from './index';
 import NewOrderForm from './NewOrderForm';
@@ -15,7 +15,7 @@ import orders from '../store/orders';
 const store = createStore(
     combineReducers({
         userData,
-        orders: orders,
+        orders,
         routing: routerReducer,
         orderNotices
     })
@@ -55,7 +55,7 @@ DOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={Index} path="/" />
-            <Route path="/korposzczury" component={Korposzczury} />
+            <Route component={Korposzczury} path="/korposzczury"/>
             <Route component={NewOrderForm} path="/newOrder" />
             <Route component={ConnectedAla} path="/ala" />
         </Router>

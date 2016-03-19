@@ -2,7 +2,7 @@ import React from 'react';
 import {Row, Alert} from 'react-bootstrap';
 import OrderNotice from './orderNotice';
 import {connect} from 'react-redux';
-import {hydrateOrderNotices} from '../store/orderNotices';
+import {hydrateOrderNotices} from '../store/orderNoticesActions';
 
 const Dashboard = React.createClass({
     propTypes: {
