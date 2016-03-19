@@ -38,3 +38,6 @@ src/public
 
 # Webstorm config directory
 .idea
+
+# merge trash
+*.orig
