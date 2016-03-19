@@ -15,7 +15,7 @@ var orderSchema = new Schema({
     author: String,
     deliveryCost: Number,
     extraCostPerMeal: Number,
-    state: Number,
+    state: String,
     meals: [{
         name: String,
         hungryGuy: String,

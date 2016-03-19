@@ -1,20 +1,18 @@
 import React from 'react';
 import DOM from 'react-dom';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
-import {Provider, connect} from 'react-redux';
-import {Router, Route, Link, browserHistory} from 'react-router';
+import {Provider} from 'react-redux';
+import {Router, Route, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 
 import Index from './index';
 import NewOrderForm from './NewOrderForm';
-import userData from '../store/userData';
 import orders from '../store/orders';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
     combineReducers({
-        userData,
         orders,
         routing: routerReducer
     }),
@@ -23,41 +21,11 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const Korposzczury = React.createClass({
-    render () {
-        return <div>
-            <Link to="/ala">ala</Link>
-            Korposzczury
-        </div>;
-    }
-});
-
-const Ala = React.createClass({
-    render () {
-        return (
-            <div>
-                <button onClick={() => {
-                    this.props.dispatch({type: 'CHANGE_NAME', name: 'krzys'});
-                }}>
-                    zmien imie
-                </button>
-                {this.props.userData.name}
-            </div>
-        );
-    }
-});
-
-const ConnectedAla = connect(
-    state => ({userData: state.userData})
-)(Ala);
-
 DOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={Index} path="/" />
-            <Route component={Korposzczury} path="/korposzczury"/>
             <Route component={NewOrderForm} path="/newOrder" />
-            <Route component={ConnectedAla} path="/ala" />
         </Router>
     </Provider>,
     document.getElementById('main-container')

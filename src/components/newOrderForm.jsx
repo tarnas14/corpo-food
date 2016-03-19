@@ -21,7 +21,7 @@ const NewOrderForm = React.createClass({
             passwordRepeat: '',
             author: '',
             deliveryCost: '',
-            externalCostPerMeal: ''
+            extraCostPerMeal: ''
         };
     },
 
@@ -110,7 +110,7 @@ const NewOrderForm = React.createClass({
                                 type="text"
                             />
                             <Input
-                                id="externalCostPerMeal"
+                                id="extraCostPerMeal"
                                 label="Do każdego zamowienia"
                                 onChange={this.handleTextChange}
                                 placeholder="PLN"
