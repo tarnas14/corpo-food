@@ -10,13 +10,17 @@ const OrderNotice = React.createClass({
     },
 
     render () {
+        const hungryGuysCountStyles = {
+            textAlign: 'right'
+        };
+
         return (
             <Col className="OrderNotice" xs={3}>
                 <Well>
                     <h3>{this.props.restaurant}</h3>
                     <p>Dedlajn {this.props.deliveryTime}</p>
                     <p>Fokusuje się {this.props.orderer}</p>
-                    <p style={{textAlign: 'right'}}>{this.props.hungryGuysCount} os.</p>
+                    <p style={hungryGuysCountStyles}>{this.props.hungryGuysCount} os.</p>
                 </Well>
             </Col>
         );
