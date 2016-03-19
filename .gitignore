@@ -42,3 +42,7 @@ src/public
 #sublime files
 *.sublime-project
 *.sublime-workspace
+
+# merge trash
+*.orig
+

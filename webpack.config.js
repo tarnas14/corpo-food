@@ -17,10 +17,11 @@ module.exports = {
         loader: 'babel-loader',
 
         include: [
-          path.resolve(__dirname, 'src/components')
+          path.resolve(__dirname, 'src/components'),
+          path.resolve(__dirname, 'src/store')
         ],
 
-        test: [/\.jsx$/, /\.jsx$/]
+        test: [/\.js$/, /\.jsx$/]
       }
     ]
   },
