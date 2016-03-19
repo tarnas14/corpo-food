@@ -1,5 +1,7 @@
-var Order = require('../models/order');
-var HttpStatus = require('http-status');
+'use strict';
+const Order = require('../models/order');
+const HttpStatus = require('http-status');
+const OrderState = require('../enums/orderState');
 
 module.exports = function apiRoutes (router) {
     router.get('/orders', (req, res) => {
@@ -24,11 +26,38 @@ module.exports = function apiRoutes (router) {
         });
     });
 
-    router.post('/order', (req, res) => {
-        var order = new Order(req.body);
+    function mapHourToDate (hour) {
+        const array = hour.split(':');
+        const date = new Date();
+        date.setHours(array[0]);
+        date.setMinutes(array[1]);
 
-        order.save((err) => {
-            if (err) {
+        return date;
+    }
+
+    router.post('/order', (req, res) => {
+        const newOrder = req.body;
+
+        console.log(newOrder);
+
+        const mappedOrder = {
+            deadline: mapHourToDate(newOrder.deadline.hour),
+            deliveryTime: mapHourToDate(newOrder.deliveryTime.hour),
+            restaurant: newOrder.restaurant,
+            menu: '',
+            description: newOrder.description,
+            password: newOrder.password,
+            author: newOrder.author,
+            deliveryCost: parseInt(newOrder.deliveryCost, 10),
+            extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),
+            state: OrderState.Open
+        };
+
+        const order = new Order(mappedOrder);
+
+        order.save((error) => {
+            if (error) {
+                console.log(error)
                 res.sendStatus(HttpStatus.BAD_REQUEST);
             }
 

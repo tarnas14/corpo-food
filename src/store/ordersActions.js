@@ -9,6 +9,8 @@ export function addNewOrder (order) {
             body: JSON.stringify(order)
         }).then(() => {
             dispatch({type: 'ADD_NEW_ORDER', order: order});
+        }).catch(error => {
+            console.log(error);
         });
     };
 }
