@@ -3,17 +3,24 @@ const path = require('path');
 const logger = require('./logger');
 const mongoose = require('mongoose');
 const app = express();
-const router = express.Router();
+const config = require('./config');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_PATH = path.resolve(__dirname, 'public');
 
-var apiRoutes = require('./routes/api')(router);
+mongoose.connect(config.mongoAddress);
 
-mongoose.connect('mongodb://localhost/corpofood');
+const router = express.Router();
+require('./routes/api')(router);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use('/public', express.static(PUBLIC_PATH));
-app.use('/api', apiRoutes);
+
+app.use('/api', router);
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));

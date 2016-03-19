@@ -46,3 +46,5 @@ src/public
 # merge trash
 *.orig
 
+# Config file
+src/config.js

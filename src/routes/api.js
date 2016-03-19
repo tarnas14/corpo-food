@@ -24,5 +24,15 @@ module.exports = function apiRoutes (router) {
         });
     });
 
-    return router;
+    router.post('/order', (req, res) => {
+        var order = new Order(req.body);
+
+        order.save((err) => {
+            if (err) {
+                res.sendStatus(HttpStatus.BAD_REQUEST);
+            }
+
+            res.sendStatus(HttpStatus.OK);
+        });
+    });
 };
