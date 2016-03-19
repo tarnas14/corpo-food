@@ -12,9 +12,10 @@ module.exports = function apiRoutes (router) {
 
             mappedOrders = orders.map((order) => {
                 return {
+                    id: order._id,
                     deliveryTime: order.deliveryTime,
                     hungryGuysCount: order.meals.length,
-                    orderer: order.author,
+                    author: order.author,
                     restaurant: order.restaurant,
                     state: order.state
                 };

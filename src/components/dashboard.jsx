@@ -12,33 +12,23 @@ const Dashboard = React.createClass({
 
     componentWillMount () {
 
-        const mockedOrders = [
-            {
-                id: 1,
-                restaurant: 'hello',
-                deliveryTime: new Date(),
-                orderer: 'Andrzej',
-                hungryGuysCount: 4
-            },
-            {
-                id: 2,
-                restaurant: 'this is not today',
-                deliveryTime: new Date(2010, 10, 11, 12, 12, 12),
-                orderer: 'Elo',
-                hungryGuysCount: 2
-            }
-        ];
+        fetch('/api/orders')
+            .then((response) => response.json())
+            .then((orders) => {
+                const ordersToday = orders.map((orderWithStringDates) => {
+                    return {
+                        ...orderWithStringDates,
+                        deliveryTime: new Date(orderWithStringDates.deliveryTime)
+                    }
+                }).filter((order) => {
+                    const today = new Date();
+                    return today.getFullYear() === order.deliveryTime.getFullYear() &&
+                        today.getMonth() === order.deliveryTime.getMonth() &&
+                        today.getDate() === order.deliveryTime.getDate();
+                });
 
-        const orders = mockedOrders;
-
-        const ordersToday = orders.filter((order) => {
-            const today = new Date();
-            return today.getFullYear() === order.deliveryTime.getFullYear() &&
-                today.getMonth() === order.deliveryTime.getMonth() &&
-                today.getDate() === order.deliveryTime.getDate();
-        });
-
-        this.props.dispatch(hydrateOrders(ordersToday));
+                this.props.dispatch(hydrateOrders(ordersToday));
+            });
     },
 
     _renderOrderTiles () {
