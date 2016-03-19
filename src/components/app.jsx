@@ -1,4 +1,5 @@
 import React from 'react';
 import DOM from 'react-dom';
+import Index from './index';
 
-DOM.render(<div>Korposzury</div>, document.getElementById('main-container'));
+DOM.render((<Index />), document.getElementById('main-container'));

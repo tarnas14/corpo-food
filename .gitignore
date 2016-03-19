@@ -34,3 +34,7 @@ node_modules
 
 # Built JS files
 src/public
+!src/public/index.html
+
+# Webstorm config directory
+.idea
