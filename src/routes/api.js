@@ -17,7 +17,7 @@ module.exports = function apiRoutes (router) {
                     orderer: order.author,
                     restaurant: order.restaurant,
                     state: order.state
-                }
+                };
             });
 
             res.json(mappedOrders);
@@ -29,7 +29,17 @@ module.exports = function apiRoutes (router) {
 
         order.save((err) => {
             if (err) {
-                res.sendStatus(HttpStatus.BAD_REQUEST);
+                const errorsDictionary = [];
+
+                for (let property in err.errors) {
+                    if (err.errrs.hasOwnProperty(property)) {
+                        errorsDictionary.push({property, message: err.errors[property].message});
+                    }
+                }
+
+                res.status(HttpStatus.BAD_REQUEST);
+                res.send(errorsDictionary);
+                return;
             }
 
             res.sendStatus(HttpStatus.OK);

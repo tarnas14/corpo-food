@@ -3,23 +3,63 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var orderSchema = new Schema({
-    deadline: Date,
-    deliveryTime: Date,
-    restaurant: String,
-    menu: String,
-    description: String,
-    password: {
-        set: generateHash,
+    deadline: {
+        type: Date,
+        deafult: Date.now(),
+        required: [true, 'Nie zapomnij o dedlajnie!'],
+        min: [Date.now(), 'Dedlajn nie może być wcześniej']
+    },
+    deliveryTime: {
+        type: Date,
+        required: [true, 'Czas dostawy jest wymagan!'],
+        min: [Date.now(), 'Czas dostawy nie może być wcześniej']
+    },
+    restaurant: {
+        type: String,
+        maxlength: 25,
+        required: [true, 'Nazwa lokalu jest wymagana!']
+    },
+    menu: {
+        type: String,
+        required: [true, 'Menu jest wymagane! Wrzuć linka do menu.']
+    },
+    description: {
         type: String
     },
-    author: String,
-    deliveryCost: Number,
-    extraCostPerMeal: Number,
-    state: Number,
+    password: {
+        set: generateHash,
+        type: String,
+        required: [true, 'Podaj hasło do edycji.']
+    },
+    author: {
+        type: String,
+        required: [true, 'Podaj swoje imię.']
+    },
+    deliveryCost: {
+        type: Number,
+        default: 0
+    },
+    extraCostPerMeal: {
+        type: Number,
+        default: 0
+    },
+    state: {
+        type: Number,
+        required: true
+    },
     meals: [{
-        name: String,
-        hungryGuy: String,
-        cost: Number
+        name: {
+            type: String,
+            required: [true, 'Podaj nazwę dania!']
+        },
+        hungryGuy: {
+            type: String,
+            required: [true, 'Podaj swoje imię.']
+        },
+        cost: {
+            type: Number,
+            required: [0, 'Podaj cenę dania!']
+        }
     }]
 });
 
