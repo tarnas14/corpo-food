@@ -33,7 +33,7 @@ var orderSchema = new Schema({
     },
     author: {
         type: String,
-        required: [true, 'Podaj swoje imię.']
+        required: [true, 'Podaj imię!']
     },
     deliveryCost: {
         type: Number,
@@ -43,10 +43,7 @@ var orderSchema = new Schema({
         type: Number,
         default: 0
     },
-    state: {
-        type: Number,
-        required: true
-    },
+    state: String,
     meals: [{
         name: {
             type: String,
