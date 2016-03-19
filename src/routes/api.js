@@ -3,6 +3,15 @@ const Order = require('../models/order');
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 
+function mapHourToDate (hour) {
+    const array = hour.split(':');
+    const date = new Date();
+    date.setHours(array[0]);
+    date.setMinutes(array[1]);
+
+    return date;
+}
+
 module.exports = function apiRoutes (router) {
     router.get('/orders', (req, res) => {
         Order.find({}, (err, orders) => {
@@ -26,15 +35,6 @@ module.exports = function apiRoutes (router) {
             res.json(mappedOrders);
         });
     });
-
-    function mapHourToDate (hour) {
-        const array = hour.split(':');
-        const date = new Date();
-        date.setHours(array[0]);
-        date.setMinutes(array[1]);
-
-        return date;
-    }
 
     router.post('/order', (req, res) => {
         const newOrder = req.body;
