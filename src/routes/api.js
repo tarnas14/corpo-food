@@ -23,6 +23,4 @@ module.exports = function apiRoutes (router) {
             res.json(mappedOrders);
         });
     });
-
-    return router;
 };
