@@ -1,6 +1,6 @@
 import React from 'react';
-import {Grid, Row, Well} from 'react-bootstrap';
-import OrderNotice from './orderNoticeComponent';
+import {Row, Alert} from 'react-bootstrap';
+import OrderNotice from './orderNotice';
 import {connect} from 'react-redux';
 import {hydrateOrderNotices} from '../store/orderNotices';
 
@@ -41,22 +41,28 @@ const Dashboard = React.createClass({
     },
 
     _renderOrderNotices () {
-        if (!this.props.orderNotices.length) {
-            return <Well>Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Well>;
-        }
-
         return this.props.orderNotices.map((orderNotice) => {
             return <OrderNotice key={orderNotice.id} {...orderNotice} />;
         });
     },
 
+    _getDashboardStyles () {
+        return {
+            marginTop: '1em'
+        };
+    },
+
     render () {
+        const noNoticesYet = this.props.orderNotices.length ?
+            null : <Alert bsStyle="warning">Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Alert>;
+
         return (
-            <Grid className="Dashboard">
+            <div className="Dashboard" style={this._getDashboardStyles()}>
+                {noNoticesYet}
                 <Row>
                     {this._renderOrderNotices()}
                 </Row>
-            </Grid>
+            </div>
         );
     }
 });
