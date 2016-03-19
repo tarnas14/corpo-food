@@ -1,4 +1,5 @@
 var Order = require('../models/order');
+var HttpStatus = require('http-status');
 
 module.exports = function apiRoutes (router) {
     router.get('/orders', (req, res) => {
@@ -6,7 +7,7 @@ module.exports = function apiRoutes (router) {
             var mappedOrders;
 
             if (err) {
-                throw err;
+                res.sendStatus(HttpStatus.BAD_REQUEST);
             }
 
             mappedOrders = orders.map((order) => {

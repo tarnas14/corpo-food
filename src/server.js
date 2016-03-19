@@ -1,7 +1,7 @@
-const express  = require('express'),
-      path     = require('path'),
-      logger   = require('./logger'),
-      mongoose = require('mongoose');
+const express = require('express');
+const path = require('path');
+const logger = require('./logger');
+const mongoose = require('mongoose');
 const app = express();
 const router = express.Router();
 
