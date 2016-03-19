@@ -3,15 +3,21 @@ const path = require('path');
 const logger = require('./logger');
 const mongoose = require('mongoose');
 const app = express();
+const config = require('./config');
+const bodyParser = require('body-parser');
 
 const PORT = process.env.PORT || 3000;
 const PUBLIC_PATH = path.resolve(__dirname, 'public');
 
-mongoose.connect('mongodb://vm-yolo:27017/corpofood');
+mongoose.connect(config.mongoAddress);
 
 const router = express.Router();
 require('./routes/api')(router);
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.use('/public', express.static(PUBLIC_PATH));
 
 app.use('/api', router);
