@@ -17,7 +17,7 @@ module.exports = function apiRoutes (router) {
                     orderer: order.author,
                     restaurant: order.restaurant,
                     state: order.state
-                }
+                };
             });
 
             res.json(mappedOrders);

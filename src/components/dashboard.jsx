@@ -11,6 +11,7 @@ const Dashboard = React.createClass({
     },
 
     componentWillMount () {
+
         const mockedOrders = [
             {
                 id: 1,
