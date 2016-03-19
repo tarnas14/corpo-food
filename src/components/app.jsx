@@ -6,12 +6,15 @@ import {Router, Route, Link, browserHistory} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 
 import Index from './index';
+import NewOrderForm from './NewOrderForm';
 import userData from '../store/userData';
+import orders from '../store/orders';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
     combineReducers({
         userData: userData,
+        orders: orders,
         routing: routerReducer
     })
 );
@@ -49,9 +52,10 @@ const ConnectedAla = connect(
 DOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route path="/" component={Index} />
-            <Route path="/korposzury" component={Korposzury} />
-            <Route path="/ala" component={ConnectedAla} />
+            <Route component={Index} path="/" />
+            <Route component={NewOrderForm} path="/newOrder" />
+            <Route component={Korposzury} path="/korposzury"  />
+            <Route component={ConnectedAla} path="/ala" />
         </Router>
     </Provider>,
     document.getElementById('main-container')

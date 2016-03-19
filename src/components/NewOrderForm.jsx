@@ -1,6 +1,7 @@
 import React from 'react';
-import {Input} from 'react-bootstrap';
+import {Button, Input} from 'react-bootstrap';
 import HourInput from './HourInput';
+import {connect} from 'react-redux';
 
 const NewOrderForm = React.createClass({
     getInitialState () {
@@ -20,8 +21,6 @@ const NewOrderForm = React.createClass({
             author: '',
             deliveryCost: '',
             externalCostPerMeal: ''
-
-
         };
     },
 
@@ -113,9 +112,10 @@ const NewOrderForm = React.createClass({
                     placeholder="PLN"
                     type="text"
                 />
+                <Button onClick={() => {this.props.dispatch({type: 'ADD_NEW_ORDER', order: this.state});}}>Save</Button>
             </form>
         );
     }
 });
 
-export default NewOrderForm;
+export default connect()(NewOrderForm);
