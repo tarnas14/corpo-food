@@ -44,12 +44,12 @@ const Dashboard = React.createClass({
     },
 
     render () {
-        const noNoticesYet = this.props.orders.length ?
+        const noOrdersYet = this.props.orders.length ?
             null : <Alert bsStyle="warning">Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Alert>;
 
         return (
             <div className="Dashboard" style={this._getDashboardStyles()}>
-                {noNoticesYet}
+                {noOrdersYet}
                 <Row>
                     {this._renderOrderTiles()}
                 </Row>
