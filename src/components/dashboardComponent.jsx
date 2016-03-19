@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Row} from 'react-bootstrap';
+import {Grid, Row, Well} from 'react-bootstrap';
 import OrderNotice from './orderNoticeComponent';
 import {connect} from 'react-redux';
 import {hydrateOrderNotices} from '../store/orderNotices';
@@ -15,23 +15,36 @@ const Dashboard = React.createClass({
             {
                 id: 1,
                 restaurant: 'hello',
-                deliveryTime: '15:00',
+                deliveryTime: new Date(),
                 orderer: 'Andrzej',
                 hungryGuysCount: 4
             },
             {
                 id: 2,
-                restaurant: 'world',
-                deliveryTime: '12:00',
+                restaurant: 'this is not today',
+                deliveryTime: new Date(2010, 10, 11, 12, 12, 12),
                 orderer: 'Elo',
                 hungryGuysCount: 2
             }
         ];
 
-        this.props.dispatch(hydrateOrderNotices(mockedOrderNotices));
+        const orderNotices = mockedOrderNotices;
+
+        const noticesToday = orderNotices.filter((orderNotice) => {
+            const today = new Date();
+            return today.getFullYear() === orderNotice.deliveryTime.getFullYear() &&
+                today.getMonth() === orderNotice.deliveryTime.getMonth() &&
+                today.getDate() === orderNotice.deliveryTime.getDate();
+        });
+
+        this.props.dispatch(hydrateOrderNotices(noticesToday));
     },
 
     _renderOrderNotices () {
+        if (!this.props.orderNotices.length) {
+            return <Well>Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Well>;
+        }
+
         return this.props.orderNotices.map((orderNotice) => {
             return <OrderNotice key={orderNotice.id} {...orderNotice} />;
         });
