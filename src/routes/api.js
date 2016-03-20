@@ -39,8 +39,6 @@ module.exports = function apiRoutes (router) {
     router.post('/order', (req, res) => {
         const newOrder = req.body;
 
-        console.log(newOrder);
-
         const mappedOrder = {
             deadline: mapHourToDate(newOrder.deadline.hour),
             deliveryTime: mapHourToDate(newOrder.deliveryTime.hour),
@@ -58,8 +56,17 @@ module.exports = function apiRoutes (router) {
 
         order.save((error) => {
             if (error) {
-                console.log(error)
-                res.sendStatus(HttpStatus.BAD_REQUEST);
+                const errorsDictionary = [];
+
+                for (let property in error.errors) {
+                    if (error.errrs.hasOwnProperty(property)) {
+                        errorsDictionary.push({property, message: error.errors[property].message});
+                    }
+                }
+
+                res.status(HttpStatus.BAD_REQUEST);
+                res.send(errorsDictionary);
+                return;
             }
 
             res.sendStatus(HttpStatus.OK);
