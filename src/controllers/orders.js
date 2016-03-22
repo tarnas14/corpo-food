@@ -42,7 +42,7 @@ exports.create = (req, res) => {
         deadline: mapHourToDate(newOrder.deadline.hour),
         deliveryTime: mapHourToDate(newOrder.deliveryTime.hour),
         restaurant: newOrder.restaurant,
-        menu: '',
+        menu: newOrder.menu,
         description: newOrder.description,
         password: newOrder.password,
         author: newOrder.author,
