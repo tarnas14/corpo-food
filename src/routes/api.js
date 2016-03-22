@@ -24,7 +24,7 @@ module.exports = function apiRoutes (router) {
             mappedOrders = orders.map((order) => {
                 return {
                     id: order._id,
-                    deliveryTime: order.deliveryTime,
+                    deadline: order.deadline,
                     hungryGuysCount: order.meals.length,
                     author: order.author,
                     restaurant: order.restaurant,

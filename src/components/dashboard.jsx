@@ -18,13 +18,13 @@ const Dashboard = React.createClass({
                 const ordersToday = orders.map((orderWithStringDates) => {
                     return {
                         ...orderWithStringDates,
-                        deliveryTime: new Date(orderWithStringDates.deliveryTime)
+                        deadline: new Date(orderWithStringDates.deadline)
                     }
                 }).filter((order) => {
                     const today = new Date();
-                    return today.getFullYear() === order.deliveryTime.getFullYear() &&
-                        today.getMonth() === order.deliveryTime.getMonth() &&
-                        today.getDate() === order.deliveryTime.getDate();
+                    return today.getFullYear() === order.deadline.getFullYear() &&
+                        today.getMonth() === order.deadline.getMonth() &&
+                        today.getDate() === order.deadline.getDate();
                 });
 
                 this.props.dispatch(hydrateOrders(ordersToday));
