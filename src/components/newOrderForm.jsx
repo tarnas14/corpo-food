@@ -1,8 +1,9 @@
 import React from 'react';
 import {Button, Input, Row, Col} from 'react-bootstrap';
-import HourInput from './HourInput';
+import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
+import {validateHour} from '../validators/orderFormValidator';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -13,11 +14,11 @@ const NewOrderForm = React.createClass({
         return {
             restaurant: '',
             deadline: {
-                hour: '',
+                text: '',
                 isValid: true
             },
             deliveryTime: {
-                hour: '',
+                text: '',
                 isValid: true
             },
             menu: '',
@@ -30,28 +31,13 @@ const NewOrderForm = React.createClass({
         };
     },
 
-    handleHourChange (id, hour) {
+    handleHourChange (id, text) {
         this.setState(oldState => {
             oldState[id] = {
-                hour,
-                isValid: this.validateHour(hour)
+                text: text,
+                isValid: validateHour(text)
             };
         });
-    },
-
-    validateHour (hourInput) {
-        const pattern = /([0-9]{1,2})\:([0-9]{2})/;
-        if (!pattern.test(hourInput)) {
-            return false;
-        }
-
-        const [, hour, minutes] = pattern.exec(hourInput);
-        if (hour > 24 || minutes > 59) {
-            return false;
-        }
-
-        return true;
-
     },
 
     handleTextChange (event) {
@@ -74,18 +60,20 @@ const NewOrderForm = React.createClass({
                             placeholder="Lokal"
                             type="text"
                         />
-                        <HourInput
+                        <ValidatedInput
                             id="deadline"
                             label="Zamawiam o"
                             onChange={this.handleHourChange}
                             placeholder="O ktorej zamawiasz"
+                            validationMessage="Podaj poprawna godzinę"
                             value={this.state.deadline}
                         />
-                        <HourInput
+                        <ValidatedInput
                             id="deliveryTime"
                             label="Zamawiam na"
                             onChange={this.handleHourChange}
                             placeholder="Zamawiam na"
+                            validationMessage="Podaj poprawna godzinę"
                             value={this.state.deliveryTime}
                         />
                         <Input

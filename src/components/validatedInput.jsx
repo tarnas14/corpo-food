@@ -1,13 +1,14 @@
 import React from 'react';
 import {Input} from 'react-bootstrap';
 
-const HourInput = React.createClass({
+const ValidatedInput = React.createClass({
 
     propTypes: {
         id: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string.isRequired,
+        validationMessage: React.PropTypes.string.isRequired,
         value: React.PropTypes.object.isRequired
     },
 
@@ -16,9 +17,9 @@ const HourInput = React.createClass({
     },
 
     validationStyle () {
-        const {hour, isValid} = this.props.value;
+        const {text, isValid} = this.props.value;
 
-        if (!hour) {
+        if (!text) {
             return null;
         }
 
@@ -29,13 +30,13 @@ const HourInput = React.createClass({
         return 'error';
     },
 
-    validationMessage () {
-        const {hour, isValid} = this.props.value;
+    getValidationMessage () {
+        const {text, isValid} = this.props.value;
 
-        if (isValid || !hour) {
+        if (isValid || !text) {
             return null;
         }
-        return 'Zainputuj poprawną godzinę.';
+        return this.validationMessage;
     },
 
     render () {
@@ -44,17 +45,17 @@ const HourInput = React.createClass({
                 bsStyle={this.validationStyle()}
                 groupClassName="group-class"
                 hasFeedback
-                help={this.validationMessage()}
+                help={this.getValidationMessage()}
                 id={this.props.id}
                 label={this.props.label}
                 labelClassName="label-class"
                 onChange={this.handleChange}
                 placeholder={this.props.placeholder}
                 type="text"
-                value={this.props.value.hour}
+                value={this.props.value.text}
             />
         );
     }
 });
 
-export default HourInput;
+export default ValidatedInput;
