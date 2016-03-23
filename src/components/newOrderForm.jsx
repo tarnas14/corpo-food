@@ -54,87 +54,85 @@ const NewOrderForm = React.createClass({
 
     render () {
         return (
-            <Grid>
-                <Row>
-                    <Col xs={8}>
-                        <form>
-                            <Input
-                                id="restaurant"
-                                label="Lokal"
-                                onChange={this.handleTextChange}
-                                placeholder="Lokal"
-                                type="text"
-                            />
-                            <HourInput
-                                id="deadline"
-                                label="Zamawiam o"
-                                onChange={this.handleHourChange}
-                                placeholder="O ktorej zamawiasz"
-                                value={this.state.deadline}
-                            />
-                            <HourInput
-                                id="deliveryTime"
-                                label="Zamawiam na"
-                                onChange={this.handleHourChange}
-                                placeholder="Zamawiam na"
-                                value={this.state.deliveryTime}
-                            />
-                            <Input
-                                id="menu"
-                                label="Menu"
-                                onChange={this.handleTextChange}
-                                placeholder="Menu"
-                                type="text"
-                            />
-                            <Input
-                                id="description"
-                                label="Opis"
-                                onChange={this.handleTextChange}
-                                placeholder="Opis"
-                                type="textarea"
-                            />
-                            <Input
-                                id="password"
-                                label="Hasło administracyjne"
-                                onChange={this.handleTextChange}
-                                placeholder="Hasło administracyjne"
-                                type="password"
-                            />
-                            <Input
-                                id="passwordRepeat"
-                                label="Powtorz hasło"
-                                onChange={this.handleTextChange}
-                                placeholder="Powtorz hasło"
-                                type="password"
-                            />
-                            <Input
-                                id="author"
-                                label="Autor"
-                                onChange={this.handleTextChange}
-                                placeholder="Adres e-mail"
-                                type="text"
-                            />
-                            <Input
-                                id="deliveryCost"
-                                label="Koszt dowozu"
-                                onChange={this.handleTextChange}
-                                placeholder="Koszt dowozu"
-                                type="text"
-                            />
-                            <Input
-                                id="extraCostPerMeal"
-                                label="Do każdego zamowienia"
-                                onChange={this.handleTextChange}
-                                placeholder="PLN"
-                                type="text"
-                            />
-                            <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
-                                Save
-                            </Button>
-                        </form>
-                    </Col>
-                </Row>
-            </Grid>
+            <Row >
+                <Col xs={8}>
+                    <form>
+                        <Input
+                            id="restaurant"
+                            label="Lokal"
+                            onChange={this.handleTextChange}
+                            placeholder="Lokal"
+                            type="text"
+                        />
+                        <HourInput
+                            id="deadline"
+                            label="Zamawiam o"
+                            onChange={this.handleHourChange}
+                            placeholder="O ktorej zamawiasz"
+                            value={this.state.deadline}
+                        />
+                        <HourInput
+                            id="deliveryTime"
+                            label="Zamawiam na"
+                            onChange={this.handleHourChange}
+                            placeholder="Zamawiam na"
+                            value={this.state.deliveryTime}
+                        />
+                        <Input
+                            id="menu"
+                            label="Menu"
+                            onChange={this.handleTextChange}
+                            placeholder="Menu"
+                            type="text"
+                        />
+                        <Input
+                            id="description"
+                            label="Opis"
+                            onChange={this.handleTextChange}
+                            placeholder="Opis"
+                            type="textarea"
+                        />
+                        <Input
+                            id="password"
+                            label="Hasło administracyjne"
+                            onChange={this.handleTextChange}
+                            placeholder="Hasło administracyjne"
+                            type="password"
+                        />
+                        <Input
+                            id="passwordRepeat"
+                            label="Powtorz hasło"
+                            onChange={this.handleTextChange}
+                            placeholder="Powtorz hasło"
+                            type="password"
+                        />
+                        <Input
+                            id="author"
+                            label="Autor"
+                            onChange={this.handleTextChange}
+                            placeholder="Adres e-mail"
+                            type="text"
+                        />
+                        <Input
+                            id="deliveryCost"
+                            label="Koszt dowozu"
+                            onChange={this.handleTextChange}
+                            placeholder="Koszt dowozu"
+                            type="text"
+                        />
+                        <Input
+                            id="extraCostPerMeal"
+                            label="Do każdego zamowienia"
+                            onChange={this.handleTextChange}
+                            placeholder="PLN"
+                            type="text"
+                        />
+                        <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
+                            Save
+                        </Button>
+                    </form>
+                </Col>
+            </Row>
         );
     }
 });

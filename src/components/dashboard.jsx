@@ -1,5 +1,6 @@
 import React from 'react';
-import {Row, Alert} from 'react-bootstrap';
+import {Row, Col, Alert, Button} from 'react-bootstrap';
+import {Link} from 'react-router';
 import OrderTile from './orderTile';
 import {connect} from 'react-redux';
 import {hydrateOrders} from '../store/ordersActions';
@@ -37,7 +38,7 @@ const Dashboard = React.createClass({
         });
     },
 
-    _getDashboardStyles () {
+    _getTileContainerStyles() {
         return {
             marginTop: '1em'
         };
@@ -48,9 +49,16 @@ const Dashboard = React.createClass({
             null : <Alert bsStyle="warning">Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Alert>;
 
         return (
-            <div className="Dashboard" style={this._getDashboardStyles()}>
-                {noOrdersYet}
+            <div className="Dashboard">
                 <Row>
+                    <Col xs={12}>
+                        <Link className="add-order-cta" to={'/newOrder'}>
+                            <Button block bsSize="large" bsStyle="success">DODAJ ORDER</Button>
+                        </Link>
+                    </Col>
+                </Row>
+                {noOrdersYet}
+                <Row style={this._getTileContainerStyles()}>
                     {this._renderOrderTiles()}
                 </Row>
             </div>
