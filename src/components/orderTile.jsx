@@ -3,9 +3,9 @@ import {Col, Well} from 'react-bootstrap';
 
 const OrderTile = React.createClass({
     propTypes: {
-        deliveryTime: React.PropTypes.object.isRequired,
-        hungryGuysCount: React.PropTypes.number.isRequired,
         author: React.PropTypes.string.isRequired,
+        deadline: React.PropTypes.object.isRequired,
+        hungryGuysCount: React.PropTypes.number.isRequired,
         restaurant: React.PropTypes.string.isRequired
     },
 
@@ -24,7 +24,7 @@ const OrderTile = React.createClass({
             <Col className="OrderTile" xs={3}>
                 <Well>
                     <h3>{this.props.restaurant}</h3>
-                    <p>Dedlajn: {this._dateToString(this.props.deliveryTime)}</p>
+                    <p>Dedlajn: {this._dateToString(this.props.deadline)}</p>
                     <p>Fokusuje się: {this.props.author}</p>
                     <p style={hungryGuysCountStyles}>zamówiły już {this.props.hungryGuysCount} os.</p>
                 </Well>
