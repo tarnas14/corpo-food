@@ -1,6 +1,6 @@
 export function addNewOrder (order) {
     return dispatch => {
-        fetch('/api/order', {
+        fetch('/api/orders', {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

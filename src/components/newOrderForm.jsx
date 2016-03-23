@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input, Row, Col, Grid} from 'react-bootstrap';
+import {Button, Input, Row, Col} from 'react-bootstrap';
 import HourInput from './HourInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
