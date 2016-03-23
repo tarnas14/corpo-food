@@ -11,16 +11,14 @@ const PUBLIC_PATH = path.resolve(__dirname, 'public');
 
 mongoose.connect(config.mongoAddress);
 
-const router = express.Router();
-require('./routes/api')(router);
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
-app.use('/public', express.static(PUBLIC_PATH));
 
-app.use('/api', router);
+require('./router')(app);
+
+app.use('/public', express.static(PUBLIC_PATH));
 
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
