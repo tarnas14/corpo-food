@@ -1,5 +1,6 @@
 'use strict';
 const Order = require('../models/order');
+const Meal = require('../models/meal').Meal;
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 
@@ -12,11 +13,23 @@ function mapHourToDate (hour) {
     return date;
 }
 
+function errorsHandler (errors) {
+    const errorsDictionary = [];
+
+    for (let property in errors) {
+        if (errors.hasOwnProperty(property)) {
+            errorsDictionary.push({property, message: errors[property].message});
+        }
+    }
+
+    return errorsDictionary;
+}
+
 exports.list = (req, res) => {
-    Order.find({}, (err, orders) => {
+    Order.find({}, (error, orders) => {
         var mappedOrders;
 
-        if (err) {
+        if (error) {
             res.sendStatus(HttpStatus.BAD_REQUEST);
         }
 
@@ -55,19 +68,49 @@ exports.create = (req, res) => {
 
     order.save((error) => {
         if (error) {
-            const errorsDictionary = [];
-
-            for (let property in error.errors) {
-                if (error.errors.hasOwnProperty(property)) {
-                    errorsDictionary.push({property, message: error.errors[property].message});
-                }
-            }
-
             res.status(HttpStatus.BAD_REQUEST);
-            res.send(errorsDictionary);
+            res.send(errorsHandler(error.errors));
             return;
         }
 
         res.sendStatus(HttpStatus.OK);
     });
 };
+
+exports.join = (req, res) => {
+    const mealInput = req.body;
+
+    const meal = new Meal({
+        cost: mealInput.cost,
+        hungryGuy: mealInput.hungryGuy,
+        name: mealInput.name
+    });
+
+    meal.validate((error) => {
+        if (error) {
+            res.status(HttpStatus.BAD_REQUEST);
+            res.send(errorsHandler(error.errors));
+            return;
+        }
+
+        Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
+            $push: {
+                meals: meal
+            }
+        }, (error, order) => {
+            if (error) {
+                res.sendStatus(HttpStatus.BAD_REQUEST);
+                return;
+            }
+
+            if (!order) {
+                res.sendStatus(HttpStatus.NOT_FOUND);
+                return;
+            }
+
+            res.json(meal);
+        });
+    });
+};
+
+exports.leave = (req, res) => {};
