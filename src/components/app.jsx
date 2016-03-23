@@ -1,13 +1,14 @@
 import React from 'react';
 import DOM from 'react-dom';
+import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
-import {Router, Route, browserHistory} from 'react-router';
+import {browserHistory, Router, Route, IndexRoute} from 'react-router';
 import {syncHistoryWithStore, routerReducer} from 'react-router-redux';
 import thunkMiddleware from 'redux-thunk';
 
-import Index from './index';
-import NewOrderForm from './NewOrderForm';
+import Dashboard from './dashboard';
+import NewOrderForm from './newOrderForm';
 import orders from '../store/orders';
 
 // Add the reducer to your store on the `routing` key
@@ -21,11 +22,32 @@ const store = createStore(
 
 const history = syncHistoryWithStore(browserHistory, store);
 
+const App = React.createClass({
+    render () {
+        return (
+            <Grid>
+                <Row>
+                    <Col xs={12}>
+                        <PageHeader>Corpo food <small>orderuj food bez fakapu</small></PageHeader>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs={12}>
+                        {this.props.children}
+                    </Col>
+                </Row>
+            </Grid>
+        );
+    }
+});
+
 DOM.render(
     <Provider store={store}>
         <Router history={history}>
-            <Route component={Index} path="/" />
-            <Route component={NewOrderForm} path="/newOrder" />
+            <Route component={App} path="/">
+                <IndexRoute component={Dashboard} />
+                <Route component={NewOrderForm} path="newOrder" />
+            </Route>
         </Router>
     </Provider>,
     document.getElementById('main-container')
