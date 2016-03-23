@@ -10,9 +10,8 @@ export function addNewOrder (order) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(order)
-        }).then(response => {
-            return response.json();
-        }).then(data => {
+        }).then(response => response.json())
+        .then(data => {
             const newOrder = {
                 id: data.id,
                 deadline: mapHourToDate(order.deadline.hour),
