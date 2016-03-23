@@ -11,7 +11,7 @@ const Dashboard = React.createClass({
         orders: React.PropTypes.array.isRequired
     },
 
-    componentWillMount () {
+    componentDidMount () {
 
         fetch('/api/orders')
             .then((response) => response.json())
