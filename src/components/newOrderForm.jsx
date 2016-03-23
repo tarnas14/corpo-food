@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Input, Row, Col, Grid} from 'react-bootstrap';
+import {Button, Input, Row, Col} from 'react-bootstrap';
 import HourInput from './HourInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
@@ -45,10 +45,7 @@ const NewOrderForm = React.createClass({
             return false;
         }
 
-        const matches = pattern.exec(hourInput);
-        const hour = matches[1];
-        const minutes = matches[2];
-
+        const [, hour, minutes] = pattern.exec(hourInput);
         if (hour > 24 || minutes > 59) {
             return false;
         }
