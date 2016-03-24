@@ -10,12 +10,13 @@ import thunkMiddleware from 'redux-thunk';
 import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
 import OrderDetails from './orderDetails';
-import orders from '../store/orders';
+import {orders, activeOrder} from '../store/orders';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
     combineReducers({
         orders,
+        activeOrder,
         routing: routerReducer
     }),
     applyMiddleware(thunkMiddleware)
@@ -48,7 +49,7 @@ DOM.render(
             <Route component={App} path="/">
                 <IndexRoute component={Dashboard} />
                 <Route component={NewOrderForm} path="newOrder" />
-                <Route component={OrderDetails} path="order" />
+                <Route component={OrderDetails} path="order/:id" />
             </Route>
         </Router>
     </Provider>,
