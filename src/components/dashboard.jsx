@@ -11,17 +11,16 @@ const Dashboard = React.createClass({
         orders: React.PropTypes.array.isRequired
     },
 
-    componentWillMount () {
-
+    componentDidMount () {
         fetch('/api/orders')
-            .then((response) => response.json())
-            .then((orders) => {
-                const ordersToday = orders.map((orderWithStringDates) => {
+            .then(response => response.json())
+            .then(orders => {
+                const ordersToday = orders.map(orderWithStringDates => {
                     return {
                         ...orderWithStringDates,
                         deadline: new Date(orderWithStringDates.deadline)
                     }
-                }).filter((order) => {
+                }).filter(order => {
                     const today = new Date();
                     return today.getFullYear() === order.deadline.getFullYear() &&
                         today.getMonth() === order.deadline.getMonth() &&
@@ -33,9 +32,7 @@ const Dashboard = React.createClass({
     },
 
     _renderOrderTiles () {
-        return this.props.orders.map((order) => {
-            return <OrderTile key={order.id} {...order} />;
-        });
+        return this.props.orders.map(order => <OrderTile key={order.id} {...order} />);
     },
 
     _getTileContainerStyles() {
@@ -45,8 +42,9 @@ const Dashboard = React.createClass({
     },
 
     render () {
-        const noOrdersYet = this.props.orders.length ?
-            null : <Alert bsStyle="warning">Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Alert>;
+        const noOrdersYet = this.props.orders.length
+            ? null
+            : <Alert bsStyle="warning">Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy</Alert>;
 
         return (
             <div className="Dashboard">
@@ -67,7 +65,7 @@ const Dashboard = React.createClass({
 });
 
 const ConnectedDashboard = connect(
-    (state) => ({orders: state.orders})
+    state => ({orders: state.orders})
 )(Dashboard);
 
 export default ConnectedDashboard;

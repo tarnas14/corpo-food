@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const logger = require('./logger');
+const Logger = require('./logger');
 const mongoose = require('mongoose');
 const app = express();
 const config = require('./config');
@@ -25,5 +25,5 @@ app.get('*', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    logger.log('info', 'listening on port ', PORT);
+    Logger.info('listening on port ', PORT);
 });

@@ -6,7 +6,7 @@ const orders = (state = [], action) => {
             action.order
         ];
     case 'HYDRATE_ORDERS':
-        return action.notices;
+        return action.orders;
     default:
         return state;
     }

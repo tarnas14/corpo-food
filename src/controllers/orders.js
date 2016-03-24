@@ -2,25 +2,18 @@
 const Order = require('../models/order');
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
-
-function mapHourToDate (hour) {
-    const array = hour.split(':');
-    const date = new Date();
-    date.setHours(array[0]);
-    date.setMinutes(array[1]);
-
-    return date;
-}
+const Logger = require('../logger');
+const mapHourToDate = require('../dateManipulation').mapHourToDate;
 
 exports.list = (req, res) => {
-    Order.find({}, (err, orders) => {
-        var mappedOrders;
-
-        if (err) {
+    Order.find({}, (error, orders) => {
+        if (error) {
+            Logger.info(error.message);
             res.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
         }
 
-        mappedOrders = orders.map((order) => {
+        const mappedOrders = orders.map((order) => {
             return {
                 id: order._id,
                 deadline: order.deadline,
@@ -32,6 +25,17 @@ exports.list = (req, res) => {
         });
 
         res.json(mappedOrders);
+    });
+};
+
+exports.get = (req, res) => {
+    Order.findOne({_id: req.params.id}, {}, (error, order) => {
+        if (error) {
+            Logger.info(error.message);
+            res.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
+        }
+        res.json(order);
     });
 };
 
@@ -53,8 +57,9 @@ exports.create = (req, res) => {
 
     const order = new Order(mappedOrder);
 
-    order.save((error) => {
+    order.save((error, createdOrder) => {
         if (error) {
+            Logger.info(error.message);
             const errorsDictionary = [];
 
             for (let property in error.errors) {
@@ -68,6 +73,6 @@ exports.create = (req, res) => {
             return;
         }
 
-        res.sendStatus(HttpStatus.OK);
+        res.json({id: createdOrder._id});
     });
 };

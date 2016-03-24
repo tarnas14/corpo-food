@@ -4,6 +4,7 @@ import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
 import {validateMinimalLength, validateUrl, validateHour, validateMoney} from '../validators/orderFormValidator';
+import {browserHistory} from 'react-router';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -110,6 +111,11 @@ const NewOrderForm = React.createClass({
         this.handleMoneyChange(event, true);
     },
 
+    handleSubmit () {
+        this.props.dispatch(addNewOrder(this.state));
+        browserHistory.push('/');
+    },
+
     render () {
         return (
             <Row >
@@ -203,7 +209,7 @@ const NewOrderForm = React.createClass({
                             validationMessage="Podaj poprawny koszt do kazdego zamowienia"
                             value={this.state.extraCostPerMeal}
                         />
-                        <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
+                        <Button onClick={this.handleSubmit} type="button">
                             Save
                         </Button>
                     </form>
