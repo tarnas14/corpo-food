@@ -3,15 +3,7 @@ const Order = require('../models/order');
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
-
-function mapHourToDate (hour) {
-    const array = hour.split(':');
-    const date = new Date();
-    date.setHours(array[0]);
-    date.setMinutes(array[1]);
-
-    return date;
-}
+const mapHourToDate = require('../dateManipulation').mapHourToDate;
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
@@ -65,7 +57,7 @@ exports.create = (req, res) => {
 
     const order = new Order(mappedOrder);
 
-    order.save((error) => {
+    order.save((error, createdOrder) => {
         if (error) {
             Logger.info(error.message);
             const errorsDictionary = [];
@@ -81,6 +73,6 @@ exports.create = (req, res) => {
             return;
         }
 
-        res.sendStatus(HttpStatus.OK);
+        res.json({id: createdOrder._id});
     });
 };

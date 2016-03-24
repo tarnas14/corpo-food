@@ -3,6 +3,7 @@ import {Button, Input, Row, Col} from 'react-bootstrap';
 import HourInput from './HourInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
+import {browserHistory} from 'react-router';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -50,6 +51,11 @@ const NewOrderForm = React.createClass({
             oldState[id] = value;
             return oldState;
         });
+    },
+
+    handleSubmit () {
+        this.props.dispatch(addNewOrder(this.state));
+        browserHistory.push('/');
     },
 
     render () {
@@ -127,7 +133,7 @@ const NewOrderForm = React.createClass({
                             placeholder="PLN"
                             type="text"
                         />
-                        <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
+                        <Button onClick={this.handleSubmit} type="button">
                             Save
                         </Button>
                     </form>
