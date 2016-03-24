@@ -31,7 +31,7 @@ const ValidatedInput = React.createClass({
     },
 
     getValidationMessage () {
-        const {text, isValid} = this.props.value;
+        const isValid = this.props.value.isValid;
         if (isValid) {
             return null;
         }

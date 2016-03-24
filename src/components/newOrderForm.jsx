@@ -3,7 +3,7 @@ import {Button, Input, Row, Col} from 'react-bootstrap';
 import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
-import {isFieldFilled, validateUrl, validateHour} from '../validators/orderFormValidator';
+import {validateMinimalLength, validateUrl, validateHour, validateMoney} from '../validators/orderFormValidator';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -68,7 +68,7 @@ const NewOrderForm = React.createClass({
 
     handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
-        const isValid = isFieldRequired === true ? isFieldFilled(value) : true;
+        const isValid = isFieldRequired === true ? validateMinimalLength(value, 1) : true;
         this.handleFieldChangeWithValidator(id, value, isValid);
     },
 
@@ -78,8 +78,36 @@ const NewOrderForm = React.createClass({
 
     handleMenuChange (event) {
         const {id, value} = event.target;
-        const isValid = isFieldFilled(value) && validateUrl(value);
+        const isValid = validateMinimalLength(value, 1) && validateUrl(value);
         this.handleFieldChangeWithValidator(id, value, isValid);
+    },
+
+    handlePasswordChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, validateMinimalLength(value, 6));
+    },
+
+    handleConfirmPasswordChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, this.state.password.text === value);
+    },
+
+    handleMoneyChange (event, isRequired) {
+        const {id, value} = event.target;
+        let isValid = false;
+        if (isRequired && validateMoney(value)) {
+            isValid = true;
+        }
+
+        if (!isRequired && validateMinimalLength(value, 1) && validateMoney(value)) {
+            isValid = true;
+        }
+
+        this.handleFieldChangeWithValidator(id, value, isValid);
+    },
+
+    handleRequiredMoneyChange (event) {
+        this.handleMoneyChange(event, true);
     },
 
     render () {
@@ -128,42 +156,52 @@ const NewOrderForm = React.createClass({
                             placeholder="Opis"
                             type="textarea"
                         />
-                        <Input
+                        <ValidatedInput
                             id="password"
                             label="Hasło administracyjne"
-                            onChange={this.handleTextChange}
+                            onChange={this.handlePasswordChange}
                             placeholder="Hasło administracyjne"
                             type="password"
+                            validationMessage="Minimalna długość hasła wynosi 6 znakow"
+                            value={this.state.password}
                         />
-                        <Input
+                        <ValidatedInput
                             id="passwordRepeat"
                             label="Powtorz hasło"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleConfirmPasswordChange}
                             placeholder="Powtorz hasło"
                             type="password"
+                            validationMessage="Hasla nie sa takie same"
+                            value={this.state.passwordRepeat}
                         />
-                        <Input
+                        <ValidatedInput
                             id="author"
                             label="Autor"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleRequiredTextChange}
                             placeholder="Adres e-mail"
                             type="text"
+                            validationMessage="Proszę podać autora zamowienia"
+                            value={this.state.author}
                         />
-                        <Input
+                        <ValidatedInput
                             addonAfter="zł"
                             id="deliveryCost"
                             label="Koszt dowozu"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleRequiredMoneyChange}
                             placeholder="Koszt dowozu"
                             type="text"
+                            validationMessage="Podaj poprawny koszt dostawy"
+                            value={this.state.deliveryCost}
                         />
-                        <Input
+                        <ValidatedInput
                             addonAfter="zł"
                             id="extraCostPerMeal"
                             label="Do każdego zamowienia"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleMoneyChange}
                             placeholder="PLN"
                             type="text"
+                            validationMessage="Podaj poprawny koszt do kazdego zamowienia"
+                            value={this.state.extraCostPerMeal}
                         />
                         <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
                             Save
