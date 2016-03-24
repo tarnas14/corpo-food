@@ -31,6 +31,7 @@ exports.list = (req, res) => {
 
         if (error) {
             res.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
         }
 
         mappedOrders = orders.map((order) => {
@@ -77,16 +78,16 @@ exports.create = (req, res) => {
     });
 };
 
-exports.join = (req, res) => {
+exports.addMeal = (req, res) => {
     const mealInput = req.body;
 
-    const meal = new Meal({
+    const mealToAdd = new Meal({
         cost: mealInput.cost,
         hungryGuy: mealInput.hungryGuy,
         name: mealInput.name
     });
 
-    meal.validate((error) => {
+    mealToAdd.validate((error) => {
         if (error) {
             res.status(HttpStatus.BAD_REQUEST);
             res.send(errorsHandler(error.errors));
@@ -95,7 +96,7 @@ exports.join = (req, res) => {
 
         Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
             $push: {
-                meals: meal
+                meals: mealToAdd
             }
         }, (error, order) => {
             if (error) {
@@ -108,9 +109,29 @@ exports.join = (req, res) => {
                 return;
             }
 
-            res.json(meal);
+            res.json({mealId: mealToAdd._id});
         });
     });
 };
 
-exports.leave = (req, res) => {};
+exports.removeMeal = (req, res) => {
+    const mealInput = req.body;
+
+    Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
+        $pull: {
+            meals: {_id: mealInput.id}
+        }
+    }, (error, order) => {
+        if (error) {
+            res.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
+        }
+
+        if (!order) {
+            res.sendStatus(HttpStatus.NOT_FOUND);
+            return;
+        }
+
+        res.sendStatus(HttpStatus.OK);
+    });
+};
