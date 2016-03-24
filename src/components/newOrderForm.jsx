@@ -52,24 +52,24 @@ const NewOrderForm = React.createClass({
         };
     },
 
-    handleHourChange (event) {
-        const {id, value} = event.target;
+    handleFieldChangeWithValidator (id, value, isValid) {
         this.setState(oldState => {
             oldState[id] = {
                 text: value,
-                isValid: validateHour(value)
+                isValid: isValid
             };
         });
     },
 
+    handleHourChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, validateHour(value));
+    },
+
     handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
-        this.setState(oldState => {
-            oldState[id] = {
-                text: value,
-                isValid: isFieldRequired === true ? isFieldFilled(value) : true
-            };
-        });
+        const isValid = isFieldRequired === true ? isFieldFilled(value) : true;
+        this.handleFieldChangeWithValidator(id, value, isValid);
     },
 
     handleRequiredTextChange (event) {
@@ -78,12 +78,8 @@ const NewOrderForm = React.createClass({
 
     handleMenuChange (event) {
         const {id, value} = event.target;
-        this.setState(oldState => {
-            oldState[id] = {
-                text: value,
-                isValid: isFieldFilled(value) && validateUrl(value)
-            };
-        });
+        const isValid = isFieldFilled(value) && validateUrl(value);
+        this.handleFieldChangeWithValidator(id, value, isValid);
     },
 
     render () {
