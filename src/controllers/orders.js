@@ -4,19 +4,8 @@ const Meal = require('../models/meal').Meal;
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
-const mapHourToDate = require('../dateManipulation').mapHourToDate;
-
-function errorsHandler (errors) {
-    const errorsDictionary = [];
-
-    for (let property in errors) {
-        if (errors.hasOwnProperty(property)) {
-            errorsDictionary.push({property, message: errors[property].message});
-        }
-    }
-
-    return errorsDictionary;
-}
+const mapHourToDate = require('../lib/dateManipulation').mapHourToDate;
+const errorsHandler = require('../lib/errorsHandler');
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
@@ -70,7 +59,7 @@ exports.create = (req, res) => {
 
     const order = new Order(mappedOrder);
 
-    order.save((error, createdOrder) => {
+    order.save((error) => {
         if (error) {
             Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);
@@ -91,11 +80,11 @@ exports.addMeal = (req, res) => {
         name: mealInput.name
     });
 
-    mealToAdd.validate((error) => {
-        if (error) {
-            Logger.info(error.message);
+    mealToAdd.validate(validationError => {
+        if (validationError) {
+            Logger.info(validationError.message);
             res.status(HttpStatus.BAD_REQUEST);
-            res.send(errorsHandler(error.errors));
+            res.send(errorsHandler(validationError.errors));
             return;
         }
 

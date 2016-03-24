@@ -1,5 +1,5 @@
 import OrderState from '../enums/orderState';
-import {mapHourToDate} from '../dateManipulation';
+import {mapHourToDate} from '../lib/dateManipulation';
 
 export function addNewOrder (order) {
     return dispatch => {

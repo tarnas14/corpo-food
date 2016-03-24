@@ -24,6 +24,10 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 
 const App = React.createClass({
+    propTypes: {
+        children: React.PropTypes.array
+    },
+
     render () {
         return (
             <Grid>
