@@ -52,7 +52,7 @@ function generateHash (password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 }
 
-orderSchema.methods.validPassword = function validPassword (password) {
+orderSchema.methods.validPassword = password => {
     return bcrypt.compareSync(password, this.local.password);
 };
 

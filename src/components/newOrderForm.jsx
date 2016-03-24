@@ -1,8 +1,9 @@
 import React from 'react';
-import {Button, Input, Row, Col, Grid} from 'react-bootstrap';
+import {Button, Input, Row, Col} from 'react-bootstrap';
 import HourInput from './HourInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
+import {browserHistory} from 'react-router';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -39,9 +40,19 @@ const NewOrderForm = React.createClass({
         });
     },
 
-    validateHour (hour) {
-        const pattern = /[0-9]{1,2}\:[0-9]{2}/;
-        return pattern.test(hour);
+    validateHour (hourInput) {
+        const pattern = /([0-9]{1,2})\:([0-9]{2})/;
+        if (!pattern.test(hourInput)) {
+            return false;
+        }
+
+        const [, hour, minutes] = pattern.exec(hourInput);
+        if (hour > 24 || minutes > 59) {
+            return false;
+        }
+
+        return true;
+
     },
 
     handleTextChange (event) {
@@ -50,6 +61,11 @@ const NewOrderForm = React.createClass({
             oldState[id] = value;
             return oldState;
         });
+    },
+
+    handleSubmit () {
+        this.props.dispatch(addNewOrder(this.state));
+        browserHistory.push('/');
     },
 
     render () {
@@ -127,7 +143,7 @@ const NewOrderForm = React.createClass({
                             placeholder="PLN"
                             type="text"
                         />
-                        <Button onClick={() => this.props.dispatch(addNewOrder(this.state))} type="button">
+                        <Button onClick={this.handleSubmit} type="button">
                             Save
                         </Button>
                     </form>

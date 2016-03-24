@@ -3,15 +3,8 @@ const Order = require('../models/order');
 const Meal = require('../models/meal').Meal;
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
-
-function mapHourToDate (hour) {
-    const array = hour.split(':');
-    const date = new Date();
-    date.setHours(array[0]);
-    date.setMinutes(array[1]);
-
-    return date;
-}
+const Logger = require('../logger');
+const mapHourToDate = require('../dateManipulation').mapHourToDate;
 
 function errorsHandler (errors) {
     const errorsDictionary = [];
@@ -27,14 +20,13 @@ function errorsHandler (errors) {
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
-        var mappedOrders;
-
         if (error) {
+            Logger.info(error.message);
             res.sendStatus(HttpStatus.BAD_REQUEST);
             return;
         }
 
-        mappedOrders = orders.map((order) => {
+        const mappedOrders = orders.map((order) => {
             return {
                 id: order._id,
                 deadline: order.deadline,
@@ -46,6 +38,17 @@ exports.list = (req, res) => {
         });
 
         res.json(mappedOrders);
+    });
+};
+
+exports.get = (req, res) => {
+    Order.findById(req.params.id, (error, order) => {
+        if (error) {
+            Logger.info(error.message);
+            res.sendStatus(HttpStatus.BAD_REQUEST);
+            return;
+        }
+        res.json(order);
     });
 };
 
@@ -67,8 +70,9 @@ exports.create = (req, res) => {
 
     const order = new Order(mappedOrder);
 
-    order.save((error) => {
+    order.save((error, createdOrder) => {
         if (error) {
+            Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);
             res.send(errorsHandler(error.errors));
             return;
@@ -89,6 +93,7 @@ exports.addMeal = (req, res) => {
 
     mealToAdd.validate((error) => {
         if (error) {
+            Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);
             res.send(errorsHandler(error.errors));
             return;
@@ -100,6 +105,7 @@ exports.addMeal = (req, res) => {
             }
         }, (error, order) => {
             if (error) {
+                Logger.info(error.message);
                 res.sendStatus(HttpStatus.BAD_REQUEST);
                 return;
             }
@@ -123,6 +129,7 @@ exports.removeMeal = (req, res) => {
         }
     }, (error, order) => {
         if (error) {
+            Logger.info(error.message);
             res.sendStatus(HttpStatus.BAD_REQUEST);
             return;
         }
