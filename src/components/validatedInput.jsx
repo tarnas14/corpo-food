@@ -13,7 +13,7 @@ const ValidatedInput = React.createClass({
     },
 
     handleChange (event) {
-        this.props.onChange(event.target.id, event.target.value);
+        this.props.onChange(event);
     },
 
     validationStyle () {
@@ -32,11 +32,10 @@ const ValidatedInput = React.createClass({
 
     getValidationMessage () {
         const {text, isValid} = this.props.value;
-
-        if (isValid || !text) {
+        if (isValid) {
             return null;
         }
-        return this.validationMessage;
+        return this.props.validationMessage;
     },
 
     render () {

@@ -3,7 +3,7 @@ import {Button, Input, Row, Col} from 'react-bootstrap';
 import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
-import {validateHour} from '../validators/orderFormValidator';
+import {isFieldFilled, validateUrl, validateHour} from '../validators/orderFormValidator';
 
 const NewOrderForm = React.createClass({
     propTypes: {
@@ -12,7 +12,10 @@ const NewOrderForm = React.createClass({
 
     getInitialState () {
         return {
-            restaurant: '',
+            restaurant: {
+                text: '',
+                isValid: true
+            },
             deadline: {
                 text: '',
                 isValid: true
@@ -21,30 +24,65 @@ const NewOrderForm = React.createClass({
                 text: '',
                 isValid: true
             },
-            menu: '',
+            menu: {
+                text: '',
+                isValid: true
+            },
             description: '',
-            password: '',
-            passwordRepeat: '',
-            author: '',
-            deliveryCost: '',
-            extraCostPerMeal: ''
+            password: {
+                text: '',
+                isValid: true
+            },
+            passwordRepeat: {
+                text: '',
+                isValid: true
+            },
+            author: {
+                text: '',
+                isValid: true
+            },
+            deliveryCost: {
+                text: '',
+                isValid: true
+            },
+            extraCostPerMeal: {
+                text: '',
+                isValid: true
+            }
         };
     },
 
-    handleHourChange (id, text) {
+    handleHourChange (event) {
+        const {id, value} = event.target;
         this.setState(oldState => {
             oldState[id] = {
-                text: text,
-                isValid: validateHour(text)
+                text: value,
+                isValid: validateHour(value)
             };
         });
     },
 
-    handleTextChange (event) {
+    handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
         this.setState(oldState => {
-            oldState[id] = value;
-            return oldState;
+            oldState[id] = {
+                text: value,
+                isValid: isFieldRequired === true ? isFieldFilled(value) : true
+            };
+        });
+    },
+
+    handleRequiredTextChange (event) {
+        this.handleTextChange(event, true);
+    },
+
+    handleMenuChange (event) {
+        const {id, value} = event.target;
+        this.setState(oldState => {
+            oldState[id] = {
+                text: value,
+                isValid: isFieldFilled(value) && validateUrl(value)
+            };
         });
     },
 
@@ -53,12 +91,14 @@ const NewOrderForm = React.createClass({
             <Row >
                 <Col xs={8}>
                     <form>
-                        <Input
+                        <ValidatedInput
                             id="restaurant"
                             label="Lokal"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleRequiredTextChange}
                             placeholder="Lokal"
                             type="text"
+                            validationMessage="Proszę podać lokal"
+                            value={this.state.restaurant}
                         />
                         <ValidatedInput
                             id="deadline"
@@ -76,12 +116,14 @@ const NewOrderForm = React.createClass({
                             validationMessage="Podaj poprawna godzinę"
                             value={this.state.deliveryTime}
                         />
-                        <Input
+                        <ValidatedInput
                             id="menu"
                             label="Menu"
-                            onChange={this.handleTextChange}
+                            onChange={this.handleMenuChange}
                             placeholder="Menu"
                             type="text"
+                            validationMessage="Proszę podać odnośnik do menu"
+                            value={this.state.menu}
                         />
                         <Input
                             id="description"
@@ -112,6 +154,7 @@ const NewOrderForm = React.createClass({
                             type="text"
                         />
                         <Input
+                            addonAfter="zł"
                             id="deliveryCost"
                             label="Koszt dowozu"
                             onChange={this.handleTextChange}
@@ -119,6 +162,7 @@ const NewOrderForm = React.createClass({
                             type="text"
                         />
                         <Input
+                            addonAfter="zł"
                             id="extraCostPerMeal"
                             label="Do każdego zamowienia"
                             onChange={this.handleTextChange}
