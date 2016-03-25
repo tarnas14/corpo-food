@@ -7,7 +7,8 @@ import {browserHistory} from 'react-router';
 
 const NewOrderForm = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired
+        dispatch: React.PropTypes.func.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     getInitialState () {
@@ -75,72 +76,72 @@ const NewOrderForm = React.createClass({
                     <form>
                         <Input
                             id="restaurant"
-                            label="Lokal"
+                            label={this.props.resources.restaurant}
                             onChange={this.handleTextChange}
-                            placeholder="Lokal"
+                            placeholder={this.props.resources.restaurant}
                             type="text"
                         />
                         <HourInput
                             id="deadline"
-                            label="Zamawiam o"
+                            label={this.props.resources.orderingAt}
                             onChange={this.handleHourChange}
-                            placeholder="O ktorej zamawiasz"
+                            placeholder={this.props.resources.orderingAt}
                             value={this.state.deadline}
                         />
                         <HourInput
                             id="deliveryTime"
-                            label="Zamawiam na"
+                            label={this.props.resources.deliveryAt}
                             onChange={this.handleHourChange}
-                            placeholder="Zamawiam na"
+                            placeholder={this.props.resources.deliveryAt}
                             value={this.state.deliveryTime}
                         />
                         <Input
                             id="menu"
-                            label="Menu"
+                            label={this.props.resources.menu}
                             onChange={this.handleTextChange}
-                            placeholder="Menu"
+                            placeholder={this.props.resources.menu}
                             type="text"
                         />
                         <Input
                             id="description"
-                            label="Opis"
+                            label={this.props.resources.description}
                             onChange={this.handleTextChange}
-                            placeholder="Opis"
+                            placeholder={this.props.resources.description}
                             type="textarea"
                         />
                         <Input
                             id="password"
-                            label="Hasło administracyjne"
+                            label={this.props.resources.password}
                             onChange={this.handleTextChange}
-                            placeholder="Hasło administracyjne"
+                            placeholder={this.props.resources.password}
                             type="password"
                         />
                         <Input
                             id="passwordRepeat"
-                            label="Powtorz hasło"
+                            label={this.props.resources.passwordAgain}
                             onChange={this.handleTextChange}
-                            placeholder="Powtorz hasło"
+                            placeholder={this.props.resources.passwordAgain}
                             type="password"
                         />
                         <Input
                             id="author"
-                            label="Autor"
+                            label={this.props.resources.author}
                             onChange={this.handleTextChange}
-                            placeholder="Adres e-mail"
+                            placeholder={this.props.resources.author}
                             type="text"
                         />
                         <Input
                             id="deliveryCost"
-                            label="Koszt dowozu"
+                            label={this.props.resources.deliveryCost}
                             onChange={this.handleTextChange}
-                            placeholder="Koszt dowozu"
+                            placeholder={this.props.resources.deliveryCost}
                             type="text"
                         />
                         <Input
                             id="extraCostPerMeal"
-                            label="Do każdego zamowienia"
+                            label={this.props.resources.extraCostPerMeal}
                             onChange={this.handleTextChange}
-                            placeholder="PLN"
+                            placeholder={this.props.resources.extraCostPerMeal}
                             type="text"
                         />
                         <Button onClick={this.handleSubmit} type="button">
@@ -153,4 +154,4 @@ const NewOrderForm = React.createClass({
     }
 });
 
-export default connect()(NewOrderForm);
+export default connect(state => ({resources: state.localization.resources.newOrderForm}))(NewOrderForm);

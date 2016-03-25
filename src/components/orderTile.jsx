@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import {Col, Well} from 'react-bootstrap';
 
 const OrderTile = React.createClass({
@@ -6,6 +7,7 @@ const OrderTile = React.createClass({
         author: React.PropTypes.string.isRequired,
         deadline: React.PropTypes.object.isRequired,
         hungryGuysCount: React.PropTypes.number.isRequired,
+        resources: React.PropTypes.object.isRequired,
         restaurant: React.PropTypes.string.isRequired
     },
 
@@ -24,13 +26,13 @@ const OrderTile = React.createClass({
             <Col className="OrderTile" xs={3}>
                 <Well>
                     <h3>{this.props.restaurant}</h3>
-                    <p>Dedlajn: {this._dateToString(this.props.deadline)}</p>
-                    <p>Fokusuje się: {this.props.author}</p>
-                    <p style={hungryGuysCountStyles}>zamówiły już {this.props.hungryGuysCount} os.</p>
+                    <p>{this.props.resources.deadline} {this._dateToString(this.props.deadline)}</p>
+                    <p>{this.props.resources.author} {this.props.author}</p>
+                    <p style={hungryGuysCountStyles}>{this.props.hungryGuysCount} {this.props.resources.alreadyOrdered}</p>
                 </Well>
             </Col>
         );
     }
 });
 
-export default OrderTile;
+export default connect(state => ({resources: state.localization.resources.orderTile}))(OrderTile);
