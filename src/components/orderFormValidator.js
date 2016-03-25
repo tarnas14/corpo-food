@@ -5,11 +5,7 @@ export function validateHour (hourInput) {
     }
 
     const [, hour, minutes] = pattern.exec(hourInput);
-    if (hour > 24 || minutes > 59) {
-        return false;
-    }
-
-    return true;
+    return !(hour > 23 || minutes > 59);
 }
 
 export function validateMinimalLength (fieldValue, minimalLength) {

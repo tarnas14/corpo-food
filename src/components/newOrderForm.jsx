@@ -3,7 +3,7 @@ import {Button, Input, Row, Col} from 'react-bootstrap';
 import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
-import {validateMinimalLength, validateUrl, validateHour, validateMoney} from '../validators/orderFormValidator';
+import {validateMinimalLength, validateUrl, validateHour, validateMoney} from './orderFormValidator';
 import {browserHistory} from 'react-router';
 
 const NewOrderForm = React.createClass({

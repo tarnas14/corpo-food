@@ -16,7 +16,7 @@ const ValidatedInput = React.createClass({
         this.props.onChange(event);
     },
 
-    validationStyle () {
+    validationBsStyle () {
         const {text, isValid} = this.props.value;
 
         if (!text) {
@@ -41,7 +41,7 @@ const ValidatedInput = React.createClass({
     render () {
         return (
             <Input
-                bsStyle={this.validationStyle()}
+                bsStyle={this.validationBsStyle()}
                 groupClassName="group-class"
                 hasFeedback
                 help={this.getValidationMessage()}
