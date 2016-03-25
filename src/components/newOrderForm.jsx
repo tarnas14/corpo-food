@@ -73,7 +73,7 @@ const NewOrderForm = React.createClass({
 
     handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
-        const isValid = isFieldRequired === true ? validateMinimalLength(value, 1) : true;
+        const isValid = isFieldRequired ? validateMinimalLength(value, 1) : true;
         this.handleFieldChangeWithValidator(id, value, isValid);
     },
 
@@ -131,7 +131,7 @@ const NewOrderForm = React.createClass({
                             onChange={this.handleRequiredTextChange}
                             placeholder={this.props.resources.restaurant}
                             type="text"
-                            validationMessage="Proszę podać lokal"
+                            validationMessage={this.props.resources.validationMessages.provideRestaurant}
                             value={this.state.restaurant}
                         />
                         <ValidatedInput
@@ -139,7 +139,7 @@ const NewOrderForm = React.createClass({
                             label={this.props.resources.orderingAt}
                             onChange={this.handleHourChange}
                             placeholder={this.props.resources.orderingAt}
-                            validationMessage="Podaj poprawna godzinę"
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deadline}
                         />
                         <ValidatedInput
@@ -147,7 +147,7 @@ const NewOrderForm = React.createClass({
                             label={this.props.resources.deliveryAt}
                             onChange={this.handleHourChange}
                             placeholder={this.props.resources.deliveryAt}
-                            validationMessage="Podaj poprawna godzinę"
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deliveryTime}
                         />
                         <ValidatedInput
@@ -156,7 +156,7 @@ const NewOrderForm = React.createClass({
                             onChange={this.handleMenuChange}
                             placeholder={this.props.resources.menu}
                             type="text"
-                            validationMessage="Proszę podać odnośnik do menu"
+                            validationMessage={this.props.resources.validationMessages.provideMenuLink}
                             value={this.state.menu}
                         />
                         <Input
@@ -172,7 +172,7 @@ const NewOrderForm = React.createClass({
                             onChange={this.handlePasswordChange}
                             placeholder={this.props.resources.password}
                             type="password"
-                            validationMessage="Minimalna długość hasła wynosi 6 znakow"
+                            validationMessage={this.props.resources.validationMessages.passwordTooShort}
                             value={this.state.password}
                         />
                         <ValidatedInput
@@ -181,7 +181,7 @@ const NewOrderForm = React.createClass({
                             onChange={this.handleConfirmPasswordChange}
                             placeholder={this.props.resources.passwordAgain}
                             type="password"
-                            validationMessage="Hasla nie sa takie same"
+                            validationMessage={this.props.resources.validationMessages.passwordsDontMatch}
                             value={this.state.passwordRepeat}
                         />
                         <ValidatedInput
@@ -190,27 +190,27 @@ const NewOrderForm = React.createClass({
                             onChange={this.handleRequiredTextChange}
                             placeholder={this.props.resources.author}
                             type="text"
-                            validationMessage="Proszę podać autora zamowienia"
+                            validationMessage={this.props.resources.validationMessages.provideAuthor}
                             value={this.state.author}
                         />
                         <ValidatedInput
-                            addonAfter="zł"
+                            addonAfter={this.props.resources.currency}
                             id="deliveryCost"
                             label={this.props.resources.deliveryCost}
                             onChange={this.handleRequiredMoneyChange}
                             placeholder={this.props.resources.deliveryCost}
                             type="text"
-                            validationMessage="Podaj poprawny koszt dostawy"
+                            validationMessage={this.props.resources.validationMessages.provideValidDeliveryCost}
                             value={this.state.deliveryCost}
                         />
                         <ValidatedInput
-                            addonAfter="zł"
+                            addonAfter={this.props.resources.currency}
                             id="extraCostPerMeal"
                             label={this.props.resources.extraCostPerMeal}
                             onChange={this.handleMoneyChange}
                             placeholder={this.props.resources.extraCostPerMeal}
                             type="text"
-                            validationMessage="Podaj poprawny koszt do kazdego zamowienia"
+                            validationMessage={this.props.resources.validationMessages.provideValidExtraCostPerMeal}
                             value={this.state.extraCostPerMeal}
                         />
                         <Button onClick={this.handleSubmit} type="button">

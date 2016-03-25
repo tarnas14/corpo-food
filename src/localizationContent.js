@@ -24,8 +24,19 @@ module.exports = {
                 password: 'Hasło administracyjne',
                 passwordAgain: 'Powtórz hasło',
                 author: 'Autor',
+                currency: 'zł',
                 deliveryCost: 'Koszt dowozu',
-                extraCostPerMeal: 'Do każdego zamówienia'
+                extraCostPerMeal: 'Do każdego zamówienia',
+                validationMessages: {
+                    provideRestaurant: 'Prosze podać lokal',
+                    provideValidHour: 'Podaj poprawną godzinę',
+                    provideMenuLink: 'Proszę podać odnośnik do menu',
+                    passwordTooShort: 'Minimalna długość hasła wynosi 6 znaków',
+                    passwordsDontMatch: 'Hasła nie są takie same',
+                    provideAuthor: 'Proszę podać autora zamówienia',
+                    provideValidDeliveryCost: 'Podaj poprawny koszt dostawy',
+                    provideValidExtraCostPerMeal: 'Podaj poprawny koszt do każdego zamówienia'
+                }
             }
         },
         en: {
@@ -52,7 +63,18 @@ module.exports = {
                 passwordAgain: 'Repeat password',
                 author: 'Author',
                 deliveryCost: 'Delivery cost',
-                extraCostPerMeal: 'Extra cost per meal'
+                currency: 'Ł',
+                extraCostPerMeal: 'Extra cost per meal',
+                validationMessages: {
+                    provideRestaurant: 'Provide restaurant name',
+                    provideValidHour: 'Provide valid hour',
+                    provideMenuLink: 'Provide menu link',
+                    passwordTooShort: 'Password must be at least 6 characters short',
+                    passwordsDontMatch: 'Passwords are not the same',
+                    provideAuthor: 'Provide author',
+                    provideValidDeliveryCost: 'Provide valid delivery cost',
+                    provideValidExtraCostPerMeal: 'Provide valid extra cost per meal'
+                }
             }
         }
     }
