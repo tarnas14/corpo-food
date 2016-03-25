@@ -1,24 +1,25 @@
 import React from 'react';
 import {Input} from 'react-bootstrap';
 
-const HourInput = React.createClass({
+const ValidatedInput = React.createClass({
 
     propTypes: {
         id: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string.isRequired,
+        validationMessage: React.PropTypes.string.isRequired,
         value: React.PropTypes.object.isRequired
     },
 
     handleChange (event) {
-        this.props.onChange(event.target.id, event.target.value);
+        this.props.onChange(event);
     },
 
-    validationStyle () {
-        const {hour, isValid} = this.props.value;
+    validationBsStyle () {
+        const {text, isValid} = this.props.value;
 
-        if (!hour) {
+        if (!text) {
             return null;
         }
 
@@ -29,32 +30,31 @@ const HourInput = React.createClass({
         return 'error';
     },
 
-    validationMessage () {
-        const {hour, isValid} = this.props.value;
-
-        if (isValid || !hour) {
+    getValidationMessage () {
+        const isValid = this.props.value.isValid;
+        if (isValid) {
             return null;
         }
-        return 'Zainputuj poprawną godzinę.';
+        return this.props.validationMessage;
     },
 
     render () {
         return (
             <Input
-                bsStyle={this.validationStyle()}
+                bsStyle={this.validationBsStyle()}
                 groupClassName="group-class"
                 hasFeedback
-                help={this.validationMessage()}
+                help={this.getValidationMessage()}
                 id={this.props.id}
                 label={this.props.label}
                 labelClassName="label-class"
                 onChange={this.handleChange}
                 placeholder={this.props.placeholder}
                 type="text"
-                value={this.props.value.hour}
+                value={this.props.value.text}
             />
         );
     }
 });
 
-export default HourInput;
+export default ValidatedInput;
