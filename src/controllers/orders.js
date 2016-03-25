@@ -45,8 +45,8 @@ exports.create = (req, res) => {
     const newOrder = req.body;
 
     const mappedOrder = {
-        deadline: mapHourToDate(newOrder.deadline.hour),
-        deliveryTime: mapHourToDate(newOrder.deliveryTime.hour),
+        deadline: mapHourToDate(newOrder.deadline),
+        deliveryTime: mapHourToDate(newOrder.deliveryTime),
         restaurant: newOrder.restaurant,
         menu: newOrder.menu,
         description: newOrder.description,
