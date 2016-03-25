@@ -26,12 +26,13 @@ const OrderDetails = React.createClass({
 
     render () {
         const {order} = this.props;
-        console.log(order)
+        
         const stateStyle = (() => {
             switch (order.state) {
             case OrderState.Open: return 'primary';
             case OrderState.Ordered: return 'info';
             case OrderState.Delivered: return 'success';
+            default: return 'danger';
             }
         })();
 
@@ -43,13 +44,12 @@ const OrderDetails = React.createClass({
                     <p>Dedlajn: {this._dateToString(order.deadline)}</p>
                     <p>Na kiedy: {this._dateToString(order.deliveryTime)}</p>
                     <p>Menu: <a href={order.menu}>{order.menu}</a></p>
+                    <p>Ekstra koszt per meal: {order.extraCostPerMeal}</p>
+                    <p>Koszt deliweru: {order.deliveryCost}</p>
                     <div>
                         <h3>Opis</h3>
                         <p>{order.description}</p>
                     </div>
-
-                    <div>{order.extraCostPerMeal}</div>
-                    <div>{order.deliveryCost}</div>
                 </Col>
             </Row>
         );

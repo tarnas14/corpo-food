@@ -11,7 +11,6 @@ const OrderTile = React.createClass({
 
     _dateToString (date) {
         const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes();
-
         return `${date.getHours()}:${minutes}`;
     },
 

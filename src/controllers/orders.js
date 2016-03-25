@@ -35,7 +35,21 @@ exports.get = (req, res) => {
             res.sendStatus(HttpStatus.BAD_REQUEST);
             return;
         }
-        res.json(order);
+
+        const orderToSend = {
+            id: order._id,
+            author: order.author,
+            deadline: order.deadline,
+            deliveryCost: order.deliveryCost,
+            deliveryTime: order.deliveryTime,
+            description: order.description,
+            extraCostPerMeal: order.extraCostPerMeal,
+            menu: order.menu,
+            restaurant: order.restaurant,
+            state: order.state
+        };
+
+        res.json(orderToSend);
     });
 };
 
