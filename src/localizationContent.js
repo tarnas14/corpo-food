@@ -3,8 +3,8 @@ module.exports = {
     resources: {
         pl: {
             app: {
-                name: 'Corpo food',
-                uvp: ' orderuj food bez fakapu'
+                appName: 'Corpo food',
+                uniqueValueProposition: ' orderuj food bez fakapu'
             },
             dashboard: {
                 noOrdersYet: 'Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy',
@@ -30,8 +30,8 @@ module.exports = {
         },
         en: {
             app: {
-                name: 'Corpo food',
-                uvp: ' order food without fuckups'
+                appName: 'Corpo food',
+                uniqueValueProposition: ' order food without fuckups'
             },
             dashboard: {
                 noOrdersYet: 'Nobody is on the task yet - be first',

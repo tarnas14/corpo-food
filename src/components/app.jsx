@@ -38,8 +38,8 @@ const App = connect(state => ({resources: state.localization.resources.app}))(
                     <Row>
                         <Col xs={12}>
                             <PageHeader>
-                                {this.props.resources.name}
-                                <small>{this.props.resources.uvp}</small>
+                                {this.props.resources.appName}
+                                <small>{this.props.resources.uniqueValueProposition}</small>
                             </PageHeader>
                         </Col>
                     </Row>
