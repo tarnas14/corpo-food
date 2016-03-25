@@ -28,7 +28,7 @@ const ValidatedInput = React.createClass({
             return null;
         }
 
-        const {text, isValid} = this.props.value;
+        const {isValid} = this.props.value;
 
         if (isValid) {
             return 'success';
