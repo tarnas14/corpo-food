@@ -1,3 +1,4 @@
+'use strict';
 exports.mapHourToDate = hour => {
     const array = hour.split(':');
     const date = new Date();

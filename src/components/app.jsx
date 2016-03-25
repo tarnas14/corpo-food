@@ -25,7 +25,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 const App = React.createClass({
     propTypes: {
-        children: React.PropTypes.array
+        children: React.PropTypes.object
     },
 
     render () {

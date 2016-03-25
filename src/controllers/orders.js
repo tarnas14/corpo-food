@@ -4,8 +4,8 @@ const Meal = require('../models/meal').Meal;
 const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
-const mapHourToDate = require('../lib/dateManipulation').mapHourToDate;
-const errorsHandler = require('../lib/errorsHandler');
+const mapHourToDate = require('../services/dateManipulation').mapHourToDate;
+const errorsHandler = require('../services/errorsHandler');
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
