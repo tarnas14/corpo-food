@@ -9,7 +9,8 @@ import {mapOrderStateToOrder} from './orderMapper';
 
 const NewOrderForm = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired
+        dispatch: React.PropTypes.func.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     getInitialState () {
@@ -72,7 +73,7 @@ const NewOrderForm = React.createClass({
 
     handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
-        const isValid = isFieldRequired === true ? validateMinimalLength(value, 1) : true;
+        const isValid = isFieldRequired ? validateMinimalLength(value, 1) : true;
         this.handleFieldChangeWithValidator(id, value, isValid);
     },
 
@@ -126,90 +127,90 @@ const NewOrderForm = React.createClass({
                     <form>
                         <ValidatedInput
                             id="restaurant"
-                            label="Lokal"
+                            label={this.props.resources.restaurant}
                             onChange={this.handleRequiredTextChange}
-                            placeholder="Lokal"
+                            placeholder={this.props.resources.restaurant}
                             type="text"
-                            validationMessage="Proszę podać lokal"
+                            validationMessage={this.props.resources.validationMessages.provideRestaurant}
                             value={this.state.restaurant}
                         />
                         <ValidatedInput
                             id="deadline"
-                            label="Zamawiam o"
+                            label={this.props.resources.orderingAt}
                             onChange={this.handleHourChange}
-                            placeholder="O ktorej zamawiasz"
-                            validationMessage="Podaj poprawna godzinę"
+                            placeholder={this.props.resources.orderingAt}
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deadline}
                         />
                         <ValidatedInput
                             id="deliveryTime"
-                            label="Zamawiam na"
+                            label={this.props.resources.deliveryAt}
                             onChange={this.handleHourChange}
-                            placeholder="Zamawiam na"
-                            validationMessage="Podaj poprawna godzinę"
+                            placeholder={this.props.resources.deliveryAt}
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deliveryTime}
                         />
                         <ValidatedInput
                             id="menu"
-                            label="Menu"
+                            label={this.props.resources.menu}
                             onChange={this.handleMenuChange}
-                            placeholder="Menu"
+                            placeholder={this.props.resources.menu}
                             type="text"
-                            validationMessage="Proszę podać odnośnik do menu"
+                            validationMessage={this.props.resources.validationMessages.provideMenuLink}
                             value={this.state.menu}
                         />
                         <Input
                             id="description"
-                            label="Opis"
+                            label={this.props.resources.description}
                             onChange={this.handleTextChange}
-                            placeholder="Opis"
+                            placeholder={this.props.resources.description}
                             type="textarea"
                         />
                         <ValidatedInput
                             id="password"
-                            label="Hasło administracyjne"
+                            label={this.props.resources.password}
                             onChange={this.handlePasswordChange}
-                            placeholder="Hasło administracyjne"
+                            placeholder={this.props.resources.password}
                             type="password"
-                            validationMessage="Minimalna długość hasła wynosi 6 znakow"
+                            validationMessage={this.props.resources.validationMessages.passwordTooShort}
                             value={this.state.password}
                         />
                         <ValidatedInput
                             id="passwordRepeat"
-                            label="Powtorz hasło"
+                            label={this.props.resources.passwordAgain}
                             onChange={this.handleConfirmPasswordChange}
-                            placeholder="Powtorz hasło"
+                            placeholder={this.props.resources.passwordAgain}
                             type="password"
-                            validationMessage="Hasla nie sa takie same"
+                            validationMessage={this.props.resources.validationMessages.passwordsDontMatch}
                             value={this.state.passwordRepeat}
                         />
                         <ValidatedInput
                             id="author"
-                            label="Autor"
+                            label={this.props.resources.author}
                             onChange={this.handleRequiredTextChange}
-                            placeholder="Adres e-mail"
+                            placeholder={this.props.resources.author}
                             type="text"
-                            validationMessage="Proszę podać autora zamowienia"
+                            validationMessage={this.props.resources.validationMessages.provideAuthor}
                             value={this.state.author}
                         />
                         <ValidatedInput
-                            addonAfter="zł"
+                            addonAfter={this.props.resources.currency}
                             id="deliveryCost"
-                            label="Koszt dowozu"
+                            label={this.props.resources.deliveryCost}
                             onChange={this.handleRequiredMoneyChange}
-                            placeholder="Koszt dowozu"
+                            placeholder={this.props.resources.deliveryCost}
                             type="text"
-                            validationMessage="Podaj poprawny koszt dostawy"
+                            validationMessage={this.props.resources.validationMessages.provideValidDeliveryCost}
                             value={this.state.deliveryCost}
                         />
                         <ValidatedInput
-                            addonAfter="zł"
+                            addonAfter={this.props.resources.currency}
                             id="extraCostPerMeal"
-                            label="Do każdego zamowienia"
+                            label={this.props.resources.extraCostPerMeal}
                             onChange={this.handleMoneyChange}
-                            placeholder="PLN"
+                            placeholder={this.props.resources.extraCostPerMeal}
                             type="text"
-                            validationMessage="Podaj poprawny koszt do kazdego zamowienia"
+                            validationMessage={this.props.resources.validationMessages.provideValidExtraCostPerMeal}
                             value={this.state.extraCostPerMeal}
                         />
                         <Button onClick={this.handleSubmit} type="button">
@@ -222,4 +223,4 @@ const NewOrderForm = React.createClass({
     }
 });
 
-export default connect()(NewOrderForm);
+export default connect(state => ({resources: state.localization.resources.newOrderForm}))(NewOrderForm);
