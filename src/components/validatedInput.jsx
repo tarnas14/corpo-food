@@ -8,6 +8,7 @@ const ValidatedInput = React.createClass({
         label: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string.isRequired,
+        type: React.PropTypes.string.isRequired,
         validationMessage: React.PropTypes.string.isRequired,
         value: React.PropTypes.object.isRequired
     },
@@ -57,7 +58,7 @@ const ValidatedInput = React.createClass({
                 labelClassName="label-class"
                 onChange={this.handleChange}
                 placeholder={this.props.placeholder}
-                type="text"
+                type={this.props.type}
                 value={this.props.value.text}
             />
         );
