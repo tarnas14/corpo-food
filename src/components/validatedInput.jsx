@@ -1,26 +1,35 @@
 import React from 'react';
 import {Input} from 'react-bootstrap';
 
-const HourInput = React.createClass({
+const ValidatedInput = React.createClass({
 
     propTypes: {
         id: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
         onChange: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string.isRequired,
+        type: React.PropTypes.string.isRequired,
+        validationMessage: React.PropTypes.string.isRequired,
         value: React.PropTypes.object.isRequired
     },
 
-    handleChange (event) {
-        this.props.onChange(event.target.id, event.target.value);
+    getInitialState () {
+        return {
+            touched: false
+        };
     },
 
-    validationStyle () {
-        const {hour, isValid} = this.props.value;
+    handleChange (event) {
+        this.setState({touched: true});
+        this.props.onChange(event);
+    },
 
-        if (!hour) {
+    validationBsStyle () {
+        if (!this.state.touched) {
             return null;
         }
+
+        const {isValid} = this.props.value;
 
         if (isValid) {
             return 'success';
@@ -29,32 +38,31 @@ const HourInput = React.createClass({
         return 'error';
     },
 
-    validationMessage () {
-        const {hour, isValid} = this.props.value;
-
-        if (isValid || !hour) {
+    getValidationMessage () {
+        const isValid = this.props.value.isValid;
+        if (isValid) {
             return null;
         }
-        return 'Zainputuj poprawną godzinę.';
+        return this.props.validationMessage;
     },
 
     render () {
         return (
             <Input
-                bsStyle={this.validationStyle()}
+                bsStyle={this.validationBsStyle()}
                 groupClassName="group-class"
                 hasFeedback
-                help={this.validationMessage()}
+                help={this.getValidationMessage()}
                 id={this.props.id}
                 label={this.props.label}
                 labelClassName="label-class"
                 onChange={this.handleChange}
                 placeholder={this.props.placeholder}
-                type="text"
-                value={this.props.value.hour}
+                type={this.props.type}
+                value={this.props.value.text}
             />
         );
     }
 });
 
-export default HourInput;
+export default ValidatedInput;

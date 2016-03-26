@@ -1,70 +1,122 @@
 import React from 'react';
 import {Button, Input, Row, Col} from 'react-bootstrap';
-import HourInput from './HourInput';
+import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
+import {validateMinimalLength, validateUrl, validateHour, validateMoney} from './orderFormValidator';
 import {browserHistory} from 'react-router';
+import {mapOrderStateToOrder} from './orderMapper';
 
 const NewOrderForm = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired
+        dispatch: React.PropTypes.func.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     getInitialState () {
         return {
-            restaurant: '',
+            restaurant: {
+                text: '',
+                isValid: true
+            },
             deadline: {
-                hour: '',
+                text: '',
                 isValid: true
             },
             deliveryTime: {
-                hour: '',
+                text: '',
                 isValid: true
             },
-            menu: '',
-            description: '',
-            password: '',
-            passwordRepeat: '',
-            author: '',
-            deliveryCost: '',
-            extraCostPerMeal: ''
+            menu: {
+                text: '',
+                isValid: true
+            },
+            description: {
+                text: ''
+            },
+            password: {
+                text: '',
+                isValid: true
+            },
+            passwordRepeat: {
+                text: '',
+                isValid: true
+            },
+            author: {
+                text: '',
+                isValid: true
+            },
+            deliveryCost: {
+                text: '',
+                isValid: true
+            },
+            extraCostPerMeal: {
+                text: '',
+                isValid: true
+            }
         };
     },
 
-    handleHourChange (id, hour) {
+    handleFieldChangeWithValidator (id, value, isValid) {
         this.setState(oldState => {
             oldState[id] = {
-                hour,
-                isValid: this.validateHour(hour)
+                text: value,
+                isValid: isValid
             };
         });
     },
 
-    validateHour (hourInput) {
-        const pattern = /([0-9]{1,2})\:([0-9]{2})/;
-        if (!pattern.test(hourInput)) {
-            return false;
-        }
-
-        const [, hour, minutes] = pattern.exec(hourInput);
-        if (hour > 24 || minutes > 59) {
-            return false;
-        }
-
-        return true;
-
+    handleHourChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, validateHour(value));
     },
 
-    handleTextChange (event) {
+    handleTextChange (event, isFieldRequired) {
         const {id, value} = event.target;
-        this.setState(oldState => {
-            oldState[id] = value;
-            return oldState;
-        });
+        const isValid = isFieldRequired ? validateMinimalLength(value, 1) : true;
+        this.handleFieldChangeWithValidator(id, value, isValid);
+    },
+
+    handleRequiredTextChange (event) {
+        this.handleTextChange(event, true);
+    },
+
+    handleMenuChange (event) {
+        const {id, value} = event.target;
+        const isValid = validateMinimalLength(value, 1) && validateUrl(value);
+        this.handleFieldChangeWithValidator(id, value, isValid);
+    },
+
+    handlePasswordChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, validateMinimalLength(value, 6));
+    },
+
+    handleConfirmPasswordChange (event) {
+        const {id, value} = event.target;
+        this.handleFieldChangeWithValidator(id, value, this.state.password.text === value);
+    },
+
+    handleMoneyChange (event, isRequired) {
+        const {id, value} = event.target;
+        let isValid = false;
+        if (isRequired && validateMoney(value)) {
+            isValid = true;
+        }
+
+        if (!isRequired && validateMinimalLength(value, 1) && validateMoney(value)) {
+            isValid = true;
+        }
+
+        this.handleFieldChangeWithValidator(id, value, isValid);
+    },
+
+    handleRequiredMoneyChange (event) {
+        this.handleMoneyChange(event, true);
     },
 
     handleSubmit () {
-        this.props.dispatch(addNewOrder(this.state));
+        this.props.dispatch(addNewOrder(mapOrderStateToOrder(this.state)));
         browserHistory.push('/');
     },
 
@@ -73,75 +125,93 @@ const NewOrderForm = React.createClass({
             <Row >
                 <Col xs={8}>
                     <form>
-                        <Input
+                        <ValidatedInput
                             id="restaurant"
-                            label="Lokal"
-                            onChange={this.handleTextChange}
-                            placeholder="Lokal"
+                            label={this.props.resources.restaurant}
+                            onChange={this.handleRequiredTextChange}
+                            placeholder={this.props.resources.restaurant}
                             type="text"
+                            validationMessage={this.props.resources.validationMessages.provideRestaurant}
+                            value={this.state.restaurant}
                         />
-                        <HourInput
+                        <ValidatedInput
                             id="deadline"
-                            label="Zamawiam o"
+                            label={this.props.resources.orderingAt}
                             onChange={this.handleHourChange}
-                            placeholder="O ktorej zamawiasz"
+                            placeholder={this.props.resources.orderingAt}
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deadline}
                         />
-                        <HourInput
+                        <ValidatedInput
                             id="deliveryTime"
-                            label="Zamawiam na"
+                            label={this.props.resources.deliveryAt}
                             onChange={this.handleHourChange}
-                            placeholder="Zamawiam na"
+                            placeholder={this.props.resources.deliveryAt}
+                            validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deliveryTime}
                         />
-                        <Input
+                        <ValidatedInput
                             id="menu"
-                            label="Menu"
-                            onChange={this.handleTextChange}
-                            placeholder="Menu"
+                            label={this.props.resources.menu}
+                            onChange={this.handleMenuChange}
+                            placeholder={this.props.resources.menu}
                             type="text"
+                            validationMessage={this.props.resources.validationMessages.provideMenuLink}
+                            value={this.state.menu}
                         />
                         <Input
                             id="description"
-                            label="Opis"
+                            label={this.props.resources.description}
                             onChange={this.handleTextChange}
-                            placeholder="Opis"
+                            placeholder={this.props.resources.description}
                             type="textarea"
                         />
-                        <Input
+                        <ValidatedInput
                             id="password"
-                            label="Hasło administracyjne"
-                            onChange={this.handleTextChange}
-                            placeholder="Hasło administracyjne"
+                            label={this.props.resources.password}
+                            onChange={this.handlePasswordChange}
+                            placeholder={this.props.resources.password}
                             type="password"
+                            validationMessage={this.props.resources.validationMessages.passwordTooShort}
+                            value={this.state.password}
                         />
-                        <Input
+                        <ValidatedInput
                             id="passwordRepeat"
-                            label="Powtorz hasło"
-                            onChange={this.handleTextChange}
-                            placeholder="Powtorz hasło"
+                            label={this.props.resources.passwordAgain}
+                            onChange={this.handleConfirmPasswordChange}
+                            placeholder={this.props.resources.passwordAgain}
                             type="password"
+                            validationMessage={this.props.resources.validationMessages.passwordsDontMatch}
+                            value={this.state.passwordRepeat}
                         />
-                        <Input
+                        <ValidatedInput
                             id="author"
-                            label="Autor"
-                            onChange={this.handleTextChange}
-                            placeholder="Adres e-mail"
+                            label={this.props.resources.author}
+                            onChange={this.handleRequiredTextChange}
+                            placeholder={this.props.resources.author}
                             type="text"
+                            validationMessage={this.props.resources.validationMessages.provideAuthor}
+                            value={this.state.author}
                         />
-                        <Input
+                        <ValidatedInput
+                            addonAfter={this.props.resources.currency}
                             id="deliveryCost"
-                            label="Koszt dowozu"
-                            onChange={this.handleTextChange}
-                            placeholder="Koszt dowozu"
+                            label={this.props.resources.deliveryCost}
+                            onChange={this.handleRequiredMoneyChange}
+                            placeholder={this.props.resources.deliveryCost}
                             type="text"
+                            validationMessage={this.props.resources.validationMessages.provideValidDeliveryCost}
+                            value={this.state.deliveryCost}
                         />
-                        <Input
+                        <ValidatedInput
+                            addonAfter={this.props.resources.currency}
                             id="extraCostPerMeal"
-                            label="Do każdego zamowienia"
-                            onChange={this.handleTextChange}
-                            placeholder="PLN"
+                            label={this.props.resources.extraCostPerMeal}
+                            onChange={this.handleMoneyChange}
+                            placeholder={this.props.resources.extraCostPerMeal}
                             type="text"
+                            validationMessage={this.props.resources.validationMessages.provideValidExtraCostPerMeal}
+                            value={this.state.extraCostPerMeal}
                         />
                         <Button onClick={this.handleSubmit} type="button">
                             Save
@@ -153,4 +223,4 @@ const NewOrderForm = React.createClass({
     }
 });
 
-export default connect()(NewOrderForm);
+export default connect(state => ({resources: state.localization.resources.newOrderForm}))(NewOrderForm);
