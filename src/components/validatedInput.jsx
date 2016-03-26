@@ -12,16 +12,23 @@ const ValidatedInput = React.createClass({
         value: React.PropTypes.object.isRequired
     },
 
+    getInitialState () {
+        return {
+            touched: false
+        };
+    },
+
     handleChange (event) {
+        this.setState({touched: true});
         this.props.onChange(event);
     },
 
     validationBsStyle () {
-        const {text, isValid} = this.props.value;
-
-        if (!text) {
+        if (!this.state.touched) {
             return null;
         }
+
+        const {isValid} = this.props.value;
 
         if (isValid) {
             return 'success';
