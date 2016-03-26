@@ -29,6 +29,7 @@ const history = syncHistoryWithStore(browserHistory, store);
 const App = connect(state => ({resources: state.localization.resources.app}))(
     React.createClass({
         propTypes: {
+            children: React.PropTypes.object,
             resources: React.PropTypes.object.isRequired
         },
 
