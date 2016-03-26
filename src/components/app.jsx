@@ -10,7 +10,7 @@ import thunkMiddleware from 'redux-thunk';
 import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
 import OrderDetails from './orderDetails';
-import orders from '../store/orders';
+import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
 import changeLocale from '../store/localizationActions';
 
@@ -18,6 +18,7 @@ import changeLocale from '../store/localizationActions';
 const store = createStore(
     combineReducers({
         orders,
+        activeOrder,
         routing: routerReducer,
         localization
     }),
@@ -62,7 +63,7 @@ const renderApp = () => {
                 <Route component={App} path="/">
                     <IndexRoute component={Dashboard} />
                     <Route component={NewOrderForm} path="newOrder" />
-                    <Route component={OrderDetails} path="order" />
+                    <Route component={OrderDetails} path="order/:id" />
                 </Route>
             </Router>
         </Provider>,

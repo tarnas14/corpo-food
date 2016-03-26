@@ -4,8 +4,8 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node ./src/server.js",
-    "watch": "webpack --progress --colors --watch"
+    "start": "node --harmony_destructuring ./src/server.js",
+    "watch": "webpack --colors --watch"
   },
   "repository": {
     "type": "git",

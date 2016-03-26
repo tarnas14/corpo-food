@@ -1,9 +1,9 @@
 'use strict';
 exports.mapHourToDate = hour => {
-    const array = hour.split(':');
+    const [hours, minutes] = hour.split(':');
     const date = new Date();
-    date.setHours(array[0]);
-    date.setMinutes(array[1]);
+    date.setHours(hours);
+    date.setMinutes(minutes);
 
     return date;
 };

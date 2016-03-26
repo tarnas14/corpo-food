@@ -34,3 +34,20 @@ export function hydrateOrders (orders) {
         orders
     };
 }
+
+export function getOrder (id) {
+    return dispatch => {
+        fetch(`/api/orders/${id}`)
+            .then(response => response.json())
+            .then(order => {
+                const activeOrder = Object.assign(order, {
+                    deadline: new Date(order.deadline),
+                    deliveryTime: new Date(order.deliveryTime)
+                });
+                dispatch({type: 'GET_ORDER', activeOrder});
+            })
+            .catch(error => {
+                console.log(error)
+            });
+    };
+}
