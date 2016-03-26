@@ -139,6 +139,7 @@ const NewOrderForm = React.createClass({
                             label={this.props.resources.orderingAt}
                             onChange={this.handleHourChange}
                             placeholder={this.props.resources.orderingAt}
+                            type="text"
                             validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deadline}
                         />
@@ -147,6 +148,7 @@ const NewOrderForm = React.createClass({
                             label={this.props.resources.deliveryAt}
                             onChange={this.handleHourChange}
                             placeholder={this.props.resources.deliveryAt}
+                            type="text"
                             validationMessage={this.props.resources.validationMessages.provideValidHour}
                             value={this.state.deliveryTime}
                         />

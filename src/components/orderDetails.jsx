@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {getOrder} from '../store/ordersActions';
-import {Row, Col, Label} from 'react-bootstrap';
+import {Row, Col, Label, Button} from 'react-bootstrap';
 import OrderState from '../enums/orderState';
+import {browserHistory} from 'react-router';
 
 const OrderDetails = React.createClass({
     propTypes: {
@@ -26,7 +27,7 @@ const OrderDetails = React.createClass({
 
     render () {
         const {order} = this.props;
-        
+
         const stateStyle = (() => {
             switch (order.state) {
             case OrderState.Open: return 'primary';
@@ -38,6 +39,9 @@ const OrderDetails = React.createClass({
 
         return (
             <Row >
+                <Col xs={12}>
+                    <Button onClick={() => browserHistory.push('/')}>Go back to dashboard</Button>
+                </Col>
                 <Col xs={12}>
                     <h2>{order.restaurant} <Label bsStyle={stateStyle}>{order.state}</Label></h2>
                     <p>Zamawia {order.author}</p>

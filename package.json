@@ -5,7 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node --harmony_destructuring ./src/server.js",
-    "watch": "webpack --progress --colors --watch"
+    "watch": "webpack --colors --watch"
   },
   "repository": {
     "type": "git",
