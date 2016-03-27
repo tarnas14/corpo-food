@@ -73,6 +73,7 @@ const NewOrderForm = React.createClass({
         this.setState(oldState => {
             const newState = {...oldState};
             newState[id] = {
+                touched: true,
                 text: newText,
                 errorMessage
             };

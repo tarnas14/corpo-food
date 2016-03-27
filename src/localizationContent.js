@@ -27,7 +27,6 @@ const resources = {
             password: 'Hasło administracyjne',
             passwordAgain: 'Powtórz hasło',
             author: 'Autor',
-            currency: 'zł',
             deliveryCost: 'Koszt dowozu',
             extraCostPerMeal: 'Do każdego zamówienia',
             save: 'Dodaj order',
@@ -92,7 +91,6 @@ const resources = {
             passwordAgain: 'Repeat password',
             author: 'Author',
             deliveryCost: 'Delivery cost',
-            currency: 'Ł',
             extraCostPerMeal: 'Extra cost per meal',
             save: 'Save order',
             validationMessages: {
@@ -100,7 +98,7 @@ const resources = {
                 provideRestaurant: 'Provide restaurant name',
                 provideValidHour: 'Provide valid hour',
                 provideMenuLink: 'Provide menu link',
-                passwordTooShort: 'Password must be at least 6 characters short',
+                passwordTooShort: 'Password must be at least 6 characters long',
                 passwordsDontMatch: 'Passwords are not the same',
                 provideAuthor: 'Provide author',
                 provideValidDeliveryCost: 'Provide valid delivery cost',
@@ -124,7 +122,8 @@ const resources = {
                     required: 'Add menu link to make our lives easier'
                 },
                 password: {
-                    required: 'Editing your order must be password protected'
+                    required: 'Editing your order must be password protected',
+                    min: 'Password must be at least 6 characters long'
                 },
                 author: {
                     required: 'Who are you?'

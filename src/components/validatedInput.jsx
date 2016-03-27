@@ -11,15 +11,7 @@ const ValidatedInput = React.createClass({
         validators: React.PropTypes.array,
         value: React.PropTypes.object.isRequired
     },
-
-    getInitialState () {
-        return {
-            touched: false
-        };
-    },
-
     handleOnChange (event) {
-        this.setState({touched: true});
         const {value} = event.target;
         if (this.props.validators && this.props.validators.length) {
             for (let i = 0; i < this.props.validators.length; ++i) {
@@ -37,7 +29,7 @@ const ValidatedInput = React.createClass({
     },
 
     validationBsStyle () {
-        if (!this.state.touched) {
+        if (!this.props.value.touched) {
             return null;
         }
 

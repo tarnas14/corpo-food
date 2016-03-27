@@ -30,7 +30,8 @@ const orderSchema = new Schema({
     password: {
         set: generateHash,
         type: String,
-        required: [true, 'password.required']
+        required: [true, 'password.required'],
+        min: [6, 'password.min']
     },
     author: {
         type: String,
