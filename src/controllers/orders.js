@@ -77,11 +77,16 @@ exports.create = (req, res) => {
         if (error) {
             Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);
-            res.send(errorsHandler(error.errors));
+            res.send({
+                message: error.message,
+                validationErrors: errorsHandler(error.errors)
+            });
+
             return;
         }
 
-        res.sendStatus(HttpStatus.OK);
+        res.status(HttpStatus.OK);
+        res.send(order._id);
     });
 };
 

@@ -1,5 +1,7 @@
 import OrderState from '../enums/orderState';
+import {addError} from './errorsActions';
 import {mapHourToDate} from '../services/dateManipulation';
+import {browserHistory} from 'react-router';
 
 export function addNewOrder (order) {
     return dispatch => {
@@ -10,20 +12,43 @@ export function addNewOrder (order) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(order)
-        }).then(response => response.json())
-        .then(data => {
+        })
+        .then(response => {
+            if (response.status >= 200 && response.status < 300) {
+                return response;
+            }
+
+            const error = new Error(response.statusText);
+            error.apiError = true;
+            error.response = response;
+            throw error;
+        })
+        .then(response => response.json())
+        .then(createdOrderId => {
             const newOrder = {
-                id: data.id,
-                deadline: mapHourToDate(order.deadline.hour),
+                id: createdOrderId,
+                deadline: mapHourToDate(order.deadline),
                 hungryGuysCount: 0,
                 author: order.author,
                 restaurant: order.restaurant,
                 state: OrderState.Open
             };
             dispatch({type: 'ADD_NEW_ORDER', order: newOrder});
+            browserHistory.push('/');
         })
         .catch(error => {
-            console.log(error);
+            if (error.apiError) {
+                error.response.json().then(data => {
+                    dispatch(addError(data.message));
+                    if (data.validationErrors.length) {
+                        // handle validation errors
+                    }
+
+                    return;
+                });
+            }
+
+            console.log('caught not API-related error', error);
         });
     };
 }
@@ -47,7 +72,7 @@ export function getOrder (id) {
                 dispatch({type: 'GET_ORDER', activeOrder});
             })
             .catch(error => {
-                console.log(error)
+                console.log(error);
             });
     };
 }

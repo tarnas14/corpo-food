@@ -4,7 +4,6 @@ import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
 import {validateMinimalLength, validateUrl, validateHour, validateMoney} from './orderFormValidator';
-import {browserHistory} from 'react-router';
 import {mapOrderStateToOrder} from './orderMapper';
 
 const NewOrderForm = React.createClass({
@@ -117,7 +116,6 @@ const NewOrderForm = React.createClass({
 
     handleSubmit () {
         this.props.dispatch(addNewOrder(mapOrderStateToOrder(this.state)));
-        browserHistory.push('/');
     },
 
     render () {
