@@ -5,7 +5,9 @@ const localizationContent = require('../localizationContent');
 const _getSupportedLocales = () => {
     const localesInContent = [];
     for (const localeInContent in localizationContent.resources) {
-        localesInContent.push(localeInContent);
+        if (localizationContent.resources.hasOwnProperty(localeInContent)) {
+            localesInContent.push(localeInContent);
+        }
     }
 
     return new locale.Locales(localesInContent);

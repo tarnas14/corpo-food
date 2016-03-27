@@ -104,6 +104,7 @@ exports.addMeal = (req, res) => {
             Logger.info(validationError.message);
             res.status(HttpStatus.BAD_REQUEST);
             res.send(errorsHandler(validationError.errors));
+
             return;
         }
 

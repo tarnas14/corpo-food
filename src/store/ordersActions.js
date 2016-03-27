@@ -3,7 +3,7 @@ import {addError} from './errorsActions';
 import {mapHourToDate} from '../services/dateManipulation';
 import {browserHistory} from 'react-router';
 
-export function addNewOrder (order) {
+export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
         fetch('/api/orders', {
             method: 'post',
@@ -41,7 +41,7 @@ export function addNewOrder (order) {
                 error.response.json().then(data => {
                     dispatch(addError(data.message));
                     if (data.validationErrors.length) {
-                        // handle validation errors
+                        validationErrorsCallback(data.validationErrors);
                     }
 
                     return;

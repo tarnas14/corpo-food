@@ -52,8 +52,15 @@ const NewOrderForm = React.createClass({
         this.handleValueUpdate(id, value);
     },
 
+    handleBackendValidationErrors (validationErrors) {
+        validationErrors.forEach(validationError => {
+            const currentValue = this.state[validationError.property].text;
+            this.handleValueUpdate(validationError.property, currentValue, validationError.message);
+        });
+    },
+
     handleSubmit () {
-        this.props.dispatch(addNewOrder(mapOrderStateToOrder(this.state)));
+        this.props.dispatch(addNewOrder(mapOrderStateToOrder(this.state), this.handleBackendValidationErrors));
     },
 
     onChange (id, value) {
@@ -67,7 +74,6 @@ const NewOrderForm = React.createClass({
             const newState = {...oldState};
             newState[id] = {
                 text: newText,
-                isValid: validationMessage ? false : true,
                 validationMessage
             };
 
