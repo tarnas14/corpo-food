@@ -27,7 +27,9 @@ module.exports = {
                 currency: 'zł',
                 deliveryCost: 'Koszt dowozu',
                 extraCostPerMeal: 'Do każdego zamówienia',
+                save: 'Dodaj order',
                 validationMessages: {
+                    required: 'To pole jest wymagane',
                     provideRestaurant: 'Prosze podać lokal',
                     provideValidHour: 'Podaj poprawną godzinę',
                     provideMenuLink: 'Proszę podać odnośnik do menu',
@@ -65,7 +67,9 @@ module.exports = {
                 deliveryCost: 'Delivery cost',
                 currency: 'Ł',
                 extraCostPerMeal: 'Extra cost per meal',
+                save: 'Save order',
                 validationMessages: {
+                    required: 'This field is required',
                     provideRestaurant: 'Provide restaurant name',
                     provideValidHour: 'Provide valid hour',
                     provideMenuLink: 'Provide menu link',

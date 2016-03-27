@@ -3,7 +3,7 @@ import {Button, Input, Row, Col} from 'react-bootstrap';
 import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
-import {validateMinimalLength, validateUrl, validateHour, validateMoney} from './orderFormValidator';
+import {requiredValidator, numberValidator, hourValidator, urlValidator, minimalLengthValidator} from './orderFormValidators';
 import {mapOrderStateToOrder} from './orderMapper';
 
 const NewOrderForm = React.createClass({
@@ -15,107 +15,68 @@ const NewOrderForm = React.createClass({
     getInitialState () {
         return {
             restaurant: {
-                text: '',
-                isValid: true
+                text: ''
             },
             deadline: {
-                text: '',
-                isValid: true
+                text: ''
             },
             deliveryTime: {
-                text: '',
-                isValid: true
+                text: ''
             },
             menu: {
-                text: '',
-                isValid: true
+                text: ''
             },
             description: {
                 text: ''
             },
             password: {
-                text: '',
-                isValid: true
+                text: ''
             },
             passwordRepeat: {
-                text: '',
-                isValid: true
+                text: ''
             },
             author: {
-                text: '',
-                isValid: true
+                text: ''
             },
             deliveryCost: {
-                text: '',
-                isValid: true
+                text: ''
             },
             extraCostPerMeal: {
-                text: '',
-                isValid: true
+                text: ''
             }
         };
     },
 
-    handleFieldChangeWithValidator (id, value, isValid) {
-        this.setState(oldState => {
-            oldState[id] = {
-                text: value,
-                isValid: isValid
-            };
-        });
-    },
-
-    handleHourChange (event) {
+    handleTextChange (event) {
         const {id, value} = event.target;
-        this.handleFieldChangeWithValidator(id, value, validateHour(value));
-    },
-
-    handleTextChange (event, isFieldRequired) {
-        const {id, value} = event.target;
-        const isValid = isFieldRequired ? validateMinimalLength(value, 1) : true;
-        this.handleFieldChangeWithValidator(id, value, isValid);
-    },
-
-    handleRequiredTextChange (event) {
-        this.handleTextChange(event, true);
-    },
-
-    handleMenuChange (event) {
-        const {id, value} = event.target;
-        const isValid = validateMinimalLength(value, 1) && validateUrl(value);
-        this.handleFieldChangeWithValidator(id, value, isValid);
-    },
-
-    handlePasswordChange (event) {
-        const {id, value} = event.target;
-        this.handleFieldChangeWithValidator(id, value, validateMinimalLength(value, 6));
-    },
-
-    handleConfirmPasswordChange (event) {
-        const {id, value} = event.target;
-        this.handleFieldChangeWithValidator(id, value, this.state.password.text === value);
-    },
-
-    handleMoneyChange (event, isRequired) {
-        const {id, value} = event.target;
-        let isValid = false;
-        if (isRequired && validateMoney(value)) {
-            isValid = true;
-        }
-
-        if (!isRequired && validateMinimalLength(value, 1) && validateMoney(value)) {
-            isValid = true;
-        }
-
-        this.handleFieldChangeWithValidator(id, value, isValid);
-    },
-
-    handleRequiredMoneyChange (event) {
-        this.handleMoneyChange(event, true);
+        this.handleValueUpdate(id, value);
     },
 
     handleSubmit () {
         this.props.dispatch(addNewOrder(mapOrderStateToOrder(this.state)));
+    },
+
+    onChange (id, value) {
+        this.setState(oldState => {
+            oldState[id] = value;
+        });
+    },
+
+    handleValueUpdate (id, newText, validationMessage) {
+        this.setState(oldState => {
+            const newState = {...oldState};
+            newState[id] = {
+                text: newText,
+                isValid: validationMessage ? false : true,
+                validationMessage
+            };
+
+            return newState;
+        });
+    },
+
+    passwordRepeatedCorrectlyValidator (validationMessage) {
+        return repeatedPasswordValue => repeatedPasswordValue === this.state.password.text ? null : validationMessage;
     },
 
     render () {
@@ -126,37 +87,46 @@ const NewOrderForm = React.createClass({
                         <ValidatedInput
                             id="restaurant"
                             label={this.props.resources.restaurant}
-                            onChange={this.handleRequiredTextChange}
                             placeholder={this.props.resources.restaurant}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideRestaurant}
+                            updateValue={this.handleValueUpdate.bind(null, 'restaurant')}
+                            validators={[requiredValidator(this.props.resources.validationMessages.required)]}
                             value={this.state.restaurant}
                         />
                         <ValidatedInput
                             id="deadline"
                             label={this.props.resources.orderingAt}
-                            onChange={this.handleHourChange}
                             placeholder={this.props.resources.orderingAt}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideValidHour}
+                            updateValue={this.handleValueUpdate.bind(null, 'deadline')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                hourValidator(this.props.resources.validationMessages.provideValidHour)
+                            ]}
                             value={this.state.deadline}
                         />
                         <ValidatedInput
                             id="deliveryTime"
                             label={this.props.resources.deliveryAt}
-                            onChange={this.handleHourChange}
                             placeholder={this.props.resources.deliveryAt}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideValidHour}
+                            updateValue={this.handleValueUpdate.bind(null, 'deliveryTime')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                hourValidator(this.props.resources.validationMessages.provideValidHour)
+                            ]}
                             value={this.state.deliveryTime}
                         />
                         <ValidatedInput
                             id="menu"
                             label={this.props.resources.menu}
-                            onChange={this.handleMenuChange}
                             placeholder={this.props.resources.menu}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideMenuLink}
+                            updateValue={this.handleValueUpdate.bind(null, 'menu')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                urlValidator(this.props.resources.validationMessages.provideMenuLink)
+                            ]}
                             value={this.state.menu}
                         />
                         <Input
@@ -169,52 +139,58 @@ const NewOrderForm = React.createClass({
                         <ValidatedInput
                             id="password"
                             label={this.props.resources.password}
-                            onChange={this.handlePasswordChange}
                             placeholder={this.props.resources.password}
                             type="password"
-                            validationMessage={this.props.resources.validationMessages.passwordTooShort}
+                            updateValue={this.handleValueUpdate.bind(null, 'password')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                minimalLengthValidator(6, this.props.resources.validationMessages.passwordTooShort)]}
                             value={this.state.password}
                         />
                         <ValidatedInput
                             id="passwordRepeat"
                             label={this.props.resources.passwordAgain}
-                            onChange={this.handleConfirmPasswordChange}
                             placeholder={this.props.resources.passwordAgain}
                             type="password"
-                            validationMessage={this.props.resources.validationMessages.passwordsDontMatch}
+                            updateValue={this.handleValueUpdate.bind(null, 'passwordRepeat')}
+                            validators={[this.passwordRepeatedCorrectlyValidator(this.props.resources.validationMessages.passwordsDontMatch)]}
                             value={this.state.passwordRepeat}
                         />
                         <ValidatedInput
                             id="author"
                             label={this.props.resources.author}
-                            onChange={this.handleRequiredTextChange}
                             placeholder={this.props.resources.author}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideAuthor}
+                            updateValue={this.handleValueUpdate.bind(null, 'author')}
+                            validators={[requiredValidator(this.props.resources.validationMessages.provideAuthor)]}
                             value={this.state.author}
                         />
                         <ValidatedInput
-                            addonAfter={this.props.resources.currency}
                             id="deliveryCost"
                             label={this.props.resources.deliveryCost}
-                            onChange={this.handleRequiredMoneyChange}
                             placeholder={this.props.resources.deliveryCost}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideValidDeliveryCost}
+                            updateValue={this.handleValueUpdate.bind(null, 'deliveryCost')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                numberValidator(this.props.resources.validationMessages.provideValidDeliveryCost)
+                            ]}
                             value={this.state.deliveryCost}
                         />
                         <ValidatedInput
-                            addonAfter={this.props.resources.currency}
                             id="extraCostPerMeal"
                             label={this.props.resources.extraCostPerMeal}
-                            onChange={this.handleMoneyChange}
                             placeholder={this.props.resources.extraCostPerMeal}
                             type="text"
-                            validationMessage={this.props.resources.validationMessages.provideValidExtraCostPerMeal}
+                            updateValue={this.handleValueUpdate.bind(null, 'extraCostPerMeal')}
+                            validators={[
+                                requiredValidator(this.props.resources.validationMessages.required),
+                                numberValidator(this.props.resources.validationMessages.provideValidExtraCostPerMeal)
+                            ]}
                             value={this.state.extraCostPerMeal}
                         />
                         <Button onClick={this.handleSubmit} type="button">
-                            Save
+                            {this.props.resources.save}
                         </Button>
                     </form>
                 </Col>
