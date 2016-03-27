@@ -41,9 +41,9 @@ const ValidatedInput = React.createClass({
             return null;
         }
 
-        const {validationMessage} = this.props.value;
+        const {errorMessage} = this.props.value;
 
-        if (validationMessage) {
+        if (errorMessage) {
             return 'error';
         }
 
@@ -56,7 +56,7 @@ const ValidatedInput = React.createClass({
                 bsStyle={this.validationBsStyle()}
                 groupClassName="group-class"
                 hasFeedback
-                help={this.props.value.validationMessage}
+                help={this.props.value.errorMessage}
                 id={this.props.id}
                 label={this.props.label}
                 labelClassName="label-class"

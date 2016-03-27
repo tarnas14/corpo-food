@@ -69,12 +69,12 @@ const NewOrderForm = React.createClass({
         });
     },
 
-    handleValueUpdate (id, newText, validationMessage) {
+    handleValueUpdate (id, newText, errorMessage) {
         this.setState(oldState => {
             const newState = {...oldState};
             newState[id] = {
                 text: newText,
-                validationMessage
+                errorMessage
             };
 
             return newState;
