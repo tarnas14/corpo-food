@@ -6,6 +6,7 @@ const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
 const mapHourToDate = require('../services/dateManipulation').mapHourToDate;
 const errorsHandler = require('../services/errorsHandler');
+const getBestMatchingResources = require('../localizationContent').getBestMatchingResources;
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
@@ -79,7 +80,7 @@ exports.create = (req, res) => {
             res.status(HttpStatus.BAD_REQUEST);
             res.send({
                 message: error.message,
-                validationErrors: errorsHandler(error.errors)
+                validationErrors: errorsHandler(error.errors, getBestMatchingResources(req).schemaValidation.order)
             });
 
             return;

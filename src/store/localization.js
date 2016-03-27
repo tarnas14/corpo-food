@@ -1,4 +1,4 @@
-import content from '../localizationContent.js';
+import {resources, defaultLocale} from '../localizationContent.js';
 
 const localization = (state, action) => {
     switch (action.type) {
@@ -7,19 +7,19 @@ const localization = (state, action) => {
             return state;
         }
 
-        if (!content.resources.hasOwnProperty(action.locale)) {
+        if (!resources.hasOwnProperty(action.locale)) {
             throw 'no such locale as ' + action.locale;
         }
 
         return {
             currentLocale: action.locale,
-            resources: {...content.resources[action.locale]}
+            resources: {...resources[action.locale]}
         };
     default:
         if (!state) {
             return {
-                currentLocale: content.defaultLocale,
-                resources: {...content.resources[content.defaultLocale]}
+                currentLocale: defaultLocale,
+                resources: {...resources[defaultLocale]}
             };
         }
 

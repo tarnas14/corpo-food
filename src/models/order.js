@@ -7,22 +7,22 @@ const orderSchema = new Schema({
     deadline: {
         type: Date,
         deafult: Date.now(),
-        required: [true, 'Nie zapomnij o dedlajnie!'],
-        min: [Date.now(), 'Dedlajn nie może być w przeszłości']
+        required: [true, 'deadline.required'],
+        min: [Date.now(), 'deadline.min']
     },
     deliveryTime: {
         type: Date,
-        required: [true, 'Czas dostawy jest wymagan!'],
-        min: [Date.now(), 'Czas dostawy nie może być w przeszłości']
+        required: [true, 'deliveryTime.required'],
+        min: [Date.now(), 'deliveryTime.min']
     },
     restaurant: {
         type: String,
         maxlength: 25,
-        required: [true, 'Nazwa lokalu jest wymagana!']
+        required: [true, 'restaurant.required']
     },
     menu: {
         type: String,
-        required: [true, 'Menu jest wymagane! Wrzuć linka do menu.']
+        required: [true, 'menu.required']
     },
     description: {
         type: String
@@ -30,11 +30,11 @@ const orderSchema = new Schema({
     password: {
         set: generateHash,
         type: String,
-        required: [true, 'Podaj hasło do edycji.']
+        required: [true, 'password.required']
     },
     author: {
         type: String,
-        required: [true, 'Podaj imię!']
+        required: [true, 'author.required']
     },
     deliveryCost: {
         type: Number,
