@@ -20,7 +20,7 @@ const Dashboard = React.createClass({
                     return {
                         ...orderWithStringDates,
                         deadline: new Date(orderWithStringDates.deadline)
-                    }
+                    };
                 }).filter(order => {
                     const today = new Date();
                     return today.getFullYear() === order.deadline.getFullYear() &&
@@ -36,7 +36,7 @@ const Dashboard = React.createClass({
         return this.props.orders.map(order => <OrderTile key={order.id} {...order} />);
     },
 
-    _getTileContainerStyles() {
+    _getTileContainerStyles () {
         return {
             marginTop: '1em'
         };

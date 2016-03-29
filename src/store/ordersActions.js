@@ -2,6 +2,7 @@ import OrderState from '../enums/orderState';
 import {addError} from './errorsActions';
 import {mapHourToDate} from '../services/dateManipulation';
 import {browserHistory} from 'react-router';
+import {checkFetchForError} from '../services/errorHandling';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -13,16 +14,7 @@ export function addNewOrder (order, validationErrorsCallback) {
             },
             body: JSON.stringify(order)
         })
-        .then(response => {
-            if (response.status >= 200 && response.status < 300) {
-                return response;
-            }
-
-            const error = new Error(response.statusText);
-            error.apiError = true;
-            error.response = response;
-            throw error;
-        })
+        .then(checkFetchForError)
         .then(response => response.json())
         .then(createdOrderId => {
             const newOrder = {
@@ -43,9 +35,9 @@ export function addNewOrder (order, validationErrorsCallback) {
                     if (data.validationErrors.length) {
                         validationErrorsCallback(data.validationErrors);
                     }
-
-                    return;
                 });
+
+                return;
             }
 
             console.log('caught not API-related error', error);

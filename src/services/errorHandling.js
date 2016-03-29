@@ -1,7 +1,7 @@
 'use strict';
 const Polyglot = require('node-polyglot');
 
-module.exports = (errors, errorResources) => {
+module.exports.handleMongoValidationErrors = (errors, errorResources) => {
     const polyglot = new Polyglot({
         phrases: errorResources
     });
@@ -17,4 +17,15 @@ module.exports = (errors, errorResources) => {
     }
 
     return errorsDictionary;
+};
+
+module.exports.checkFetchForError = (response) => {
+    if (response.status >= 200 && response.status < 300) {
+        return response;
+    }
+
+    const error = new Error(response.statusText);
+    error.apiError = true;
+    error.response = response;
+    throw error;
 };
