@@ -36,6 +36,7 @@ exports.get = (req, res) => {
         if (error) {
             Logger.info(error.message);
             res.sendStatus(HttpStatus.BAD_REQUEST);
+
             return;
         }
 

@@ -1,5 +1,7 @@
+'use strict';
+
 let errorIdSource = 0;
-export function addError (message) {
+module.exports.addError = message => {
     return {
         type: 'ADD_ERROR',
         error: {
@@ -7,11 +9,11 @@ export function addError (message) {
             id: errorIdSource++
         }
     };
-}
+};
 
-export function dismissError (errorId) {
+module.exports.dismissError = errorId => {
     return {
         type: 'DISMISS_ERROR',
         errorId
     };
-}
+};

@@ -1,5 +1,6 @@
 'use strict';
 const Polyglot = require('node-polyglot');
+const addError = require('../store/errorsActions').addError;
 
 module.exports.handleMongoValidationErrors = (errors, errorResources) => {
     const polyglot = new Polyglot({
@@ -28,4 +29,29 @@ module.exports.checkFetchForErrors = (response) => {
     error.apiError = true;
     error.response = response;
     throw error;
+};
+
+module.exports.handleFetchErrors = (error, dispatch, validationErrorsCallback) => {
+    if (error.apiError) {
+        error.response.json()
+        .then(data => {
+            dispatch(addError(data.message));
+
+            const callbackPresent = validationErrorsCallback;
+            if (callbackPresent && data.validationErrors.length) {
+                validationErrorsCallback(data.validationErrors);
+            }
+        })
+        .catch(() => {
+            /*
+                if server returned just sendStatus(BAD_REQUEST) - the .json() will fail as the request body is not an object,
+                so we are just showing the generic statusText error
+            */
+            dispatch(addError(error.toString()));
+        });
+
+        return;
+    }
+
+    console.log('caught not API-related error', error);
 };

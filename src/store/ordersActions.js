@@ -1,8 +1,7 @@
 import OrderState from '../enums/orderState';
-import {addError} from './errorsActions';
 import {mapHourToDate} from '../services/dateManipulation';
 import {browserHistory} from 'react-router';
-import {checkFetchForErrors} from '../services/errorHandling';
+import {checkFetchForErrors, handleFetchErrors} from '../services/errorHandling';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -28,20 +27,7 @@ export function addNewOrder (order, validationErrorsCallback) {
             dispatch({type: 'ADD_NEW_ORDER', order: newOrder});
             browserHistory.push('/');
         })
-        .catch(error => {
-            if (error.apiError) {
-                error.response.json().then(data => {
-                    dispatch(addError(data.message));
-                    if (data.validationErrors.length) {
-                        validationErrorsCallback(data.validationErrors);
-                    }
-                });
-
-                return;
-            }
-
-            console.log('caught not API-related error', error);
-        });
+        .catch(error => handleFetchErrors(error, dispatch, validationErrorsCallback));
     };
 }
 
@@ -67,13 +53,14 @@ export function hydrateOrders () {
 
             dispatch({type: 'HYDRATE_ORDERS', orders: ordersToday});
         })
-        .catch(error => console.log(error));
+        .catch(error => handleFetchErrors(error, dispatch));
     };
 }
 
 export function getOrder (id) {
     return dispatch => {
         fetch(`/api/orders/${id}`)
+            .then(checkFetchForErrors)
             .then(response => response.json())
             .then(order => {
                 const activeOrder = Object.assign(order, {
@@ -82,8 +69,6 @@ export function getOrder (id) {
                 });
                 dispatch({type: 'GET_ORDER', activeOrder});
             })
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => handleFetchErrors(error, dispatch));
     };
 }
