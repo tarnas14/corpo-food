@@ -19,7 +19,7 @@ module.exports.handleMongoValidationErrors = (errors, errorResources) => {
     return errorsDictionary;
 };
 
-module.exports.checkFetchForError = (response) => {
+module.exports.checkFetchForErrors = (response) => {
     if (response.status >= 200 && response.status < 300) {
         return response;
     }

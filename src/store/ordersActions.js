@@ -2,7 +2,7 @@ import OrderState from '../enums/orderState';
 import {addError} from './errorsActions';
 import {mapHourToDate} from '../services/dateManipulation';
 import {browserHistory} from 'react-router';
-import {checkFetchForError} from '../services/errorHandling';
+import {checkFetchForErrors} from '../services/errorHandling';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -14,7 +14,7 @@ export function addNewOrder (order, validationErrorsCallback) {
             },
             body: JSON.stringify(order)
         })
-        .then(checkFetchForError)
+        .then(checkFetchForErrors)
         .then(response => response.json())
         .then(createdOrderId => {
             const newOrder = {
@@ -45,10 +45,29 @@ export function addNewOrder (order, validationErrorsCallback) {
     };
 }
 
-export function hydrateOrders (orders) {
-    return {
-        type: 'HYDRATE_ORDERS',
-        orders
+export function hydrateOrders () {
+    return dispatch => {
+        fetch('/api/orders')
+        .then(checkFetchForErrors)
+        .then(response => response.json())
+        .then(orders => {
+            const ordersToday = orders.map(orderWithStringDates => {
+                return {
+                    ...orderWithStringDates,
+                    deadline: new Date(orderWithStringDates.deadline)
+                };
+            })
+            .filter(order => {
+                const today = new Date();
+
+                return today.getFullYear() === order.deadline.getFullYear() &&
+                    today.getMonth() === order.deadline.getMonth() &&
+                    today.getDate() === order.deadline.getDate();
+            });
+
+            dispatch({type: 'HYDRATE_ORDERS', orders: ordersToday});
+        })
+        .catch(error => console.log(error));
     };
 }
 
