@@ -13,6 +13,8 @@ import OrderDetails from './orderDetails';
 import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
 import changeLocale from '../store/localizationActions';
+import {errors} from '../store/errors';
+import Errors from './errors';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -20,14 +22,17 @@ const store = createStore(
         orders,
         activeOrder,
         routing: routerReducer,
-        localization
+        localization,
+        errors
     }),
     applyMiddleware(thunkMiddleware)
 );
 
 const history = syncHistoryWithStore(browserHistory, store);
 
-const App = connect(state => ({resources: state.localization.resources.app}))(
+const App = connect(state => ({
+    resources: state.localization.resources.app
+}))(
     React.createClass({
         propTypes: {
             children: React.PropTypes.object,
@@ -45,6 +50,7 @@ const App = connect(state => ({resources: state.localization.resources.app}))(
                             </PageHeader>
                         </Col>
                     </Row>
+                    <Errors />
                     <Row>
                         <Col xs={12}>
                             {this.props.children}

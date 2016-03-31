@@ -5,7 +5,8 @@ const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
 const mapHourToDate = require('../services/dateManipulation').mapHourToDate;
-const errorsHandler = require('../services/errorsHandler');
+const handleMongoValidationErrors = require('../services/errorHandling').handleMongoValidationErrors;
+const getBestMatchingResources = require('../localizationContent').getBestMatchingResources;
 
 exports.list = (req, res) => {
     Order.find({}, (error, orders) => {
@@ -35,6 +36,7 @@ exports.get = (req, res) => {
         if (error) {
             Logger.info(error.message);
             res.sendStatus(HttpStatus.BAD_REQUEST);
+
             return;
         }
 
@@ -77,11 +79,16 @@ exports.create = (req, res) => {
         if (error) {
             Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);
-            res.send(errorsHandler(error.errors));
+            res.send({
+                message: error.message,
+                validationErrors: handleMongoValidationErrors(error.errors, getBestMatchingResources(req).schemaValidation.order)
+            });
+
             return;
         }
 
-        res.sendStatus(HttpStatus.OK);
+        res.status(HttpStatus.OK);
+        res.send(order._id);
     });
 };
 
@@ -98,7 +105,8 @@ exports.addMeal = (req, res) => {
         if (validationError) {
             Logger.info(validationError.message);
             res.status(HttpStatus.BAD_REQUEST);
-            res.send(errorsHandler(validationError.errors));
+            res.send(handleMongoValidationErrors(validationError.errors));
+
             return;
         }
 

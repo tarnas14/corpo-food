@@ -2,48 +2,44 @@ import React from 'react';
 import {Input} from 'react-bootstrap';
 
 const ValidatedInput = React.createClass({
-
     propTypes: {
         id: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
-        onChange: React.PropTypes.func.isRequired,
         placeholder: React.PropTypes.string.isRequired,
         type: React.PropTypes.string.isRequired,
-        validationMessage: React.PropTypes.string.isRequired,
+        updateValue: React.PropTypes.func.isRequired,
+        validators: React.PropTypes.array,
         value: React.PropTypes.object.isRequired
     },
+    handleOnChange (event) {
+        const {value} = event.target;
+        if (this.props.validators && this.props.validators.length) {
+            for (let i = 0; i < this.props.validators.length; ++i) {
+                const validator = this.props.validators[i];
+                const validationMessage = validator(value);
 
-    getInitialState () {
-        return {
-            touched: false
-        };
-    },
+                if (validationMessage) {
+                    this.props.updateValue(value, validationMessage);
+                    return;
+                }
+            }
+        }
 
-    handleChange (event) {
-        this.setState({touched: true});
-        this.props.onChange(event);
+        this.props.updateValue(value);
     },
 
     validationBsStyle () {
-        if (!this.state.touched) {
+        if (!this.props.value.touched) {
             return null;
         }
 
-        const {isValid} = this.props.value;
+        const {errorMessage} = this.props.value;
 
-        if (isValid) {
-            return 'success';
+        if (errorMessage) {
+            return 'error';
         }
 
-        return 'error';
-    },
-
-    getValidationMessage () {
-        const isValid = this.props.value.isValid;
-        if (isValid) {
-            return null;
-        }
-        return this.props.validationMessage;
+        return 'success';
     },
 
     render () {
@@ -52,11 +48,11 @@ const ValidatedInput = React.createClass({
                 bsStyle={this.validationBsStyle()}
                 groupClassName="group-class"
                 hasFeedback
-                help={this.getValidationMessage()}
+                help={this.props.value.errorMessage}
                 id={this.props.id}
                 label={this.props.label}
                 labelClassName="label-class"
-                onChange={this.handleChange}
+                onChange={this.handleOnChange}
                 placeholder={this.props.placeholder}
                 type={this.props.type}
                 value={this.props.value.text}
