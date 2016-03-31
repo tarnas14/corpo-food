@@ -5,6 +5,9 @@ import {Row, Col, Label, Button} from 'react-bootstrap';
 import OrderState from '../enums/orderState';
 import {browserHistory} from 'react-router';
 
+import io from 'socket.io-client';
+import {ChatMessage} from '../enums/chatMessageTypes';
+
 const OrderDetails = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
@@ -14,6 +17,11 @@ const OrderDetails = React.createClass({
 
     componentDidMount () {
         this.props.dispatch(getOrder(this.props.params.id));
+        const socket = io();
+        socket.emit(ChatMessage, 'hello!');
+        socket.on(ChatMessage, message => {
+            console.log(message);
+        })
     },
 
     _dateToString (date) {
