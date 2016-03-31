@@ -3,8 +3,8 @@ var webpack = require('webpack')
 
 module.exports = {
   entry: {
-    app: ['babel-polyfill', './src/components/app.jsx'],
-    vendor: ['react']
+    app: ['./src/components/app.jsx'],
+    vendor: ['react', 'react-dom', 'react-bootstrap', 'react-router', 'redux', 'react-redux', 'react-router-redux', 'redux-thunk']
   },
 
   output: {

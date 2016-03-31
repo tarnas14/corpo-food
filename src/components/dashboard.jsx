@@ -13,30 +13,14 @@ const Dashboard = React.createClass({
     },
 
     componentDidMount () {
-        fetch('/api/orders')
-            .then(response => response.json())
-            .then(orders => {
-                const ordersToday = orders.map(orderWithStringDates => {
-                    return {
-                        ...orderWithStringDates,
-                        deadline: new Date(orderWithStringDates.deadline)
-                    }
-                }).filter(order => {
-                    const today = new Date();
-                    return today.getFullYear() === order.deadline.getFullYear() &&
-                        today.getMonth() === order.deadline.getMonth() &&
-                        today.getDate() === order.deadline.getDate();
-                });
-
-                this.props.dispatch(hydrateOrders(ordersToday));
-            });
+        this.props.dispatch(hydrateOrders());
     },
 
     _renderOrderTiles () {
         return this.props.orders.map(order => <OrderTile key={order.id} {...order} />);
     },
 
-    _getTileContainerStyles() {
+    _getTileContainerStyles () {
         return {
             marginTop: '1em'
         };
