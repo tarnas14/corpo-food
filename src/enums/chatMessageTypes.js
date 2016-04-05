@@ -3,5 +3,6 @@ module.exports = {
     CONNECTION: 'connection',
 
     JOIN_ROOM: 'JOIN_ROOM',
-    ROOM_JOINED: 'ROOM_JOINED'
+    ROOM_JOINED: 'ROOM_JOINED',
+    CHAT_MESSAGE: 'CHAT_MESSAGE'
 };

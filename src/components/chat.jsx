@@ -1,9 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {hydrateMessages} from '../store/chatActions';
+import {hydrateMessages, sendMessage} from '../store/chatActions';
 
 import io from 'socket.io-client';
-import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED} from '../enums/chatMessageTypes';
+import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
 
 const Chat = React.createClass({
     propTypes: {
@@ -12,19 +12,33 @@ const Chat = React.createClass({
         orderId: React.PropTypes.string.isRequired
     },
 
+    getInitialState () {
+        return {
+            socket: io()
+        }
+    },
+
     componentDidMount () {
-        const socket = io();
+        const {socket} = this.state;
+
         socket.on(CLIENT_CONNECTED, () => {
             socket.emit(JOIN_ROOM, this.props.orderId);
         });
-        socket.on(ROOM_JOINED, (messages) => {
+        socket.on(ROOM_JOINED, messages => {
             this.props.dispatch(hydrateMessages(messages));
         });
+        socket.on(CHAT_MESSAGE, message => {
+            this.props.dispatch(sendMessage(message, this.props.orderId));
+        });
+    },
 
-        //socket.on(ChatMessage, message => {
-        //    console.log('chat message:', message);
-        //});
-        //socket.emit(ChatMessage, 'hello!');
+    sendMessage (event) {
+        if (event.charCode === 13) {
+            const message = {user: 'random squirrel', message: event.target.value};
+
+            this.state.socket.emit(CHAT_MESSAGE, {...message, roomId: this.props.orderId});
+            this.props.dispatch(sendMessage(message, this.props.orderId));
+        }
     },
 
     render () {
@@ -39,6 +53,7 @@ const Chat = React.createClass({
                         </div>
                     )
                 )}
+                <input type="text" onKeyPress={this.sendMessage} />
             </div>
         );
     }
