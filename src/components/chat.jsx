@@ -1,20 +1,26 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {getMessages} from '../store/chatActions';
+import {hydrateMessages} from '../store/chatActions';
 
 import io from 'socket.io-client';
-import {ChatMessage} from '../enums/chatMessageTypes';
+import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED} from '../enums/chatMessageTypes';
 
 const Chat = React.createClass({
     propTypes: {
         chatMessages: React.PropTypes.array.isRequired,
+        dispatch: React.PropTypes.func.isRequired,
         orderId: React.PropTypes.string.isRequired
     },
 
     componentDidMount () {
         const socket = io();
+        socket.on(CLIENT_CONNECTED, () => {
+            socket.emit(JOIN_ROOM, this.props.orderId);
+        });
+        socket.on(ROOM_JOINED, (messages) => {
+            this.props.dispatch(hydrateMessages(messages));
+        });
 
-        this.props.dispatch(getMessages(this.props.orderId));
         //socket.on(ChatMessage, message => {
         //    console.log('chat message:', message);
         //});

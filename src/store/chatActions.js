@@ -1,9 +1,5 @@
-export const getMessages = orderId => {
+export const hydrateMessages = messages => {
     return dispatch => {
-        const dummyMessages = [
-            {user: 'janek', message: 'hello world'},
-            {user: 'roman', message: 'hello janek'}
-        ];
-        dispatch({type: 'GET_MESSAGES', messages: dummyMessages});
+        dispatch({type: 'GET_MESSAGES', messages: messages});
     };
 };
