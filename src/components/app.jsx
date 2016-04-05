@@ -10,11 +10,13 @@ import thunkMiddleware from 'redux-thunk';
 import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
 import OrderDetails from './orderDetails';
+import Errors from './errors';
+
 import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
 import changeLocale from '../store/localizationActions';
 import {errors} from '../store/errors';
-import Errors from './errors';
+import chatMessages from '../store/chatMessages';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -23,7 +25,8 @@ const store = createStore(
         activeOrder,
         routing: routerReducer,
         localization,
-        errors
+        errors,
+        chatMessages
     }),
     applyMiddleware(thunkMiddleware)
 );

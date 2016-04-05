@@ -4,9 +4,7 @@ import {getOrder} from '../store/ordersActions';
 import {Row, Col, Label, Button} from 'react-bootstrap';
 import OrderState from '../enums/orderState';
 import {browserHistory} from 'react-router';
-
-import io from 'socket.io-client';
-import {ChatMessage} from '../enums/chatMessageTypes';
+import Chat from './chat';
 
 const OrderDetails = React.createClass({
     propTypes: {
@@ -17,11 +15,6 @@ const OrderDetails = React.createClass({
 
     componentDidMount () {
         this.props.dispatch(getOrder(this.props.params.id));
-        const socket = io();
-        socket.emit(ChatMessage, 'hello!');
-        socket.on(ChatMessage, message => {
-            console.log(message);
-        })
     },
 
     _dateToString (date) {
@@ -62,6 +55,7 @@ const OrderDetails = React.createClass({
                         <h3>Opis</h3>
                         <p>{order.description}</p>
                     </div>
+                    {order.id ? <Chat orderId={order.id} /> : null}
                 </Col>
             </Row>
         );

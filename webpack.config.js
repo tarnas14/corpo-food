@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         app: ['./src/components/app.jsx'],
-        vendor: ['react', 'react-dom', 'react-bootstrap', 'react-router', 'redux', 'react-redux', 'react-router-redux', 'redux-thunk']
+        vendor: ['react', 'react-dom', 'react-bootstrap', 'react-router', 'redux', 'react-redux', 'react-router-redux', 'redux-thunk', 'node-polyglot', 'locale', 'socket.io-client']
     },
 
     output: {
