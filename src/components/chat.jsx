@@ -15,7 +15,7 @@ const Chat = React.createClass({
     getInitialState () {
         return {
             socket: io()
-        }
+        };
     },
 
     componentDidMount () {
@@ -36,8 +36,9 @@ const Chat = React.createClass({
         if (event.charCode === 13) {
             const message = {user: 'random squirrel', message: event.target.value};
 
-            this.state.socket.emit(CHAT_MESSAGE, {...message, roomId: this.props.orderId});
+            this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
             this.props.dispatch(sendMessage(message, this.props.orderId));
+            this.textfield.value = '';
         }
     },
 
@@ -53,7 +54,11 @@ const Chat = React.createClass({
                         </div>
                     )
                 )}
-                <input type="text" onKeyPress={this.sendMessage} />
+                <input
+                    onKeyPress={this.sendMessage}
+                    ref={ref => (this.textfield = ref)}
+                    type="text"
+                />
             </div>
         );
     }
