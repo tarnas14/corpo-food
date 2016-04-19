@@ -50,7 +50,12 @@ const Chat = React.createClass({
         return (
             <div>
                 <h3>Chat</h3>
-                <Panel>
+                <Panel
+                    style={{
+                        height: '400px',
+                        overflowY: 'scroll'
+                    }}
+                >
                     {chatMessages.map(
                         message => (
                             <div
