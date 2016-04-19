@@ -34,7 +34,7 @@
     "mongoose": "^4.4.8",
     "node-polyglot": "^1.0.0",
     "react": "^0.14.7",
-    "react-bootstrap": "^0.28.3",
+    "react-bootstrap": "^0.29.0",
     "react-dom": "^0.14.7",
     "react-redux": "^4.4.1",
     "react-router": "^2.0.1",

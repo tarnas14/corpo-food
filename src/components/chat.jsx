@@ -1,9 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {FormGroup, FormControl, InputGroup, Panel} from 'react-bootstrap';
 import {hydrateMessages, sendMessage} from '../store/chatActions';
 
 import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
+
+const randomUsernames = ['squirrel', 'cat', 'dog', 'horse', 'bird', 'hamster', 'snake', 'elephant', 'lion', 'panda'];
 
 const Chat = React.createClass({
     propTypes: {
@@ -14,7 +17,8 @@ const Chat = React.createClass({
 
     getInitialState () {
         return {
-            socket: io()
+            socket: io(),
+            user: randomUsernames[Math.floor(Math.random() * randomUsernames.length)]
         };
     },
 
@@ -34,11 +38,10 @@ const Chat = React.createClass({
 
     sendMessage (event) {
         if (event.charCode === 13) {
-            const message = {user: 'random squirrel', message: event.target.value};
+            const message = {user: this.state.user, message: event.target.value};
 
             this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
-            this.props.dispatch(sendMessage(message, this.props.orderId));
-            this.textfield.value = '';
+            event.target.value = '';
         }
     },
 
@@ -46,19 +49,29 @@ const Chat = React.createClass({
         const {chatMessages} = this.props;
         return (
             <div>
-                {chatMessages.map(
-                    message => (
-                        <div key={`${message.user}${message.message}`}>
-                            {`${message.user}:`}<br />
-                            {`${message.message}`}
-                        </div>
-                    )
-                )}
-                <input
-                    onKeyPress={this.sendMessage}
-                    ref={ref => (this.textfield = ref)}
-                    type="text"
-                />
+                <h3>Chat</h3>
+                <Panel>
+                    {chatMessages.map(
+                        message => (
+                            <div
+                                key={message._id}
+                                style={{margin: '0.5em 0'}}
+                            >
+                                <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
+                                <span>{`${message.message}`}</span>
+                            </div>
+                        )
+                    )}
+                </Panel>
+                <FormGroup>
+                    <InputGroup>
+                        <InputGroup.Addon>Message:</InputGroup.Addon>
+                        <FormControl
+                            onKeyPress={this.sendMessage}
+                            type="text"
+                        />
+                    </InputGroup>
+                </FormGroup>
             </div>
         );
     }

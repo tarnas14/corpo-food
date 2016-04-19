@@ -36,7 +36,7 @@ module.exports = {
                         return;
                     }
 
-                    socket.to(message.orderId).emit(CHAT_MESSAGE, message);
+                    io.to(message.orderId).emit(CHAT_MESSAGE, newMessage);
                 });
             });
         });
