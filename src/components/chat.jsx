@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {FormGroup, FormControl, InputGroup, Panel} from 'react-bootstrap';
-import {hydrateMessages, sendMessage} from '../store/chatActions';
+import {hydrateMessages, newMessage} from '../store/chatActions';
 
 import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
@@ -32,7 +32,7 @@ const Chat = React.createClass({
             this.props.dispatch(hydrateMessages(messages));
         });
         socket.on(CHAT_MESSAGE, message => {
-            this.props.dispatch(sendMessage(message, this.props.orderId));
+            this.props.dispatch(newMessage(message, this.props.orderId));
         });
     },
 
