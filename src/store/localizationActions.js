@@ -1,4 +1,4 @@
-const changeLocale = (locale) => {
+const changeLocale = locale => {
     return {
         type: 'CHANGE_LOCALE',
         locale
