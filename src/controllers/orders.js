@@ -75,7 +75,7 @@ exports.create = (req, res) => {
 
     const order = new Order(mappedOrder);
 
-    order.save((error) => {
+    order.save(error => {
         if (error) {
             Logger.info(error.message);
             res.status(HttpStatus.BAD_REQUEST);

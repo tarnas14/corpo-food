@@ -4,6 +4,7 @@ import {getOrder} from '../store/ordersActions';
 import {Row, Col, Label, Button} from 'react-bootstrap';
 import OrderState from '../enums/orderState';
 import {browserHistory} from 'react-router';
+import Chat from './chat';
 
 const OrderDetails = React.createClass({
     propTypes: {
@@ -54,6 +55,7 @@ const OrderDetails = React.createClass({
                         <h3>Opis</h3>
                         <p>{order.description}</p>
                     </div>
+                    {order.id ? <Chat orderId={order.id} /> : null}
                 </Col>
             </Row>
         );
