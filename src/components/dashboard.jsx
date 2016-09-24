@@ -1,5 +1,4 @@
 import React from 'react';
-import {Row, Col, Alert, Button} from 'react-bootstrap';
 import {Link} from 'react-router';
 import OrderTile from './orderTile';
 import {connect} from 'react-redux';
@@ -29,21 +28,21 @@ const Dashboard = React.createClass({
     render () {
         const noOrdersYet = this.props.orders.length
             ? null
-            : <Alert bsStyle="warning">{this.props.resources.noOrdersYet}</Alert>;
+            : <div className="alert alert-warning">{this.props.resources.noOrdersYet}</div>;
 
         return (
             <div className="Dashboard">
-                <Row>
-                    <Col xs={12}>
+                <div className="row">
+                    <div className="col-xs-12">
                         <Link className="add-order-cta" to={'/newOrder'}>
-                            <Button block bsSize="large" bsStyle="success">{this.props.resources.addOrder}</Button>
+                            <button className="btn btn-success btn-block btn-lg">{this.props.resources.addOrder}</button>
                         </Link>
-                    </Col>
-                </Row>
+                    </div>
+                </div>
                 {noOrdersYet}
-                <Row style={this._getTileContainerStyles()}>
+                <div className="row" style={this._getTileContainerStyles()}>
                     {this._renderOrderTiles()}
-                </Row>
+                </div>
             </div>
         );
     }

@@ -1,5 +1,4 @@
 import React from 'react';
-import {Input} from 'react-bootstrap';
 
 const ValidatedInput = React.createClass({
     propTypes: {
@@ -36,27 +35,26 @@ const ValidatedInput = React.createClass({
         const {errorMessage} = this.props.value;
 
         if (errorMessage) {
-            return 'error';
+            return 'has-error';
         }
 
-        return 'success';
+        return 'has-success';
     },
 
     render () {
         return (
-            <Input
-                bsStyle={this.validationBsStyle()}
-                groupClassName="group-class"
-                hasFeedback
-                help={this.props.value.errorMessage}
-                id={this.props.id}
-                label={this.props.label}
-                labelClassName="label-class"
-                onChange={this.handleOnChange}
-                placeholder={this.props.placeholder}
-                type={this.props.type}
-                value={this.props.value.text}
-            />
+            <div className={`form-group ${this.validationBsStyle()}`}>
+                <label htmlFor={this.props.id}>{this.props.label}</label>
+                <input
+                    className="form-control"
+                    id={this.props.id}
+                    onChange={this.handleOnChange}
+                    placeholder={this.props.placeholder}
+                    type={this.props.type}
+                    value={this.props.value.text}
+                />
+                <p className="help-block">{this.props.value.errorMessage}</p>
+            </div>
         );
     }
 });

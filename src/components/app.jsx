@@ -1,6 +1,5 @@
 import React from 'react';
 import DOM from 'react-dom';
-import {Grid, Row, Col, PageHeader} from 'react-bootstrap';
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {Provider, connect} from 'react-redux';
 import {browserHistory, Router, Route, IndexRoute} from 'react-router';
@@ -44,22 +43,22 @@ const App = connect(state => ({
 
         render () {
             return (
-                <Grid>
-                    <Row>
-                        <Col xs={12}>
-                            <PageHeader>
+                <div className="container">
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <h1>
                                 {this.props.resources.appName}
                                 <small>{this.props.resources.uniqueValueProposition}</small>
-                            </PageHeader>
-                        </Col>
-                    </Row>
+                            </h1>
+                        </div>
+                    </div>
                     <Errors />
-                    <Row>
-                        <Col xs={12}>
+                    <div className="row">
+                        <div className="col-xs-12">
                             {this.props.children}
-                        </Col>
-                    </Row>
-                </Grid>
+                        </div>
+                    </div>
+                </div>
             );
         }
     })

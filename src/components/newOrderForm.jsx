@@ -1,5 +1,4 @@
 import React from 'react';
-import {Button, Input, Row, Col} from 'react-bootstrap';
 import ValidatedInput from './validatedInput';
 import {connect} from 'react-redux';
 import {addNewOrder} from '../store/ordersActions';
@@ -88,8 +87,8 @@ const NewOrderForm = React.createClass({
 
     render () {
         return (
-            <Row >
-                <Col xs={8}>
+            <div className="row">
+                <div className="col-xs-8">
                     <form>
                         <ValidatedInput
                             id="restaurant"
@@ -136,13 +135,16 @@ const NewOrderForm = React.createClass({
                             ]}
                             value={this.state.menu}
                         />
-                        <Input
-                            id="description"
-                            label={this.props.resources.description}
-                            onChange={this.handleTextChange}
-                            placeholder={this.props.resources.description}
-                            type="textarea"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="description">{this.props.resources.description}</label>
+                            <input
+                                id="description"
+                                className="form-control"
+                                onChange={this.handleTextChange}
+                                placeholder={this.props.resources.description}
+                                type="textarea"
+                            />
+                        </div>
                         <ValidatedInput
                             id="password"
                             label={this.props.resources.password}
@@ -196,12 +198,12 @@ const NewOrderForm = React.createClass({
                             ]}
                             value={this.state.extraCostPerMeal}
                         />
-                        <Button onClick={this.handleSubmit} type="button">
+                        <button onClick={this.handleSubmit} type="button" className="btn btn-primary">
                             {this.props.resources.save}
-                        </Button>
+                        </button>
                     </form>
-                </Col>
-            </Row>
+                </div>
+            </div>
         );
     }
 });
