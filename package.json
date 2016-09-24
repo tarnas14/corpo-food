@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node ./src/server.js",
+    "lint": "eslint . --ignore-path .gitignore --ignore-pattern webpack.config.js",
     "build:dev": "webpack --colors --watch"
   },
   "repository": {
