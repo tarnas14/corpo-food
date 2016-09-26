@@ -4,11 +4,13 @@ var webpack = require('webpack');
 module.exports = {
     entry: {
         app: ['./src/components/app.jsx'],
-        vendor: ['react', 'react-dom', 'react-bootstrap', 'react-router', 'redux', 'react-redux', 'react-router-redux', 'redux-thunk', 'node-polyglot', 'locale', 'socket.io-client']
+        vendor: ['react', 'react-dom',, 'react-router', 'redux', 'react-redux', 'react-router-redux', 'redux-thunk', 'node-polyglot', 'locale', 'socket.io-client', 'bootstrap-webpack!./bootstrap.config.js']
     },
 
     output: {
-        filename: './src/public/[name].js'
+        path: path.resolve(__dirname, './src/public/'),
+        filename: '[name].js',
+        publicPath: '/public/'
     },
 
     module: {
@@ -23,6 +25,22 @@ module.exports = {
                 ],
 
                 test: [/\.js$/, /\.jsx$/]
+            },
+            {
+                test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/font-woff&name=[name].[ext]'
+            },
+            {
+                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=application/octet-stream&name=[name].[ext]'
+            },
+            {
+                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'file?name=[name].[ext]'
+            },
+            {
+                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+                loader: 'url?limit=10000&mimetype=image/svg+xml&name=[name].[ext]'
             }
         ]
     },
@@ -34,7 +52,13 @@ module.exports = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor',
-            filename: './src/public/vendor.js'
+            filename: 'vendor.js'
+        }),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery',
+            'window.jQuery': 'jquery',
+            'root.jQuery': 'jquery'
         })
     ],
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {FormGroup, FormControl, InputGroup, Panel} from 'react-bootstrap';
 import {hydrateMessages, newMessage} from '../store/chatActions';
 
 import io from 'socket.io-client';
@@ -50,33 +49,37 @@ const Chat = React.createClass({
         return (
             <div>
                 <h3>Chat</h3>
-                <Panel
+                <div
+                    className="panel panel-default"
                     style={{
                         height: '400px',
                         overflowY: 'scroll'
                     }}
                 >
-                    {chatMessages.map(
-                        message => (
-                            <div
-                                key={message._id}
-                                style={{margin: '0.5em 0'}}
-                            >
-                                <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
-                                <span>{`${message.message}`}</span>
-                            </div>
-                        )
-                    )}
-                </Panel>
-                <FormGroup>
-                    <InputGroup>
-                        <InputGroup.Addon>Message:</InputGroup.Addon>
-                        <FormControl
+                    <div className="panel-body">
+                        {chatMessages.map(
+                            message => (
+                                <div
+                                    key={message._id}
+                                    style={{margin: '0.5em 0'}}
+                                >
+                                    <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
+                                    <span>{`${message.message}`}</span>
+                                </div>
+                            )
+                        )}
+                    </div>
+                </div>
+                <div className="form-group">
+                    <span className="input-group">
+                        <span className="input-group-addon">Message:</span>
+                        <input
+                            className="form-control"
                             onKeyPress={this.sendMessage}
                             type="text"
                         />
-                    </InputGroup>
-                </FormGroup>
+                    </span>
+                </div>
             </div>
         );
     }

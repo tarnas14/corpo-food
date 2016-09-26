@@ -1,5 +1,4 @@
 import React from 'react';
-import {Row, Col, Alert} from 'react-bootstrap';
 import {connect} from 'react-redux';
 import {dismissError} from '../store/errorsActions';
 
@@ -14,13 +13,20 @@ const Errors = connect(state => ({
 
         _renderErrors () {
             return this.props.errors.map(error => (
-                <Alert
-                    bsStyle="danger"
+                <div
                     key={error.id}
-                    onDismiss={this._dismiss.bind(null, error.id)}
+                    className="alert alert-danger alert-dismissable"
                 >
+                    <button
+                        className="close"
+                        onClick={this._dismiss.bind(null, error.id)}
+                        tabIndex="-1"
+                        type="button"
+                    >
+                        <span>×</span>
+                    </button>
                     <strong>ERROR:</strong> {error.message}
-                </Alert>)
+                </div>)
             );
         },
 
@@ -30,11 +36,11 @@ const Errors = connect(state => ({
 
         render () {
             return (
-                <Row>
-                    <Col xs={12}>
+                <div className="row">
+                    <div className="col-xs-12">
                         {this._renderErrors()}
-                    </Col>
-                </Row>
+                    </div>
+                </div>
             );
         }
     })

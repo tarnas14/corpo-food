@@ -1,6 +1,5 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Col, Well} from 'react-bootstrap';
 import {browserHistory} from 'react-router';
 
 const OrderTile = React.createClass({
@@ -24,19 +23,18 @@ const OrderTile = React.createClass({
         };
 
         return (
-            <Col
-                className="OrderTile"
+            <div
+                className="col-xs-3 OrderTile"
                 onClick={() => browserHistory.push(`/order/${this.props.id}`)}
                 style={{cursor: 'pointer'}}
-                xs={3}
             >
-                <Well>
+                <div className="well">
                     <h3>{this.props.restaurant}</h3>
                     <p>{this.props.resources.deadline} {this._dateToString(this.props.deadline)}</p>
                     <p>{this.props.resources.author} {this.props.author}</p>
                     <p style={hungryGuysCountStyles}>{this.props.hungryGuysCount} {this.props.resources.alreadyOrdered}</p>
-                </Well>
-            </Col>
+                </div>
+            </div>
         );
     }
 });
