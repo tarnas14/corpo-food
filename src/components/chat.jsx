@@ -1,23 +1,22 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hydrateMessages, newMessage} from '../store/chatActions';
+import {setUsername, generateRandomUsername} from '../store/userActions';
 
 import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
-
-const randomUsernames = ['squirrel', 'cat', 'dog', 'horse', 'bird', 'hamster', 'snake', 'elephant', 'lion', 'panda'];
 
 const Chat = React.createClass({
     propTypes: {
         chatMessages: React.PropTypes.array.isRequired,
         dispatch: React.PropTypes.func.isRequired,
-        orderId: React.PropTypes.string.isRequired
+        orderId: React.PropTypes.string.isRequired,
+        user: React.PropTypes.object.isRequired
     },
 
     getInitialState () {
         return {
-            socket: io(),
-            user: randomUsernames[Math.floor(Math.random() * randomUsernames.length)]
+            socket: io()
         };
     },
 
@@ -37,17 +36,68 @@ const Chat = React.createClass({
 
     sendMessage (event) {
         if (event.charCode === 13) {
-            const message = {user: this.state.user, message: event.target.value};
+            const message = {user: this.props.user.name, message: event.target.value};
 
             this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
             event.target.value = '';
         }
     },
 
+    sendUsername (event) {
+        if (event.charCode === 13) {
+            const username = event.target.value;
+
+            this.props.dispatch(setUsername(username));
+            event.target.value = '';
+        }
+    },
+
+    renderPromptForUsername () {
+        return (
+            <div className="form-group">
+                <span className="input-group">
+                    <span className="input-group-addon">Username:</span>
+                    <input
+                        className="form-control"
+                        onKeyPress={this.sendUsername}
+                        type="text"
+                        placeholder="provide username to use chat"
+                    />
+                    <span className="input-group-btn" >
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => this.props.dispatch(generateRandomUsername())}
+                        >
+                            RANDOM
+                        </button>
+                    </span>
+                </span>
+            </div>
+        );
+    },
+
+    renderMessageInput () {
+        return (
+            <div className="form-group">
+                <span className="input-group">
+                    <span className="input-group-addon">Message:</span>
+                    <input
+                        className="form-control"
+                        onKeyPress={this.sendMessage}
+                        type="text"
+                        placeholder={`as ${this.props.user.name}`}
+                    />
+                </span>
+            </div>
+        );
+    },
+
     render () {
         const {chatMessages} = this.props;
+        const {name: userName} = this.props.user;
+
         return (
-            <div>
+            <div className="Chat">
                 <h3>Chat</h3>
                 <div
                     className="panel panel-default"
@@ -55,6 +105,7 @@ const Chat = React.createClass({
                         height: '400px',
                         overflowY: 'scroll'
                     }}
+                    disabled={!userName}
                 >
                     <div className="panel-body">
                         {chatMessages.map(
@@ -70,21 +121,12 @@ const Chat = React.createClass({
                         )}
                     </div>
                 </div>
-                <div className="form-group">
-                    <span className="input-group">
-                        <span className="input-group-addon">Message:</span>
-                        <input
-                            className="form-control"
-                            onKeyPress={this.sendMessage}
-                            type="text"
-                        />
-                    </span>
-                </div>
+                {userName ? this.renderMessageInput() : this.renderPromptForUsername()}
             </div>
         );
     }
 });
 
 export default connect(
-    state => ({chatMessages: state.chatMessages})
+    state => ({chatMessages: state.chatMessages, user: state.user})
 )(Chat);
