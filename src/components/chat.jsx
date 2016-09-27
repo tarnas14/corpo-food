@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {hydrateMessages, newMessage} from '../store/chatActions';
-import {setUsername, generateRandomUsername} from '../store/userActions';
+import SetUsername from './setUsername';
 
 import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
@@ -41,39 +41,6 @@ const Chat = React.createClass({
             this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
             event.target.value = '';
         }
-    },
-
-    sendUsername (event) {
-        if (event.charCode === 13) {
-            const username = event.target.value;
-
-            this.props.dispatch(setUsername(username));
-            event.target.value = '';
-        }
-    },
-
-    renderPromptForUsername () {
-        return (
-            <div className="form-group">
-                <span className="input-group">
-                    <span className="input-group-addon">Username:</span>
-                    <input
-                        className="form-control"
-                        onKeyPress={this.sendUsername}
-                        type="text"
-                        placeholder="provide username to use chat"
-                    />
-                    <span className="input-group-btn" >
-                        <button
-                            className="btn btn-secondary"
-                            onClick={() => this.props.dispatch(generateRandomUsername())}
-                        >
-                            RANDOM
-                        </button>
-                    </span>
-                </span>
-            </div>
-        );
     },
 
     renderMessageInput () {
@@ -121,7 +88,7 @@ const Chat = React.createClass({
                         )}
                     </div>
                 </div>
-                {userName ? this.renderMessageInput() : this.renderPromptForUsername()}
+                {userName ? this.renderMessageInput() : <SetUsername />}
             </div>
         );
     }
