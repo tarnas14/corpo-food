@@ -95,4 +95,4 @@ export const signUpForMeal = (orderId, username, what, howMuch) => {
         .then(() => getOrder(orderId)(dispatch))
         .catch(error => handleFetchErrors(error, dispatch));
     };
-}
+};

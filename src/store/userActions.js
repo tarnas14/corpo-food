@@ -13,7 +13,7 @@ export const generateRandomUsername = () => {
         return randomUsernames[Math.floor(Math.random() * randomUsernames.length)];
     };
 
-    return setUsername(getRandomName())
+    return setUsername(getRandomName());
 };
 
 export const loadUsername = () => {
@@ -21,6 +21,6 @@ export const loadUsername = () => {
 
     return username ?
         {type: 'SET_NAME', name: username} :
-        {type: ''}
-}
+        {type: ''};
+};
 
