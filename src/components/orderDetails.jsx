@@ -4,6 +4,8 @@ import {getOrder} from '../store/ordersActions';
 import OrderState from '../enums/orderState';
 import {browserHistory} from 'react-router';
 import Chat from './chat';
+import MealList from './mealList';
+import SignUpForMeal from './signUpForMeal';
 
 const OrderDetails = React.createClass({
     propTypes: {
@@ -23,6 +25,21 @@ const OrderDetails = React.createClass({
         const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes();
 
         return `${date.getHours()}:${minutes}`;
+    },
+
+    renderActionComponents (order) {
+        return (
+            <div className="row">
+                <div className="col-xs-6">
+                    <Chat orderId={order.id} />
+                </div>
+                <div className="col-xs-6">
+                    <MealList meals={order.meals} />
+                    <SignUpForMeal />
+                </div>
+            </div>
+
+        );
     },
 
     render () {
@@ -54,7 +71,7 @@ const OrderDetails = React.createClass({
                         <h3>Opis</h3>
                         <p>{order.description}</p>
                     </div>
-                    {order.id ? <Chat orderId={order.id} /> : null}
+                    {order.id ? this.renderActionComponents(order) : null}
                 </div>
             </div>
         );

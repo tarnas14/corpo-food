@@ -50,7 +50,8 @@ exports.get = (req, res) => {
             extraCostPerMeal: order.extraCostPerMeal,
             menu: order.menu,
             restaurant: order.restaurant,
-            state: order.state
+            state: order.state,
+            meals: [{hungryGuy: 'test', name: 'testmeal', cost: 12}]
         };
 
         res.json(orderToSend);
