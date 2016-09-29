@@ -111,23 +111,31 @@ exports.addMeal = (req, res) => {
             return;
         }
 
-        Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
-            $push: {
-                meals: mealToAdd
-            }
-        }, (error, order) => {
-            if (error) {
-                Logger.info(error.message);
+        mealToAdd.save(saveError => {
+            if (saveError) {
+                Logger.info(saveError.message);
                 res.sendStatus(HttpStatus.BAD_REQUEST);
                 return;
             }
 
-            if (!order) {
-                res.sendStatus(HttpStatus.NOT_FOUND);
-                return;
-            }
+            Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
+                $push: {
+                    meals: mealToAdd
+                }
+            }, (error, order) => {
+                if (error) {
+                    Logger.info(error.message);
+                    res.sendStatus(HttpStatus.BAD_REQUEST);
+                    return;
+                }
 
-            res.json({mealId: mealToAdd._id});
+                if (!order) {
+                    res.sendStatus(HttpStatus.NOT_FOUND);
+                    return;
+                }
+
+                res.json({mealId: mealToAdd._id});
+            });
         });
     });
 };
