@@ -75,7 +75,14 @@ const resources = {
             extraCostPerMeal: 'Dodatkowo do każdego zamówienia',
             deliveryCost: 'Dostawa kosztuje',
             descriptionHeader: 'Opis'
+        },
+        mealList: {
+            whoIsOrdering: 'Zamawiają razem',
+            who: 'kto',
+            what: 'co',
+            howMuch: 'za ile'
         }
+
     },
     en: {
         app: {
@@ -149,8 +156,13 @@ const resources = {
             extraCostPerMeal: 'Extra cost per meal',
             deliveryCost: 'Delivery cost',
             descriptionHeader: 'Description'
+        },
+        mealList: {
+            whoIsOrdering: 'Already ordering together',
+            who: 'who',
+            what: 'what',
+            howMuch: 'how much'
         }
-
     }
 };
 

@@ -1,8 +1,10 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
-export default React.createClass({
+const MealList = React.createClass({
     propTypes: {
-        meals: React.PropTypes.array.isRequired
+        meals: React.PropTypes.array.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     renderMeals () {
@@ -16,15 +18,16 @@ export default React.createClass({
     },
 
     render () {
+        const {resources} = this.props;
         return (
             <div className="MealList">
-                <h3>Zamawiają</h3>
+                <h3>{resources.whoIsOrdering}</h3>
                 <table className="table table-striped">
                     <thead>
                         <tr>
-                            <th>Kto</th>
-                            <th>co</th>
-                            <th>za ile</th>
+                            <th>{resources.who}</th>
+                            <th>{resources.what}</th>
+                            <th>{resources.howMuch}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -34,4 +37,8 @@ export default React.createClass({
             </div>
         );
     }
-})
+});
+
+export default connect(
+    state => ({resources: state.localization.resources.mealList})
+)(MealList);
