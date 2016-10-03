@@ -4,7 +4,8 @@ import {setUsername, generateRandomUsername} from '../store/userActions';
 
 const SetUsername = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired
+        dispatch: React.PropTypes.func.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     sendUsername (event) {
@@ -17,22 +18,24 @@ const SetUsername = React.createClass({
     },
 
     render () {
+        const {resources} = this.props;
+
         return (
             <div className="form-group">
                 <span className="input-group">
-                    <span className="input-group-addon">Username:</span>
+                    <span className="input-group-addon">{resources.username}</span>
                     <input
                         className="form-control"
                         onKeyPress={this.sendUsername}
+                        placeholder={resources.provideUsername}
                         type="text"
-                        placeholder="provide username to use chat"
                     />
                     <span className="input-group-btn" >
                         <button
                             className="btn btn-secondary"
                             onClick={() => this.props.dispatch(generateRandomUsername())}
                         >
-                            RANDOM
+                            {resources.randomUsername}
                         </button>
                     </span>
                 </span>
@@ -41,4 +44,6 @@ const SetUsername = React.createClass({
     }
 });
 
-export default connect()(SetUsername);
+export default connect(
+    state => ({resources: state.localization.resources.setUsername})
+)(SetUsername);

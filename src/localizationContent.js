@@ -87,6 +87,11 @@ const resources = {
             menuPrice: 'cena z menu',
             action: 'fokusuj',
             alreadyOrdered: username => `już zamówione, ${username} ;)`
+        },
+        setUsername: {
+            username: 'nazwa użytkownika',
+            provideUsername: 'podaj nazwę użytkownika',
+            randomUsername: 'LOSOWA NAZWA'
         }
     },
     en: {
@@ -173,6 +178,11 @@ const resources = {
             menuPrice: 'menu price',
             action: 'let\'s go',
             alreadyOrdered: username => `you've already ordered, ${username} ;)`
+        },
+        setUsername: {
+            username: 'Username',
+            provideUsername: 'provide a username',
+            randomUsername: 'RANDOM USERNAME'
         }
     }
 };
