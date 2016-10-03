@@ -81,8 +81,13 @@ const resources = {
             who: 'kto',
             what: 'co',
             howMuch: 'za ile'
+        },
+        signUpForMeal: {
+            whatDoYouWant: 'co chcesz?',
+            menuPrice: 'cena z menu',
+            action: 'fokusuj',
+            alreadyOrdered: username => `już zamówione, ${username} ;)`
         }
-
     },
     en: {
         app: {
@@ -162,6 +167,12 @@ const resources = {
             who: 'who',
             what: 'what',
             howMuch: 'how much'
+        },
+        signUpForMeal: {
+            whatDoYouWant: 'meal name',
+            menuPrice: 'menu price',
+            action: 'let\'s go',
+            alreadyOrdered: username => `you've already ordered, ${username} ;)`
         }
     }
 };

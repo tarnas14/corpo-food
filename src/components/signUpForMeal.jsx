@@ -8,6 +8,7 @@ const SignUpForMeal = React.createClass({
         dispatch: React.PropTypes.func.isRequired,
         orderId: React.PropTypes.string.isRequired,
         orderedMeals: React.PropTypes.array.isRequired,
+        resources: React.PropTypes.object.isRequired,
         user: React.PropTypes.object.isRequired
     },
 
@@ -39,7 +40,7 @@ const SignUpForMeal = React.createClass({
     },
 
     renderMealSignupForm () {
-        const {name: username} = this.props.user;
+        const {resources, user: {name: username}} = this.props;
 
         if (!username) {
             return <SetUsername />;
@@ -49,37 +50,37 @@ const SignUpForMeal = React.createClass({
             <form className="SignUpForMeal form-inline">
                 <label>{username}</label>
                 <input
-                    id="what"
                     className="form-control"
+                    id="what"
                     onChange={this.handleTextChange}
-                    placeholder="co chcesz?"
-                    type="text"
+                    placeholder={resources.whatDoYouWant}
                     required
+                    type="text"
                     value={this.state.what}
                 />
                 <input
-                    id="howMuch"
                     className="form-control"
+                    id="howMuch"
                     onChange={this.handleTextChange}
-                    placeholder="cena w menu"
-                    type="number"
+                    placeholder={resources.menuPrice}
                     required
+                    type="number"
                     value={this.state.howMuch}
                 />
                 <button
-                    type="button"
                     className="btn btn-primary"
                     onClick={this.signUp}
-                >Fokusuj</button>
+                    type="button"
+                >{resources.action}</button>
             </form>
         );
     },
 
     render () {
-        const {name: username} = this.props.user;
+        const {resources, user: {name: username}} = this.props;
 
         return this.userAlreadyOrdered() ?
-            <div>you've already ordered, {username} ;)</div> :
+            <div>{resources.alreadyOrdered(username)}</div> :
             this.renderMealSignupForm();
     }
 });
@@ -88,6 +89,7 @@ export default connect(
     state => ({
         user: state.user,
         orderId: state.activeOrder.id,
-        orderedMeals: state.activeOrder.meals
+        orderedMeals: state.activeOrder.meals,
+        resources: state.localization.resources.signUpForMeal
     })
 )(SignUpForMeal);
