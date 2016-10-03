@@ -65,6 +65,16 @@ const resources = {
                     required: 'Podaj imię!'
                 }
             }
+        },
+        orderDetails: {
+            backToDashboard: 'Wróć na dashboard',
+            restaurant: 'Zamawiamy z',
+            orderBy: author => `Dzisiaj zamawia ${author}`,
+            orderedAt: 'Dzwoni po jedzenie o',
+            foodExecptedAt: 'Chcemy jeść o',
+            extraCostPerMeal: 'Dodatkowo do każdego zamówienia',
+            deliveryCost: 'Dostawa kosztuje',
+            descriptionHeader: 'Opis'
         }
     },
     en: {
@@ -129,9 +139,21 @@ const resources = {
                     required: 'Who are you?'
                 }
             }
+        },
+        orderDetails: {
+            backToDashboard: 'Back to dashboard',
+            restaurant: 'Ordering from',
+            orderBy: author => `${author} is ordering today`,
+            orderedAt: 'Calling at',
+            foodExecptedAt: 'We want food at',
+            extraCostPerMeal: 'Extra cost per meal',
+            deliveryCost: 'Delivery cost',
+            descriptionHeader: 'Description'
         }
+
     }
 };
+
 module.exports.resources = resources;
 
 const _getSupportedLocales = () => {
