@@ -46,7 +46,7 @@ const orderSchema = new Schema({
         default: 0
     },
     state: String,
-    meals: [{ref: mealSchema}]
+    meals: [{type: Schema.Types.ObjectId, ref: mealSchema}]
 });
 
 function generateHash (password) {
