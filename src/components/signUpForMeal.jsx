@@ -35,11 +35,7 @@ const SignUpForMeal = React.createClass({
         this.props.dispatch(signUpForMeal(this.props.orderId, this.props.user.name, this.state.what, this.state.howMuch));
     },
 
-    userAlreadyOrdered () {
-        return this.props.user.name && this.props.orderedMeals.some(meal => meal.hungryGuy === this.props.user.name);
-    },
-
-    renderMealSignupForm () {
+    render () {
         const {resources, user: {name: username}} = this.props;
 
         if (!username) {
@@ -74,14 +70,6 @@ const SignUpForMeal = React.createClass({
                 >{resources.action}</button>
             </form>
         );
-    },
-
-    render () {
-        const {resources, user: {name: username}} = this.props;
-
-        return this.userAlreadyOrdered() ?
-            <div>{resources.alreadyOrdered(username)}</div> :
-            this.renderMealSignupForm();
     }
 });
 

@@ -85,8 +85,7 @@ const resources = {
         signUpForMeal: {
             whatDoYouWant: 'co chcesz?',
             menuPrice: 'cena z menu',
-            action: 'fokusuj',
-            alreadyOrdered: username => `już zamówione, ${username} ;)`
+            action: 'fokusuj'
         },
         setUsername: {
             username: 'nazwa użytkownika',
@@ -176,8 +175,7 @@ const resources = {
         signUpForMeal: {
             whatDoYouWant: 'meal name',
             menuPrice: 'menu price',
-            action: 'let\'s go',
-            alreadyOrdered: username => `you've already ordered, ${username} ;)`
+            action: 'let\'s go'
         },
         setUsername: {
             username: 'Username',
