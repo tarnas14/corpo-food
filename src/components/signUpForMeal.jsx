@@ -33,6 +33,7 @@ const SignUpForMeal = React.createClass({
         }
 
         this.props.dispatch(signUpForMeal(this.props.orderId, this.props.user.name, this.state.what, this.state.howMuch));
+        this.setState(this.getInitialState());
     },
 
     render () {
