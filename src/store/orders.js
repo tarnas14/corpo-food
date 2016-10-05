@@ -23,7 +23,7 @@ export const activeOrder = (state = {}, action) => {
                 ...state.meals,
                 action.meal
             ]
-        }
+        };
     default:
         return state;
     }
