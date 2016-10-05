@@ -45,6 +45,12 @@ exports.get = (req, res) => {
                 return;
             }
 
+            if (!order) {
+                res.sendStatus(HttpStatus.NOT_FOUND);
+
+                return;
+            }
+
             const orderToSend = {
                 id: order._id,
                 author: order.author,
@@ -137,6 +143,7 @@ exports.addMeal = (req, res) => {
 
                 if (!order) {
                     res.sendStatus(HttpStatus.NOT_FOUND);
+
                     return;
                 }
 
