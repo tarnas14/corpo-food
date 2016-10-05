@@ -18,6 +18,7 @@ import {errors} from '../store/errors';
 import chatMessages from '../store/chatMessages';
 import user from '../store/user';
 import {USERNAME_KEY, setUsername} from '../store/userActions';
+import notification from '../store/notification';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -28,7 +29,8 @@ const store = createStore(
         localization,
         errors,
         chatMessages,
-        user
+        user,
+        notification
     }),
     applyMiddleware(thunkMiddleware)
 );
