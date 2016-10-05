@@ -45,6 +45,10 @@ const orderSchema = new Schema({
         type: Number,
         default: 0
     },
+    _adminId: {
+        type: String,
+        required: [true, 'admin id is required']
+    },
     state: String,
     meals: [{type: Schema.Types.ObjectId, ref: mealSchema}]
 });

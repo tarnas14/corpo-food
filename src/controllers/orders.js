@@ -1,7 +1,9 @@
 'use strict';
+const randomstring = require('randomstring');
+const HttpStatus = require('http-status');
+
 const Order = require('../models/order');
 const Meal = require('../models/meal').Meal;
-const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
 const mapHourToDate = require('../services/dateManipulation').mapHourToDate;
@@ -74,7 +76,8 @@ exports.create = (req, res) => {
         author: newOrder.author,
         deliveryCost: parseInt(newOrder.deliveryCost, 10),
         extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),
-        state: OrderState.Open
+        state: OrderState.Open,
+        _adminId: randomstring.generate(20)
     };
 
     const order = new Order(mappedOrder);
@@ -92,7 +95,7 @@ exports.create = (req, res) => {
         }
 
         res.status(HttpStatus.OK);
-        res.send(order._id);
+        res.send({id: order._id, adminId: order._adminId});
     });
 };
 
