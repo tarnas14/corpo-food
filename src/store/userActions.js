@@ -1,4 +1,4 @@
-const USERNAME_KEY = 'username';
+export const USERNAME_KEY = 'username';
 
 export const setUsername = username => {
     global.localStorage.setItem(USERNAME_KEY, username);
@@ -14,13 +14,5 @@ export const generateRandomUsername = () => {
     };
 
     return setUsername(getRandomName());
-};
-
-export const loadUsername = () => {
-    const username = global.localStorage.getItem(USERNAME_KEY);
-
-    return username ?
-        {type: 'SET_NAME', name: username} :
-        {type: ''};
 };
 

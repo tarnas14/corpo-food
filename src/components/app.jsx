@@ -17,7 +17,7 @@ import changeLocale from '../store/localizationActions';
 import {errors} from '../store/errors';
 import chatMessages from '../store/chatMessages';
 import user from '../store/user';
-import {loadUsername} from '../store/userActions';
+import {USERNAME_KEY, loadUsername} from '../store/userActions';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -82,10 +82,20 @@ const renderApp = () => {
     );
 };
 
+const loadUsernameIfPersisted = () => {
+    const username = global.localStorage.getItem(USERNAME_KEY);
+
+    if (!username) {
+        return;
+}
+
+    store.dispatch({type: 'SET_NAME', name: username});
+}
+
 fetch('/api/currentLocale')
     .then(response => response.json())
     .then(locale => {
         store.dispatch(changeLocale(locale));
-        store.dispatch(loadUsername());
+        loadUsernameIfPersisted();
         renderApp();
     });
