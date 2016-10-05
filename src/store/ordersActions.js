@@ -92,7 +92,7 @@ export const signUpForMeal = (orderId, username, what, howMuch) => {
         })
         .then(checkFetchForErrors)
         .then(response => response.json())
-        .then(() => getOrder(orderId)(dispatch))
+        .then(() => dispatch({type: 'SIGN_UP_FOR_MEAL', meal: payload}))
         .catch(error => handleFetchErrors(error, dispatch));
     };
 };
