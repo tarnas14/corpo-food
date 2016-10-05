@@ -11,6 +11,7 @@ import NewOrderForm from './newOrderForm';
 import OrderDetails from './orderDetails';
 import Errors from './errors';
 import AdministerOrder from './administerOrder';
+import Notification from './notification';
 
 import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
@@ -58,6 +59,7 @@ const App = connect(state => ({
                             </h1>
                         </div>
                     </div>
+                    <Notification />
                     <Errors />
                     <div className="row">
                         <div className="col-xs-12">

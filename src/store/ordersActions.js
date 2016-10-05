@@ -3,7 +3,7 @@ import {browserHistory} from 'react-router';
 import OrderState from '../enums/orderState';
 import {mapHourToDate} from '../services/dateManipulation';
 import {checkFetchForErrors, handleFetchErrors} from '../services/errorHandling';
-import {setNotification} from './notificationActions';
+import {setAdminNotification} from './notificationActions';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -28,7 +28,7 @@ export function addNewOrder (order, validationErrorsCallback) {
                 state: OrderState.Open
             };
             dispatch({type: 'ADD_NEW_ORDER', order: newOrder});
-            dispatch(setNotification({type: 'ADMINISTRATION_NOTICE', adminId}));
+            dispatch(setAdminNotification(adminId));
             browserHistory.push('/');
         })
         .catch(error => handleFetchErrors(error, dispatch, validationErrorsCallback));
