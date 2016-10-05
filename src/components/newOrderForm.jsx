@@ -28,12 +28,6 @@ const NewOrderForm = React.createClass({
             description: {
                 text: ''
             },
-            password: {
-                text: ''
-            },
-            passwordRepeat: {
-                text: ''
-            },
             author: {
                 text: ''
             },
@@ -79,10 +73,6 @@ const NewOrderForm = React.createClass({
 
             return newState;
         });
-    },
-
-    passwordRepeatedCorrectlyValidator (validationMessage) {
-        return repeatedPasswordValue => repeatedPasswordValue === this.state.password.text ? null : validationMessage;
     },
 
     render () {
@@ -145,26 +135,6 @@ const NewOrderForm = React.createClass({
                                 type="textarea"
                             />
                         </div>
-                        <ValidatedInput
-                            id="password"
-                            label={this.props.resources.password}
-                            placeholder={this.props.resources.password}
-                            type="password"
-                            updateValue={this.handleValueUpdate.bind(null, 'password')}
-                            validators={[
-                                requiredValidator(this.props.resources.validationMessages.required),
-                                minimalLengthValidator(6, this.props.resources.validationMessages.passwordTooShort)]}
-                            value={this.state.password}
-                        />
-                        <ValidatedInput
-                            id="passwordRepeat"
-                            label={this.props.resources.passwordAgain}
-                            placeholder={this.props.resources.passwordAgain}
-                            type="password"
-                            updateValue={this.handleValueUpdate.bind(null, 'passwordRepeat')}
-                            validators={[this.passwordRepeatedCorrectlyValidator(this.props.resources.validationMessages.passwordsDontMatch)]}
-                            value={this.state.passwordRepeat}
-                        />
                         <ValidatedInput
                             id="author"
                             label={this.props.resources.author}

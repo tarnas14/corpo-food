@@ -24,8 +24,6 @@ const resources = {
             deliveryAt: 'Zamawiam na',
             menu: 'Menu',
             description: 'Opis',
-            password: 'Hasło administracyjne',
-            passwordAgain: 'Powtórz hasło',
             author: 'Autor',
             deliveryCost: 'Koszt dowozu',
             extraCostPerMeal: 'Do każdego zamówienia',
@@ -35,8 +33,6 @@ const resources = {
                 provideRestaurant: 'Prosze podać lokal',
                 provideValidHour: 'Podaj poprawną godzinę',
                 provideMenuLink: 'Proszę podać odnośnik do menu',
-                passwordTooShort: 'Minimalna długość hasła wynosi 6 znaków',
-                passwordsDontMatch: 'Hasła nie są takie same',
                 provideAuthor: 'Proszę podać autora zamówienia',
                 provideValidDeliveryCost: 'Podaj poprawny koszt dostawy',
                 provideValidExtraCostPerMeal: 'Podaj poprawny koszt do każdego zamówienia'
@@ -57,9 +53,6 @@ const resources = {
                 },
                 menu: {
                     required: 'Menu jest wymagane! Wrzuć linka do menu.'
-                },
-                password: {
-                    required: 'Podaj hasło do edycji.'
                 },
                 author: {
                     required: 'Podaj imię!'
@@ -113,8 +106,6 @@ const resources = {
             deliveryAt: 'I want food at',
             menu: 'Menu',
             description: 'Description',
-            password: 'Password',
-            passwordAgain: 'Repeat password',
             author: 'Author',
             deliveryCost: 'Delivery cost',
             extraCostPerMeal: 'Extra cost per meal',
@@ -124,8 +115,6 @@ const resources = {
                 provideRestaurant: 'Provide restaurant name',
                 provideValidHour: 'Provide valid hour',
                 provideMenuLink: 'Provide menu link',
-                passwordTooShort: 'Password must be at least 6 characters long',
-                passwordsDontMatch: 'Passwords are not the same',
                 provideAuthor: 'Provide author',
                 provideValidDeliveryCost: 'Provide valid delivery cost',
                 provideValidExtraCostPerMeal: 'Provide valid extra cost per meal'
@@ -146,10 +135,6 @@ const resources = {
                 },
                 menu: {
                     required: 'Add menu link to make our lives easier'
-                },
-                password: {
-                    required: 'Editing your order must be password protected',
-                    min: 'Password must be at least 6 characters long'
                 },
                 author: {
                     required: 'Who are you?'

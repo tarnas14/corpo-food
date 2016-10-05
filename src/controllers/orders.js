@@ -116,7 +116,6 @@ exports.create = (req, res) => {
         restaurant: newOrder.restaurant,
         menu: newOrder.menu,
         description: newOrder.description,
-        password: newOrder.password,
         author: newOrder.author,
         deliveryCost: parseInt(newOrder.deliveryCost, 10),
         extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),

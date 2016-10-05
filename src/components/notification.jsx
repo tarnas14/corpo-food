@@ -26,7 +26,7 @@ const Notification = React.createClass({
                         <p>Here is your permanent link to administration page for this order:</p>
                         <p><strong><a href={adminLink} target="_blank">{adminLink}</a></strong></p>
                         <p>Now that your order is up on the dashboard and people can join, you will probably <strike>have</strike> want to manage it a bit.</p>
-                        <p><strong>You should probably save this link somewhere as we will never give it to you again!</strong></p>
+                        <p className="text-danger"><strong>You should probably save this link somewhere as we will never give it to you again!</strong></p>
                     </div>
                 )
             };
