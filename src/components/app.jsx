@@ -10,6 +10,7 @@ import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
 import OrderDetails from './orderDetails';
 import Errors from './errors';
+import AdministerOrder from './administerOrder';
 
 import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
@@ -77,6 +78,7 @@ const renderApp = () => {
                     <IndexRoute component={Dashboard} />
                     <Route component={NewOrderForm} path="newOrder" />
                     <Route component={OrderDetails} path="order/:id" />
+                    <Route component={AdministerOrder} path="admin/order/:adminId" />
                 </Route>
             </Router>
         </Provider>,

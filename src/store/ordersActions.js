@@ -77,6 +77,19 @@ export function getOrder (id) {
     };
 }
 
+export function getOrderForAdministration (adminId) {
+    return dispatch => {
+        fetch(`/api/orders/admin/${adminId}`)
+            .then(checkFetchForErrors)
+            .then(response => response.json())
+            .then(orderToAdmin => {
+                console.log(orderToAdmin);
+                 dispatch({type: 'GET_ORDER', activeOrder: orderToAdmin});
+            })
+            .catch(error => handleFetchErrors(error, dispatch));
+    };
+}
+
 export const signUpForMeal = (orderId, username, what, howMuch) => {
     const payload = {
         cost: howMuch,

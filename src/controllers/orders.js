@@ -69,6 +69,44 @@ exports.get = (req, res) => {
         });
 };
 
+exports.getForAdmin = (req, res) => {
+    Order
+        .find({_adminId: req.params.adminId})
+        .populate('meals')
+        .exec((error, orders) => {
+            if (error) {
+                Logger.info(error.message);
+                res.sendStatus(HttpStatus.BAD_REQUEST);
+
+                return;
+            }
+
+            if (!orders.length) {
+                res.sendStatus(HttpStatus.NOT_FOUND);
+
+                return;
+            }
+
+            const order = orders[0];
+
+            const orderToSend = {
+                id: order._id,
+                author: order.author,
+                deadline: order.deadline,
+                deliveryCost: order.deliveryCost,
+                deliveryTime: order.deliveryTime,
+                description: order.description,
+                extraCostPerMeal: order.extraCostPerMeal,
+                menu: order.menu,
+                restaurant: order.restaurant,
+                state: order.state,
+                meals: order.meals
+            };
+
+            res.json(orderToSend);
+        });
+};
+
 exports.create = (req, res) => {
     const newOrder = req.body;
 

@@ -1,8 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
+
 import {getOrder} from '../store/ordersActions';
 import OrderState from '../enums/orderState';
-import {browserHistory} from 'react-router';
 import Chat from './chat';
 import MealList from './mealList';
 import SignUpForMeal from './signUpForMeal';
