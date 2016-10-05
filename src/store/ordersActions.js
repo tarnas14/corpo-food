@@ -83,8 +83,7 @@ export function getOrderForAdministration (adminId) {
             .then(checkFetchForErrors)
             .then(response => response.json())
             .then(orderToAdmin => {
-                console.log(orderToAdmin);
-                 dispatch({type: 'GET_ORDER', activeOrder: orderToAdmin});
+                dispatch({type: 'GET_ORDER', activeOrder: orderToAdmin});
             })
             .catch(error => handleFetchErrors(error, dispatch));
     };
