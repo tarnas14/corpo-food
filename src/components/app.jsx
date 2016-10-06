@@ -8,7 +8,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
-import OrderDetails from './orderDetails';
+import OrderOverview from './orderOverview';
 import Errors from './errors';
 import AdministerOrder from './administerOrder';
 import Notification from './notification';
@@ -79,7 +79,7 @@ const renderApp = () => {
                 <Route component={App} path="/">
                     <IndexRoute component={Dashboard} />
                     <Route component={NewOrderForm} path="newOrder" />
-                    <Route component={OrderDetails} path="order/:id" />
+                    <Route component={OrderOverview} path="order/:id" />
                     <Route component={AdministerOrder} path="admin/order/:adminId" />
                 </Route>
             </Router>

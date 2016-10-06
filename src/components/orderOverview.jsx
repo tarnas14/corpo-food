@@ -8,7 +8,7 @@ import Chat from './chat';
 import MealList from './mealList';
 import SignUpForMeal from './signUpForMeal';
 
-const OrderDetails = React.createClass({
+const OrderOverview = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
@@ -62,9 +62,9 @@ const OrderDetails = React.createClass({
                     <button
                         className="btn btn-default"
                         onClick={() => browserHistory.push('/')}
-                    >{resources.backToDashboard}</button>
-                </div>
-                <div className="col-xs-12">
+                    >
+                        {resources.backToDashboard}
+                    </button>
                     <h2>{order.restaurant} <span className={`label label-${stateStyle}`}>{order.state}</span></h2>
                     <p>{resources.orderBy(order.author)}</p>
                     <p>{resources.orderedAt} {this._dateToString(order.deadline)}</p>
@@ -76,8 +76,8 @@ const OrderDetails = React.createClass({
                         <h3>{resources.descriptionHeader}</h3>
                         <p>{order.description}</p>
                     </div>
-                    {order.id ? this.renderActionComponents(order) : null}
                 </div>
+                {order.id ? this.renderActionComponents(order) : null}
             </div>
         );
     }
@@ -88,4 +88,4 @@ export default connect(
         order: state.activeOrder,
         resources: state.localization.resources.orderDetails
     })
-)(OrderDetails);
+)(OrderOverview);
