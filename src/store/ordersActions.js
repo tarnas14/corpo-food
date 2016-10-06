@@ -83,7 +83,11 @@ export function getOrderForAdministration (adminId) {
             .then(checkFetchForErrors)
             .then(response => response.json())
             .then(orderToAdmin => {
-                dispatch({type: 'GET_ORDER', activeOrder: orderToAdmin});
+                const activeOrder = Object.assign(orderToAdmin, {
+                    deadline: new Date(orderToAdmin.deadline),
+                    deliveryTime: new Date(orderToAdmin.deliveryTime)
+                });
+                dispatch({type: 'GET_ORDER', activeOrder});
             })
             .catch(error => handleFetchErrors(error, dispatch));
     };

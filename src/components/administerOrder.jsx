@@ -2,6 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 import {getOrderForAdministration} from '../store/ordersActions';
+import OrderDetails from './orderDetails';
 
 const AdministerOrder = React.createClass({
     propTypes: {
@@ -17,7 +18,14 @@ const AdministerOrder = React.createClass({
     render () {
         const {params: {adminId}, order} = this.props;
 
-        return <div> administering order <pre>{JSON.stringify(order, null, 4)}</pre></div>;
+        return (
+            <div className="row">
+                <OrderDetails
+                    cols={12}
+                    order={order}
+                />
+            </div>
+        );
     }
 });
 
