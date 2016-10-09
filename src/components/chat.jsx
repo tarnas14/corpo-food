@@ -8,6 +8,7 @@ import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/c
 
 const Chat = React.createClass({
     propTypes: {
+        buildMessage: React.PropTypes.func.isRequired,
         chatMessages: React.PropTypes.array.isRequired,
         dispatch: React.PropTypes.func.isRequired,
         orderId: React.PropTypes.string.isRequired,
@@ -36,9 +37,9 @@ const Chat = React.createClass({
 
     sendMessage (event) {
         if (event.charCode === 13) {
-            const message = {user: this.props.user.name, message: event.target.value};
+            const {buildMessage, user: {name: username}} = this.props;
 
-            this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
+            this.state.socket.emit(CHAT_MESSAGE, {...buildMessage(username, event.target.value), orderId: this.props.orderId});
             event.target.value = '';
         }
     },
@@ -59,6 +60,25 @@ const Chat = React.createClass({
         );
     },
 
+    renderMessage (message) {
+        return (
+            <div
+                key={message._id}
+                style={{margin: '0.5em 0'}}
+            >
+                <span style={{fontWeight: 'bold'}}>
+                    {message.user}
+                    {
+                        message.badge ?
+                            <span className="badge">{message.badge}</span> :
+                            null
+                    }
+                </span><br />
+                <span>{message.message}</span>
+            </div>
+        );
+    },
+
     render () {
         const {chatMessages} = this.props;
         const {name: userName} = this.props.user;
@@ -75,17 +95,7 @@ const Chat = React.createClass({
                     }}
                 >
                     <div className="panel-body">
-                        {chatMessages.map(
-                            message => (
-                                <div
-                                    key={message._id}
-                                    style={{margin: '0.5em 0'}}
-                                >
-                                    <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
-                                    <span>{`${message.message}`}</span>
-                                </div>
-                            )
-                        )}
+                        {chatMessages.map(this.renderMessage)}
                     </div>
                 </div>
                 {userName ? this.renderMessageInput() : <SetUsername />}

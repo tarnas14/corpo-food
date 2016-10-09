@@ -13,6 +13,10 @@ const messageSchema = new Schema({
     message: {
         type: String,
         required: [true, 'Message is required']
+    },
+    badge: {
+        type: String,
+        required: [false]
     }
 });
 

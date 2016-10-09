@@ -6,6 +6,7 @@ import Chat from './chat';
 import MealList from './mealList';
 import SignUpForMeal from './signUpForMeal';
 import OrderDetails from './orderDetails';
+import messageBuilderFactory from './messageBuilderFactory';
 
 const OrderOverview = React.createClass({
     propTypes: {
@@ -24,24 +25,31 @@ const OrderOverview = React.createClass({
         const orderReady = () => order.id;
 
         return (
-            <div className="row">
-                <div className="col-xs-12">
-                    <OrderDetails
-                        order={order}
-                    />
+            <div>
+                <div className="row">
+                    <div className="col-xs-6">
+                        <OrderDetails
+                            order={order}
+                        />
+                    </div>
+                    {
+                        orderReady() ?
+                            (<div className="col-xs-6">
+                                <MealList meals={order.meals} />
+                                <SignUpForMeal />
+                            </div>) :
+                            null
+                    }
                 </div>
                 {
                     orderReady() ?
-                        (<div className="col-xs-6">
-                            <MealList meals={order.meals} />
-                            <SignUpForMeal />
-                        </div>) :
-                        null
-                }
-                {
-                    orderReady() ?
-                        (<div className="col-xs-6">
-                            <Chat orderId={order.id} />
+                        (<div className="row">
+                            <div className="col-xs-6">
+                                <Chat
+                                    buildMessage={messageBuilderFactory.regularMessage()}
+                                    orderId={order.id}
+                                />
+                            </div>
                         </div>) :
                         null
                 }

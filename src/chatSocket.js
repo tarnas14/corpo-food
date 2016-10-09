@@ -26,7 +26,7 @@ module.exports = {
             });
 
             socket.on(CHAT_MESSAGE, message => {
-                Logger.info(`recieved message: ${JSON.stringify(message)}`);
+                Logger.info(`received message: ${JSON.stringify(message)}`);
 
                 const newMessage = new Message(message);
 

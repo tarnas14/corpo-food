@@ -5,6 +5,7 @@ import {getOrderForAdministration, foodOrdered} from '../store/ordersActions';
 import OrderDetails from './orderDetails';
 import Chat from './chat';
 import OrderState from '../enums/orderState';
+import messageBuilderFactory from './messageBuilderFactory';
 
 const AdministerOrder = React.createClass({
     propTypes: {
@@ -55,7 +56,10 @@ const AdministerOrder = React.createClass({
                     {
                         orderReady() ?
                             (<div className="col-xs-6">
-                                <Chat orderId={order.id} />
+                                <Chat
+                                    buildMessage={messageBuilderFactory.messageWithBadge('ADMIN')}
+                                    orderId={order.id}
+                                />
                             </div>) :
                             null
                     }
