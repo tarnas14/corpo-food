@@ -116,3 +116,5 @@ export const signUpForMeal = (orderId, username, what, howMuch) => {
         .catch(error => handleFetchErrors(error, dispatch));
     };
 };
+
+export const foodOrdered = () => ({type: 'CHANGE_STATE', state: OrderState.Ordered});

@@ -1,8 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {getOrderForAdministration} from '../store/ordersActions';
+import {getOrderForAdministration, foodOrdered} from '../store/ordersActions';
 import OrderDetails from './orderDetails';
+import Chat from './chat';
+import OrderState from '../enums/orderState';
 
 const AdministerOrder = React.createClass({
     propTypes: {
@@ -15,15 +17,49 @@ const AdministerOrder = React.createClass({
         this.props.dispatch(getOrderForAdministration(this.props.params.adminId));
     },
 
+    renderActions () {
+        const {state: orderState} = this.props.order;
+
+        switch (orderState) {
+        case (OrderState.Open):
+            return (
+                <button
+                    className="btn btn-primary"
+                    onClick={() => this.props.dispatch(foodOrdered(this.props.params.adminId))}
+                >Food ordered</button>
+            );
+        default:
+            return null;
+        }
+    },
+
     render () {
-        const {params: {adminId}, order} = this.props;
+        const {order} = this.props;
+
+        const orderReady = () => order.id;
 
         return (
-            <div className="row">
-                <OrderDetails
-                    cols={12}
-                    order={order}
-                />
+            <div>
+                <div className="row">
+                    <div className="col-xs-6">
+                        <OrderDetails
+                            cols={6}
+                            order={order}
+                        />
+                    </div>
+                    <div className="col-xs-6">
+                        {this.renderActions()}
+                    </div>
+                </div>
+                <div className="row">
+                    {
+                        orderReady() ?
+                            (<div className="col-xs-6">
+                                <Chat orderId={order.id} />
+                            </div>) :
+                            null
+                    }
+                </div>
             </div>
         );
     }

@@ -18,31 +18,33 @@ const OrderOverview = React.createClass({
         this.props.dispatch(getOrder(this.props.params.id));
     },
 
-    renderActionComponents (order) {
-        return (
-            <div className="row">
-                <div className="col-xs-6">
-                    <Chat orderId={order.id} />
-                </div>
-                <div className="col-xs-6">
-                    <MealList meals={order.meals} />
-                    <SignUpForMeal />
-                </div>
-            </div>
-
-        );
-    },
-
     render () {
-        const {order, resources} = this.props;
+        const {order} = this.props;
+
+        const orderReady = () => order.id;
 
         return (
             <div className="row">
-                <OrderDetails
-                    cols={12}
-                    order={order}
-                />
-                {order.id ? this.renderActionComponents(order) : null}
+                <div className="col-xs-12">
+                    <OrderDetails
+                        order={order}
+                    />
+                </div>
+                {
+                    orderReady() ?
+                        (<div className="col-xs-6">
+                            <MealList meals={order.meals} />
+                            <SignUpForMeal />
+                        </div>) :
+                        null
+                }
+                {
+                    orderReady() ?
+                        (<div className="col-xs-6">
+                            <Chat orderId={order.id} />
+                        </div>) :
+                        null
+                }
             </div>
         );
     }

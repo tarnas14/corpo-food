@@ -51,8 +51,8 @@ const Chat = React.createClass({
                     <input
                         className="form-control"
                         onKeyPress={this.sendMessage}
-                        type="text"
                         placeholder={`as ${this.props.user.name}`}
+                        type="text"
                     />
                 </span>
             </div>
@@ -68,11 +68,11 @@ const Chat = React.createClass({
                 <h3>Chat</h3>
                 <div
                     className="panel panel-default"
+                    disabled={!userName}
                     style={{
                         height: '400px',
                         overflowY: 'scroll'
                     }}
-                    disabled={!userName}
                 >
                     <div className="panel-body">
                         {chatMessages.map(

@@ -24,6 +24,11 @@ export const activeOrder = (state = {}, action) => {
                 action.meal
             ]
         };
+    case 'CHANGE_STATE':
+        return {
+            ...state,
+            state: action.state
+        };
     default:
         return state;
     }
