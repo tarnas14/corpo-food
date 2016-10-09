@@ -1,9 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {hydrateMessages, newMessage} from '../store/chatActions';
-
 import io from 'socket.io-client';
+
+import {hydrateMessages, newMessage} from '../store/chatActions';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
+import ChatMessages from './chatMessages';
 
 const randomUsernames = ['squirrel', 'cat', 'dog', 'horse', 'bird', 'hamster', 'snake', 'elephant', 'lion', 'panda'];
 
@@ -49,27 +50,7 @@ const Chat = React.createClass({
         return (
             <div>
                 <h3>Chat</h3>
-                <div
-                    className="panel panel-default"
-                    style={{
-                        height: '400px',
-                        overflowY: 'scroll'
-                    }}
-                >
-                    <div className="panel-body">
-                        {chatMessages.map(
-                            message => (
-                                <div
-                                    key={message._id}
-                                    style={{margin: '0.5em 0'}}
-                                >
-                                    <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
-                                    <span>{`${message.message}`}</span>
-                                </div>
-                            )
-                        )}
-                    </div>
-                </div>
+                <ChatMessages chatMessages={chatMessages} />
                 <div className="form-group">
                     <span className="input-group">
                         <span className="input-group-addon">Message:</span>
