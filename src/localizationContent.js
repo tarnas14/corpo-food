@@ -65,6 +65,32 @@ const resources = {
                     required: 'Podaj imię!'
                 }
             }
+        },
+        orderDetails: {
+            backToDashboard: 'Wróć na dashboard',
+            restaurant: 'Zamawiamy z',
+            orderBy: author => `Dzisiaj zamawia ${author}`,
+            orderedAt: 'Dzwoni po jedzenie o',
+            foodExecptedAt: 'Chcemy jeść o',
+            extraCostPerMeal: 'Dodatkowo do każdego zamówienia',
+            deliveryCost: 'Dostawa kosztuje',
+            descriptionHeader: 'Opis'
+        },
+        mealList: {
+            whoIsOrdering: 'Zamawiają razem',
+            who: 'kto',
+            what: 'co',
+            howMuch: 'za ile'
+        },
+        signUpForMeal: {
+            whatDoYouWant: 'co chcesz?',
+            menuPrice: 'cena z menu',
+            action: 'fokusuj'
+        },
+        setUsername: {
+            username: 'nazwa użytkownika',
+            provideUsername: 'podaj nazwę użytkownika',
+            randomUsername: 'LOSOWA NAZWA'
         }
     },
     en: {
@@ -129,9 +155,36 @@ const resources = {
                     required: 'Who are you?'
                 }
             }
+        },
+        orderDetails: {
+            backToDashboard: 'Back to dashboard',
+            restaurant: 'Ordering from',
+            orderBy: author => `${author} is ordering today`,
+            orderedAt: 'Calling at',
+            foodExecptedAt: 'We want food at',
+            extraCostPerMeal: 'Extra cost per meal',
+            deliveryCost: 'Delivery cost',
+            descriptionHeader: 'Description'
+        },
+        mealList: {
+            whoIsOrdering: 'Already ordering together',
+            who: 'who',
+            what: 'what',
+            howMuch: 'how much'
+        },
+        signUpForMeal: {
+            whatDoYouWant: 'meal name',
+            menuPrice: 'menu price',
+            action: 'let\'s go'
+        },
+        setUsername: {
+            username: 'Username',
+            provideUsername: 'provide a username',
+            randomUsername: 'RANDOM USERNAME'
         }
     }
 };
+
 module.exports.resources = resources;
 
 const _getSupportedLocales = () => {

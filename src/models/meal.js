@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const mealSchema = new Schema({
+    _order: {
+        type: Number,
+        ref: 'Order'
+    },
     name: {
         type: String,
         required: [true, 'Podaj nazwę dania!']
@@ -16,5 +20,7 @@ const mealSchema = new Schema({
     }
 });
 
-exports.mealSchema = mealSchema;
-exports.Meal = mongoose.model('Meal', mealSchema);
+const schemaName = 'Meal';
+
+exports.mealSchema = schemaName;
+exports.Meal = mongoose.model(schemaName, mealSchema);
