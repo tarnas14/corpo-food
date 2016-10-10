@@ -72,3 +72,27 @@ export function getOrder (id) {
             .catch(error => handleFetchErrors(error, dispatch));
     };
 }
+
+export const signUpForMeal = (orderId, username, what, howMuch) => {
+    const payload = {
+        cost: howMuch,
+        hungryGuy: username,
+        name: what,
+        orderId: orderId
+    };
+
+    return dispatch => {
+        fetch('api/order/meal', {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(checkFetchForErrors)
+        .then(response => response.json())
+        .then(() => dispatch({type: 'SIGN_UP_FOR_MEAL', meal: payload}))
+        .catch(error => handleFetchErrors(error, dispatch));
+    };
+};

@@ -3,22 +3,21 @@ import {connect} from 'react-redux';
 import io from 'socket.io-client';
 
 import {hydrateMessages, newMessage} from '../store/chatActions';
+import SetUsername from './setUsername';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
 import ChatMessages from './chatMessages';
-
-const randomUsernames = ['squirrel', 'cat', 'dog', 'horse', 'bird', 'hamster', 'snake', 'elephant', 'lion', 'panda'];
 
 const Chat = React.createClass({
     propTypes: {
         chatMessages: React.PropTypes.array.isRequired,
         dispatch: React.PropTypes.func.isRequired,
-        orderId: React.PropTypes.string.isRequired
+        orderId: React.PropTypes.string.isRequired,
+        user: React.PropTypes.object.isRequired
     },
 
     getInitialState () {
         return {
-            socket: io(),
-            user: randomUsernames[Math.floor(Math.random() * randomUsernames.length)]
+            socket: io()
         };
     },
 
@@ -38,34 +37,43 @@ const Chat = React.createClass({
 
     sendMessage (event) {
         if (event.charCode === 13) {
-            const message = {user: this.state.user, message: event.target.value};
+            const message = {user: this.props.user.name, message: event.target.value};
 
             this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
             event.target.value = '';
         }
     },
 
+    renderMessageInput () {
+        return (
+            <div className="form-group">
+                <span className="input-group">
+                    <span className="input-group-addon">Message:</span>
+                    <input
+                        className="form-control"
+                        onKeyPress={this.sendMessage}
+                        placeholder={`as ${this.props.user.name}`}
+                        type="text"
+                    />
+                </span>
+            </div>
+        );
+    },
+
     render () {
         const {chatMessages} = this.props;
+        const {name: userName} = this.props.user;
+
         return (
-            <div>
+            <div className="Chat">
                 <h3>Chat</h3>
                 <ChatMessages chatMessages={chatMessages} />
-                <div className="form-group">
-                    <span className="input-group">
-                        <span className="input-group-addon">Message:</span>
-                        <input
-                            className="form-control"
-                            onKeyPress={this.sendMessage}
-                            type="text"
-                        />
-                    </span>
-                </div>
+                {userName ? this.renderMessageInput() : <SetUsername />}
             </div>
         );
     }
 });
 
 export default connect(
-    state => ({chatMessages: state.chatMessages})
+    state => ({chatMessages: state.chatMessages, user: state.user})
 )(Chat);

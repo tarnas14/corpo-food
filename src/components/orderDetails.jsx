@@ -4,12 +4,15 @@ import {getOrder} from '../store/ordersActions';
 import OrderState from '../enums/orderState';
 import {browserHistory} from 'react-router';
 import Chat from './chat';
+import MealList from './mealList';
+import SignUpForMeal from './signUpForMeal';
 
 const OrderDetails = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
-        params: React.PropTypes.object.isRequired
+        params: React.PropTypes.object.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     componentDidMount () {
@@ -25,8 +28,23 @@ const OrderDetails = React.createClass({
         return `${date.getHours()}:${minutes}`;
     },
 
+    renderActionComponents (order) {
+        return (
+            <div className="row">
+                <div className="col-xs-6">
+                    <Chat orderId={order.id} />
+                </div>
+                <div className="col-xs-6">
+                    <MealList meals={order.meals} />
+                    <SignUpForMeal />
+                </div>
+            </div>
+
+        );
+    },
+
     render () {
-        const {order} = this.props;
+        const {order, resources} = this.props;
 
         const stateStyle = (() => {
             switch (order.state) {
@@ -40,21 +58,24 @@ const OrderDetails = React.createClass({
         return (
             <div className="row">
                 <div className="col-xs-12">
-                    <button onClick={() => browserHistory.push('/')} className="btn btn-default">Go back to dashboard</button>
+                    <button
+                        className="btn btn-default"
+                        onClick={() => browserHistory.push('/')}
+                    >{resources.backToDashboard}</button>
                 </div>
                 <div className="col-xs-12">
                     <h2>{order.restaurant} <span className={`label label-${stateStyle}`}>{order.state}</span></h2>
-                    <p>Zamawia {order.author}</p>
-                    <p>Dedlajn: {this._dateToString(order.deadline)}</p>
-                    <p>Na kiedy: {this._dateToString(order.deliveryTime)}</p>
-                    <p>Menu: <a href={order.menu}>{order.menu}</a></p>
-                    <p>Ekstra koszt per meal: {order.extraCostPerMeal}</p>
-                    <p>Koszt deliweru: {order.deliveryCost}</p>
+                    <p>{resources.orderBy(order.author)}</p>
+                    <p>{resources.orderedAt} {this._dateToString(order.deadline)}</p>
+                    <p>{resources.foodExpectedAt} {this._dateToString(order.deliveryTime)}</p>
+                    <p>{resources.menu} <a href={order.menu}>{order.menu}</a></p>
+                    <p>{resources.extraCostPerMeal} {order.extraCostPerMeal}</p>
+                    <p>{resources.deliveryCost} {order.deliveryCost}</p>
                     <div>
-                        <h3>Opis</h3>
+                        <h3>{resources.descriptionHeader}</h3>
                         <p>{order.description}</p>
                     </div>
-                    {order.id ? <Chat orderId={order.id} /> : null}
+                    {order.id ? this.renderActionComponents(order) : null}
                 </div>
             </div>
         );
@@ -62,5 +83,8 @@ const OrderDetails = React.createClass({
 });
 
 export default connect(
-    state => ({order: state.activeOrder})
+    state => ({
+        order: state.activeOrder,
+        resources: state.localization.resources.orderDetails
+    })
 )(OrderDetails);

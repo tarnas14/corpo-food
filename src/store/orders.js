@@ -16,6 +16,14 @@ export const activeOrder = (state = {}, action) => {
     switch (action.type) {
     case 'GET_ORDER':
         return action.activeOrder;
+    case 'SIGN_UP_FOR_MEAL':
+        return {
+            ...state,
+            meals: [
+                ...state.meals,
+                action.meal
+            ]
+        };
     default:
         return state;
     }

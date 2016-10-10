@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/server.js",
   "scripts": {
-    "start": "node ./src/server.js",
+    "start": "node .",
     "lint": "eslint . --ignore-path .gitignore --ignore-pattern webpack.config.js",
     "build:dev": "webpack --colors --watch"
   },
