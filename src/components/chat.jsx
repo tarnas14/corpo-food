@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import io from 'socket.io-client';
+
 import {hydrateMessages, newMessage} from '../store/chatActions';
 import SetUsername from './setUsername';
-
-import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
+import ChatMessages from './chatMessages';
 
 const Chat = React.createClass({
     propTypes: {
@@ -51,8 +52,8 @@ const Chat = React.createClass({
                     <input
                         className="form-control"
                         onKeyPress={this.sendMessage}
-                        type="text"
                         placeholder={`as ${this.props.user.name}`}
+                        type="text"
                     />
                 </span>
             </div>
@@ -66,28 +67,7 @@ const Chat = React.createClass({
         return (
             <div className="Chat">
                 <h3>Chat</h3>
-                <div
-                    className="panel panel-default"
-                    style={{
-                        height: '400px',
-                        overflowY: 'scroll'
-                    }}
-                    disabled={!userName}
-                >
-                    <div className="panel-body">
-                        {chatMessages.map(
-                            message => (
-                                <div
-                                    key={message._id}
-                                    style={{margin: '0.5em 0'}}
-                                >
-                                    <span style={{fontWeight: 'bold'}}>{`${message.user}`}</span><br />
-                                    <span>{`${message.message}`}</span>
-                                </div>
-                            )
-                        )}
-                    </div>
-                </div>
+                <ChatMessages chatMessages={chatMessages} />
                 {userName ? this.renderMessageInput() : <SetUsername />}
             </div>
         );
