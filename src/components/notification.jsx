@@ -9,18 +9,13 @@ const Notification = React.createClass({
         notification: React.PropTypes.object.isRequired
     },
 
-    renderNotificationBody () {
-        const {notification} = this.props;
-
-    },
-
     getTemplate (notification) {
         switch (notification.type) {
         case 'ADMIN_NOTIFICATION':
             const adminLink = `/admin/order/${notification.adminId}`;
             return {
                 alertType: 'alert-info',
-                title: `Order is ready, here is your administration link`,
+                title: 'Order is ready, here is your administration link',
                 body: (
                     <div>
                         <p>Here is your permanent link to administration page for this order:</p>
