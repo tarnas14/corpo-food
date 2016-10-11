@@ -1,10 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import io from 'socket.io-client';
+
 import {hydrateMessages, newMessage} from '../store/chatActions';
 import SetUsername from './setUsername';
-
-import io from 'socket.io-client';
 import {CLIENT_CONNECTED, JOIN_ROOM, ROOM_JOINED, CHAT_MESSAGE} from '../enums/chatMessageTypes';
+import ChatMessages from './chatMessages';
 
 const Chat = React.createClass({
     propTypes: {
@@ -86,18 +87,7 @@ const Chat = React.createClass({
         return (
             <div className="Chat">
                 <h3>Chat</h3>
-                <div
-                    className="panel panel-default"
-                    disabled={!userName}
-                    style={{
-                        height: '400px',
-                        overflowY: 'scroll'
-                    }}
-                >
-                    <div className="panel-body">
-                        {chatMessages.map(this.renderMessage)}
-                    </div>
-                </div>
+                <ChatMessages chatMessages={chatMessages} />
                 {userName ? this.renderMessageInput() : <SetUsername />}
             </div>
         );
