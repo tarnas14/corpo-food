@@ -61,25 +61,6 @@ const Chat = React.createClass({
         );
     },
 
-    renderMessage (message) {
-        return (
-            <div
-                key={message._id}
-                style={{margin: '0.5em 0'}}
-            >
-                <span style={{fontWeight: 'bold'}}>
-                    {message.user}
-                    {
-                        message.badge ?
-                            <span className="badge">{message.badge}</span> :
-                            null
-                    }
-                </span><br />
-                <span>{message.message}</span>
-            </div>
-        );
-    },
-
     render () {
         const {chatMessages} = this.props;
         const {name: userName} = this.props.user;
