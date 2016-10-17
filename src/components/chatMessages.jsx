@@ -16,25 +16,6 @@ export default React.createClass({
         messageContainer.scrollTop = messageContainer.scrollHeight;
     },
 
-    renderMessage (message) {
-        return (
-            <div
-                key={message._id}
-                style={{margin: '0.5em 0'}}
-            >
-                <span style={{fontWeight: 'bold'}}>
-                    {message.user}
-                    {
-                        message.badge ?
-                            <span className="badge">{message.badge}</span> :
-                            null
-                    }
-                </span><br />
-                <span>{message.message}</span>
-            </div>
-        );
-    },
-
     render () {
         const {chatMessages} = this.props;
 
@@ -48,7 +29,22 @@ export default React.createClass({
                 }}
             >
                 <div className="panel-body">
-                    {chatMessages.map(this.renderMessage)}
+                    {chatMessages.map(message => (
+                        <div
+                            key={message._id}
+                            style={{margin: '0.5em 0'}}
+                        >
+                            <span style={{fontWeight: 'bold'}}>
+                                {message.user}
+                                {
+                                    message.badge ?
+                                        <span className="badge">{message.badge}</span> :
+                                        null
+                                }
+                            </span><br />
+                            <span>{message.message}</span>
+                        </div>
+                    ))}
                 </div>
             </div>
         );
