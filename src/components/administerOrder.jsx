@@ -5,7 +5,7 @@ import {getOrderForAdministration, foodOrdered} from '../store/ordersActions';
 import OrderDetails from './orderDetails';
 import Chat from './chat';
 import OrderState from '../enums/orderState';
-import messageBuilderFactory from './messageBuilderFactory';
+import messageBuilderFactory from '../utils/messageBuilderFactory';
 
 const AdministerOrder = React.createClass({
     propTypes: {

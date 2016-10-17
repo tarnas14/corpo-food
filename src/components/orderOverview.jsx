@@ -6,7 +6,7 @@ import Chat from './chat';
 import MealList from './mealList';
 import SignUpForMeal from './signUpForMeal';
 import OrderDetails from './orderDetails';
-import messageBuilderFactory from './messageBuilderFactory';
+import messageBuilderFactory from '../utils/messageBuilderFactory';
 
 const OrderOverview = React.createClass({
     propTypes: {

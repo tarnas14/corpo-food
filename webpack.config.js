@@ -21,7 +21,8 @@ module.exports = {
                 include: [
                     path.resolve(__dirname, 'src/components'),
                     path.resolve(__dirname, 'src/store'),
-                    path.resolve(__dirname, 'src/validators')
+                    path.resolve(__dirname, 'src/validators'),
+                    path.resolve(__dirname, 'src/utils')
                 ],
 
                 test: [/\.js$/, /\.jsx$/]
