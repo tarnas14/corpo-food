@@ -16,6 +16,11 @@ export const activeOrder = (state = {}, action) => {
     switch (action.type) {
     case 'GET_ORDER':
         return action.activeOrder;
+    case 'FETCHING_ORDER':
+        return {
+            ...state,
+            fetching: true
+        };
     case 'SIGN_UP_FOR_MEAL':
         return {
             ...state,
