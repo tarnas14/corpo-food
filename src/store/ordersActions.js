@@ -63,7 +63,8 @@ export function hydrateOrders () {
 
 export function getOrder (id) {
     return dispatch => {
-        fetch(`/api/orders/${id}`)
+        dispatch({type: 'FETCHING_ORDER'});
+        return fetch(`/api/orders/${id}`)
             .then(checkFetchForErrors)
             .then(response => response.json())
             .then(order => {
@@ -79,7 +80,8 @@ export function getOrder (id) {
 
 export function getOrderToManage (accessCode) {
     return dispatch => {
-        fetch(`/api/orders/manage/${accessCode}`)
+        dispatch({type: 'FETCHING_ORDER'});
+        return fetch(`/api/orders/manage/${accessCode}`)
             .then(checkFetchForErrors)
             .then(response => response.json())
             .then(orderToManage => {
