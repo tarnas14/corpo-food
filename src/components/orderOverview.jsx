@@ -15,7 +15,7 @@ const OrderOverview = React.createClass({
         params: React.PropTypes.object.isRequired
     },
 
-    componentWillMount () {
+    componentDidMount () {
         this.props.getOrder(this.props.params.id);
     },
 
