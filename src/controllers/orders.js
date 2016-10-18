@@ -69,9 +69,9 @@ exports.get = (req, res) => {
         });
 };
 
-exports.getForAdmin = (req, res) => {
+exports.getForManager = (req, res) => {
     Order
-        .find({_adminId: req.params.adminId})
+        .find({_accessCode: req.params.accessCode})
         .populate('meals')
         .exec((error, orders) => {
             if (error) {
@@ -120,7 +120,7 @@ exports.create = (req, res) => {
         deliveryCost: parseInt(newOrder.deliveryCost, 10),
         extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),
         state: OrderState.Open,
-        _adminId: randomstring.generate(20)
+        _accessCode: randomstring.generate(20)
     };
 
     const order = new Order(mappedOrder);
@@ -138,7 +138,7 @@ exports.create = (req, res) => {
         }
 
         res.status(HttpStatus.OK);
-        res.send({id: order._id, adminId: order._adminId});
+        res.send({id: order._id, accessCode: order._accessCode});
     });
 };
 

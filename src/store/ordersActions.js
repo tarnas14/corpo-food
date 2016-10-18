@@ -3,7 +3,7 @@ import {browserHistory} from 'react-router';
 import OrderState from '../enums/orderState';
 import {mapHourToDate} from '../services/dateManipulation';
 import {checkFetchForErrors, handleFetchErrors} from '../services/errorHandling';
-import {setAdminNotification} from './notificationActions';
+import {setManagerNotification} from './notificationActions';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -18,7 +18,7 @@ export function addNewOrder (order, validationErrorsCallback) {
         .then(checkFetchForErrors)
         .then(response => response.json())
         .then(response => {
-            const {id: createdOrderId, adminId} = response;
+            const {id: createdOrderId, accessCode} = response;
             const newOrder = {
                 id: createdOrderId,
                 deadline: mapHourToDate(order.deadline),
@@ -28,7 +28,7 @@ export function addNewOrder (order, validationErrorsCallback) {
                 state: OrderState.Open
             };
             dispatch({type: 'ADD_NEW_ORDER', order: newOrder});
-            dispatch(setAdminNotification(adminId));
+            dispatch(setManagerNotification(accessCode));
             browserHistory.push('/');
         })
         .catch(error => handleFetchErrors(error, dispatch, validationErrorsCallback));
@@ -77,15 +77,15 @@ export function getOrder (id) {
     };
 }
 
-export function getOrderForAdministration (adminId) {
+export function getOrderToManage (accessCode) {
     return dispatch => {
-        fetch(`/api/orders/admin/${adminId}`)
+        fetch(`/api/orders/manage/${accessCode}`)
             .then(checkFetchForErrors)
             .then(response => response.json())
-            .then(orderToAdmin => {
-                const activeOrder = Object.assign(orderToAdmin, {
-                    deadline: new Date(orderToAdmin.deadline),
-                    deliveryTime: new Date(orderToAdmin.deliveryTime)
+            .then(orderToManage => {
+                const activeOrder = Object.assign(orderToManage, {
+                    deadline: new Date(orderToManage.deadline),
+                    deliveryTime: new Date(orderToManage.deliveryTime)
                 });
                 dispatch({type: 'GET_ORDER', activeOrder});
             })

@@ -1,6 +1,6 @@
-export const setAdminNotification = adminId => ({type: 'SET_NOTIFICATION', notification: {
-    adminId,
-    type: 'ADMIN_NOTIFICATION'
+export const setManagerNotification = accessCode => ({type: 'SET_NOTIFICATION', notification: {
+    accessCode,
+    type: 'MANAGER_NOTIFICATION'
 }});
 
 export const clearNotification = () => ({type: 'CLEAR_NOTIFICATION'});

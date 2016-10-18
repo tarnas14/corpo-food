@@ -11,15 +11,15 @@ const Notification = React.createClass({
 
     getTemplate (notification) {
         switch (notification.type) {
-        case 'ADMIN_NOTIFICATION':
-            const adminLink = `/admin/order/${notification.adminId}`;
+        case 'MANAGER_NOTIFICATION':
+            const accessLink = `/manage/order/${notification.accessCode}`;
             return {
                 alertType: 'alert-info',
-                title: 'Order is ready, here is your administration link',
+                title: 'Order is ready, here is your link to manage it',
                 body: (
                     <div>
-                        <p>Here is your permanent link to administration page for this order:</p>
-                        <p><strong><a href={adminLink} target="_blank">{adminLink}</a></strong></p>
+                        <p>Here is your permanent link to a page where you can manage this order:</p>
+                        <p><strong><a href={accessLink} target="_blank">{accessLink}</a></strong></p>
                         <p>Now that your order is up on the dashboard and people can join, you will probably <strike>have</strike> want to manage it a bit.</p>
                         <p className="text-danger"><strong>You should probably save this link somewhere as we will never give it to you again!</strong></p>
                     </div>

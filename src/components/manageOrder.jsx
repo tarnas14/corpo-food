@@ -1,13 +1,13 @@
 import React from 'react';
 import {connect} from 'react-redux';
 
-import {getOrderForAdministration, foodOrdered} from '../store/ordersActions';
+import {getOrderToManage, foodOrdered} from '../store/ordersActions';
 import OrderDetails from './orderDetails';
 import Chat from './chat';
 import OrderState from '../enums/orderState';
 import messageBuilderFactory from '../utils/messageBuilderFactory';
 
-const AdministerOrder = React.createClass({
+const ManageOrder = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
@@ -15,7 +15,7 @@ const AdministerOrder = React.createClass({
     },
 
     componentDidMount () {
-        this.props.dispatch(getOrderForAdministration(this.props.params.adminId));
+        this.props.dispatch(getOrderToManage(this.props.params.accessCode));
     },
 
     renderActions () {
@@ -26,7 +26,7 @@ const AdministerOrder = React.createClass({
             return (
                 <button
                     className="btn btn-primary"
-                    onClick={() => this.props.dispatch(foodOrdered(this.props.params.adminId))}
+                    onClick={() => this.props.dispatch(foodOrdered(this.props.params.accessCode))}
                 >Food ordered</button>
             );
         default:
@@ -57,7 +57,7 @@ const AdministerOrder = React.createClass({
                         orderReady() ?
                             (<div className="col-xs-6">
                                 <Chat
-                                    buildMessage={messageBuilderFactory.messageWithBadge('ADMIN')}
+                                    buildMessage={messageBuilderFactory.messageWithBadge('MANAGER')}
                                     orderId={order.id}
                                 />
                             </div>) :
@@ -73,4 +73,4 @@ export default connect(
     state => ({
         order: state.activeOrder
     })
-)(AdministerOrder);
+)(ManageOrder);

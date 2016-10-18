@@ -10,7 +10,7 @@ import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
 import OrderOverview from './orderOverview';
 import Errors from './errors';
-import AdministerOrder from './administerOrder';
+import ManageOrder from './manageOrder';
 import Notification from './notification';
 
 import {orders, activeOrder} from '../store/orders';
@@ -80,7 +80,7 @@ const renderApp = () => {
                     <IndexRoute component={Dashboard} />
                     <Route component={NewOrderForm} path="newOrder" />
                     <Route component={OrderOverview} path="order/:id" />
-                    <Route component={AdministerOrder} path="admin/order/:adminId" />
+                    <Route component={ManageOrder} path="manage/order/:accessCode" />
                 </Route>
             </Router>
         </Provider>,
