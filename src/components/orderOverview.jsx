@@ -10,19 +10,19 @@ import messageBuilderFactory from '../utils/messageBuilderFactory';
 
 const OrderOverview = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired,
+        getOrder: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
         params: React.PropTypes.object.isRequired
     },
 
-    componentDidMount () {
-        this.props.dispatch(getOrder(this.props.params.id));
+    componentWillMount () {
+        this.props.getOrder(this.props.params.id);
     },
 
     render () {
         const {order} = this.props;
 
-        const orderReady = () => order.id;
+        const orderLoaded = () => !order.fetching;
 
         return (
             <div>
@@ -33,7 +33,7 @@ const OrderOverview = React.createClass({
                         />
                     </div>
                     {
-                        orderReady() ?
+                        orderLoaded() ?
                             (<div className="col-xs-6">
                                 <MealList meals={order.meals} />
                                 <SignUpForMeal />
@@ -42,7 +42,7 @@ const OrderOverview = React.createClass({
                     }
                 </div>
                 {
-                    orderReady() ?
+                    orderLoaded() ?
                         (<div className="row">
                             <div className="col-xs-6">
                                 <Chat
@@ -61,5 +61,6 @@ const OrderOverview = React.createClass({
 export default connect(
     state => ({
         order: state.activeOrder
-    })
+    }),
+    { getOrder }
 )(OrderOverview);

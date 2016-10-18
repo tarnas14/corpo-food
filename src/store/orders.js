@@ -12,7 +12,7 @@ export const orders = (state = [], action) => {
     }
 };
 
-export const activeOrder = (state = {}, action) => {
+export const activeOrder = (state = {fetching: true}, action) => {
     switch (action.type) {
     case 'GET_ORDER':
         return action.activeOrder;

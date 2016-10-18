@@ -9,14 +9,15 @@ import messageBuilderFactory from '../utils/messageBuilderFactory';
 
 const ManageOrder = React.createClass({
     propTypes: {
-        dispatch: React.PropTypes.func.isRequired,
+        foodOrdered: React.PropTypes.func.isRequired,
+        getOrderToManage: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
         params: React.PropTypes.object.isRequired,
-        resources: React.PropTypes.object.isReqired
+        resources: React.PropTypes.object.isRequired
     },
 
     componentDidMount () {
-        this.props.dispatch(getOrderToManage(this.props.params.accessCode));
+        this.props.getOrderToManage(this.props.params.accessCode);
     },
 
     renderActions () {
@@ -27,7 +28,7 @@ const ManageOrder = React.createClass({
             return (
                 <button
                     className="btn btn-primary"
-                    onClick={() => this.props.dispatch(foodOrdered(this.props.params.accessCode))}
+                    onClick={() => this.props.foodOrdered(this.props.params.accessCode)}
                 >{this.props.resources.states.ordered}</button>
             );
         default:
@@ -38,7 +39,7 @@ const ManageOrder = React.createClass({
     render () {
         const {order, resources: {managerBadge}} = this.props;
 
-        const orderReady = () => order.id;
+        const orderLoaded = () => !order.fetching;
 
         return (
             <div>
@@ -55,7 +56,7 @@ const ManageOrder = React.createClass({
                 </div>
                 <div className="row">
                     {
-                        orderReady() ?
+                        orderLoaded() ?
                             (<div className="col-xs-6">
                                 <Chat
                                     buildMessage={messageBuilderFactory.messageWithBadge(managerBadge)}
@@ -74,5 +75,6 @@ export default connect(
     state => ({
         order: state.activeOrder,
         resources: state.localization.resources.orderManagement
-    })
+    }),
+    { foodOrdered, getOrderToManage }
 )(ManageOrder);
