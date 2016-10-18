@@ -18,7 +18,7 @@ test('should dispatch loading action and get action when getting an order', t =>
     return store.dispatch(actions.getOrder(id))
         .then(() => {
             // then
-            t.equal(2, store.getActions().length);
+            t.equal(store.getActions().length, 2);
             t.equal(store.getActions()[0].type, 'FETCHING_ORDER');
             t.equal(store.getActions()[1].type, 'GET_ORDER');
             t.end();
@@ -36,7 +36,7 @@ test('should dispatch loading action and get action when getting an order for ma
     return store.dispatch(actions.getOrderToManage(accessCode))
         .then(() => {
             // then
-            t.equal(2, store.getActions().length);
+            t.equal(store.getActions().length, 2);
             t.equal(store.getActions()[0].type, 'FETCHING_ORDER');
             t.equal(store.getActions()[1].type, 'GET_ORDER');
             t.end();
