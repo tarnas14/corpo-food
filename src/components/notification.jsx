@@ -6,22 +6,23 @@ import {clearNotification} from '../store/notificationActions';
 const Notification = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
-        notification: React.PropTypes.object.isRequired
+        notification: React.PropTypes.object.isRequired,
+        resources: React.PropTypes.object.isRequired
     },
 
     getTemplate (notification) {
         switch (notification.type) {
         case 'MANAGER_NOTIFICATION':
+            const res = this.props.resources.manager;
             const accessLink = `/manage/order/${notification.accessCode}`;
             return {
                 alertType: 'alert-info',
-                title: 'Order is ready, here is your link to manage it',
+                title: res.title,
                 body: (
                     <div>
-                        <p>Here is your permanent link to a page where you can manage this order:</p>
+                        <p>{res.introToLink}</p>
                         <p><strong><a href={accessLink} target="_blank">{accessLink}</a></strong></p>
-                        <p>Now that your order is up on the dashboard and people can join, you will probably <strike>have</strike> want to manage it a bit.</p>
-                        <p className="text-danger"><strong>You should probably save this link somewhere as we will never give it to you again!</strong></p>
+                        <p className="text-danger"><strong>{res.betterSaveIt}</strong></p>
                     </div>
                 )
             };
@@ -62,5 +63,8 @@ const Notification = React.createClass({
 });
 
 export default connect(
-    state => ({notification: state.notification})
+    state => ({
+        notification: state.notification,
+        resources: state.localization.resources.notifications
+    })
 )(Notification);

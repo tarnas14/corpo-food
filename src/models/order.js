@@ -40,7 +40,7 @@ const orderSchema = new Schema({
     },
     _accessCode: {
         type: String,
-        required: [true, 'access code is required']
+        required: [true, 'accessCode.required']
     },
     state: String,
     meals: [{type: Schema.Types.ObjectId, ref: mealSchema}]

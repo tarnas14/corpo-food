@@ -11,7 +11,8 @@ const ManageOrder = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
-        params: React.PropTypes.object.isRequired
+        params: React.PropTypes.object.isRequired,
+        resources: React.PropTypes.object.isReqired
     },
 
     componentDidMount () {
@@ -27,7 +28,7 @@ const ManageOrder = React.createClass({
                 <button
                     className="btn btn-primary"
                     onClick={() => this.props.dispatch(foodOrdered(this.props.params.accessCode))}
-                >Food ordered</button>
+                >{this.props.resources.states.ordered}</button>
             );
         default:
             return null;
@@ -35,7 +36,7 @@ const ManageOrder = React.createClass({
     },
 
     render () {
-        const {order} = this.props;
+        const {order, resources: {managerBadge}} = this.props;
 
         const orderReady = () => order.id;
 
@@ -57,7 +58,7 @@ const ManageOrder = React.createClass({
                         orderReady() ?
                             (<div className="col-xs-6">
                                 <Chat
-                                    buildMessage={messageBuilderFactory.messageWithBadge('MANAGER')}
+                                    buildMessage={messageBuilderFactory.messageWithBadge(managerBadge)}
                                     orderId={order.id}
                                 />
                             </div>) :
@@ -71,6 +72,7 @@ const ManageOrder = React.createClass({
 
 export default connect(
     state => ({
-        order: state.activeOrder
+        order: state.activeOrder,
+        resources: state.localization.resources.orderManagement
     })
 )(ManageOrder);

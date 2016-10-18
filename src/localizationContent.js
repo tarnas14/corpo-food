@@ -138,6 +138,9 @@ const resources = {
                 },
                 author: {
                     required: 'Who are you?'
+                },
+                accessCode: {
+                    required: 'Access code is required'
                 }
             }
         },
@@ -166,6 +169,19 @@ const resources = {
             username: 'Username',
             provideUsername: 'provide a username',
             randomUsername: 'RANDOM USERNAME'
+        },
+        orderManagement: {
+            managerBadge: 'MANAGER',
+            states: {
+                ordered: 'Food ordered'
+            }
+        },
+        notifications: {
+            manager: {
+                title: 'Order is ready, here is your link to manage it',
+                introToLink: 'Here is your permanent link to a page where you can manage this order:',
+                betterSaveIt: 'You should probably save this link somewhere as we will never give it to you again!'
+            }
         }
     }
 };
