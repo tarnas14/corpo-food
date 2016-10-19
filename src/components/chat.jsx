@@ -9,6 +9,7 @@ import ChatMessages from './chatMessages';
 
 const Chat = React.createClass({
     propTypes: {
+        buildMessage: React.PropTypes.func.isRequired,
         chatMessages: React.PropTypes.array.isRequired,
         dispatch: React.PropTypes.func.isRequired,
         orderId: React.PropTypes.string.isRequired,
@@ -37,9 +38,9 @@ const Chat = React.createClass({
 
     sendMessage (event) {
         if (event.charCode === 13) {
-            const message = {user: this.props.user.name, message: event.target.value};
+            const {buildMessage, user: {name: username}} = this.props;
 
-            this.state.socket.emit(CHAT_MESSAGE, {...message, orderId: this.props.orderId});
+            this.state.socket.emit(CHAT_MESSAGE, {...buildMessage(username, event.target.value), orderId: this.props.orderId});
             event.target.value = '';
         }
     },

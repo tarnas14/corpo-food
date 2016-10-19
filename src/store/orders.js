@@ -12,10 +12,15 @@ export const orders = (state = [], action) => {
     }
 };
 
-export const activeOrder = (state = {}, action) => {
+export const activeOrder = (state = {fetching: true}, action) => {
     switch (action.type) {
     case 'GET_ORDER':
         return action.activeOrder;
+    case 'FETCHING_ORDER':
+        return {
+            ...state,
+            fetching: true
+        };
     case 'SIGN_UP_FOR_MEAL':
         return {
             ...state,
@@ -23,6 +28,11 @@ export const activeOrder = (state = {}, action) => {
                 ...state.meals,
                 action.meal
             ]
+        };
+    case 'CHANGE_STATE':
+        return {
+            ...state,
+            state: action.state
         };
     default:
         return state;

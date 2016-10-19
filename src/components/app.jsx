@@ -8,8 +8,10 @@ import thunkMiddleware from 'redux-thunk';
 
 import Dashboard from './dashboard';
 import NewOrderForm from './newOrderForm';
-import OrderDetails from './orderDetails';
+import OrderOverview from './orderOverview';
 import Errors from './errors';
+import ManageOrder from './manageOrder';
+import Notification from './notification';
 
 import {orders, activeOrder} from '../store/orders';
 import localization from '../store/localization';
@@ -18,6 +20,7 @@ import {errors} from '../store/errors';
 import chatMessages from '../store/chatMessages';
 import user from '../store/user';
 import {USERNAME_KEY, setUsername} from '../store/userActions';
+import notification from '../store/notification';
 
 // Add the reducer to your store on the `routing` key
 const store = createStore(
@@ -28,7 +31,8 @@ const store = createStore(
         localization,
         errors,
         chatMessages,
-        user
+        user,
+        notification
     }),
     applyMiddleware(thunkMiddleware)
 );
@@ -55,6 +59,7 @@ const App = connect(state => ({
                             </h1>
                         </div>
                     </div>
+                    <Notification />
                     <Errors />
                     <div className="row">
                         <div className="col-xs-12">
@@ -74,7 +79,8 @@ const renderApp = () => {
                 <Route component={App} path="/">
                     <IndexRoute component={Dashboard} />
                     <Route component={NewOrderForm} path="newOrder" />
-                    <Route component={OrderDetails} path="order/:id" />
+                    <Route component={OrderOverview} path="order/:id" />
+                    <Route component={ManageOrder} path="manage/order/:accessCode" />
                 </Route>
             </Router>
         </Provider>,

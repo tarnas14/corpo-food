@@ -1,7 +1,9 @@
 'use strict';
+const randomstring = require('randomstring');
+const HttpStatus = require('http-status');
+
 const Order = require('../models/order');
 const Meal = require('../models/meal').Meal;
-const HttpStatus = require('http-status');
 const OrderState = require('../enums/orderState');
 const Logger = require('../logger');
 const mapHourToDate = require('../services/dateManipulation').mapHourToDate;
@@ -67,6 +69,44 @@ exports.get = (req, res) => {
         });
 };
 
+exports.getForManager = (req, res) => {
+    Order
+        .find({_accessCode: req.params.accessCode})
+        .populate('meals')
+        .exec((error, orders) => {
+            if (error) {
+                Logger.info(error.message);
+                res.sendStatus(HttpStatus.BAD_REQUEST);
+
+                return;
+            }
+
+            if (!orders.length) {
+                res.sendStatus(HttpStatus.NOT_FOUND);
+
+                return;
+            }
+
+            const order = orders[0];
+
+            const orderToSend = {
+                id: order._id,
+                author: order.author,
+                deadline: order.deadline,
+                deliveryCost: order.deliveryCost,
+                deliveryTime: order.deliveryTime,
+                description: order.description,
+                extraCostPerMeal: order.extraCostPerMeal,
+                menu: order.menu,
+                restaurant: order.restaurant,
+                state: order.state,
+                meals: order.meals
+            };
+
+            res.json(orderToSend);
+        });
+};
+
 exports.create = (req, res) => {
     const newOrder = req.body;
 
@@ -76,11 +116,11 @@ exports.create = (req, res) => {
         restaurant: newOrder.restaurant,
         menu: newOrder.menu,
         description: newOrder.description,
-        password: newOrder.password,
         author: newOrder.author,
         deliveryCost: parseInt(newOrder.deliveryCost, 10),
         extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),
-        state: OrderState.Open
+        state: OrderState.Open,
+        _accessCode: randomstring.generate(20)
     };
 
     const order = new Order(mappedOrder);
@@ -98,7 +138,7 @@ exports.create = (req, res) => {
         }
 
         res.status(HttpStatus.OK);
-        res.send(order._id);
+        res.send({id: order._id, accessCode: order._accessCode});
     });
 };
 

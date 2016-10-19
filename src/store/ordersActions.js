@@ -1,7 +1,9 @@
+import {browserHistory} from 'react-router';
+
 import OrderState from '../enums/orderState';
 import {mapHourToDate} from '../services/dateManipulation';
-import {browserHistory} from 'react-router';
 import {checkFetchForErrors, handleFetchErrors} from '../services/errorHandling';
+import {setManagerNotification} from './notificationActions';
 
 export function addNewOrder (order, validationErrorsCallback) {
     return dispatch => {
@@ -15,7 +17,8 @@ export function addNewOrder (order, validationErrorsCallback) {
         })
         .then(checkFetchForErrors)
         .then(response => response.json())
-        .then(createdOrderId => {
+        .then(response => {
+            const {id: createdOrderId, accessCode} = response;
             const newOrder = {
                 id: createdOrderId,
                 deadline: mapHourToDate(order.deadline),
@@ -25,6 +28,7 @@ export function addNewOrder (order, validationErrorsCallback) {
                 state: OrderState.Open
             };
             dispatch({type: 'ADD_NEW_ORDER', order: newOrder});
+            dispatch(setManagerNotification(accessCode));
             browserHistory.push('/');
         })
         .catch(error => handleFetchErrors(error, dispatch, validationErrorsCallback));
@@ -59,13 +63,31 @@ export function hydrateOrders () {
 
 export function getOrder (id) {
     return dispatch => {
-        fetch(`/api/orders/${id}`)
+        dispatch({type: 'FETCHING_ORDER'});
+        return fetch(`/api/orders/${id}`)
             .then(checkFetchForErrors)
             .then(response => response.json())
             .then(order => {
                 const activeOrder = Object.assign(order, {
                     deadline: new Date(order.deadline),
                     deliveryTime: new Date(order.deliveryTime)
+                });
+                dispatch({type: 'GET_ORDER', activeOrder});
+            })
+            .catch(error => handleFetchErrors(error, dispatch));
+    };
+}
+
+export function getOrderToManage (accessCode) {
+    return dispatch => {
+        dispatch({type: 'FETCHING_ORDER'});
+        return fetch(`/api/orders/manage/${accessCode}`)
+            .then(checkFetchForErrors)
+            .then(response => response.json())
+            .then(orderToManage => {
+                const activeOrder = Object.assign(orderToManage, {
+                    deadline: new Date(orderToManage.deadline),
+                    deliveryTime: new Date(orderToManage.deliveryTime)
                 });
                 dispatch({type: 'GET_ORDER', activeOrder});
             })
@@ -96,3 +118,5 @@ export const signUpForMeal = (orderId, username, what, howMuch) => {
         .catch(error => handleFetchErrors(error, dispatch));
     };
 };
+
+export const foodOrdered = () => ({type: 'CHANGE_STATE', state: OrderState.Ordered});

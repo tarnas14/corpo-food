@@ -7,6 +7,7 @@ import {hydrateOrders} from '../store/ordersActions';
 const Dashboard = React.createClass({
     propTypes: {
         dispatch: React.PropTypes.func.isRequired,
+        notification: React.PropTypes.object.isRequired,
         orders: React.PropTypes.array.isRequired,
         resources: React.PropTypes.object.isRequired
     },
@@ -51,7 +52,8 @@ const Dashboard = React.createClass({
 const ConnectedDashboard = connect(
     state => ({
         orders: state.orders,
-        resources: state.localization.resources.dashboard
+        resources: state.localization.resources.dashboard,
+        notification: state.notification
     })
 )(Dashboard);
 
