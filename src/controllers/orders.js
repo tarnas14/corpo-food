@@ -25,7 +25,7 @@ exports.list = (req, res) => {
                 hungryGuysCount: order.meals.length,
                 author: order.author,
                 restaurant: order.restaurant,
-                state: order.state
+                state: order.state,
             };
         });
 
@@ -62,7 +62,7 @@ exports.get = (req, res) => {
                 menu: order.menu,
                 restaurant: order.restaurant,
                 state: order.state,
-                meals: order.meals
+                meals: order.meals,
             };
 
             res.json(orderToSend);
@@ -100,7 +100,7 @@ exports.getForManager = (req, res) => {
                 menu: order.menu,
                 restaurant: order.restaurant,
                 state: order.state,
-                meals: order.meals
+                meals: order.meals,
             };
 
             res.json(orderToSend);
@@ -120,7 +120,7 @@ exports.create = (req, res) => {
         deliveryCost: parseInt(newOrder.deliveryCost, 10),
         extraCostPerMeal: parseInt(newOrder.extraCostPerMeal, 10),
         state: OrderState.Open,
-        _accessCode: randomstring.generate(20)
+        _accessCode: randomstring.generate(20),
     };
 
     const order = new Order(mappedOrder);
@@ -131,7 +131,7 @@ exports.create = (req, res) => {
             res.status(HttpStatus.BAD_REQUEST);
             res.send({
                 message: error.message,
-                validationErrors: handleMongoValidationErrors(error.errors, getBestMatchingResources(req).schemaValidation.order)
+                validationErrors: handleMongoValidationErrors(error.errors, getBestMatchingResources(req).schemaValidation.order),
             });
 
             return;
@@ -148,7 +148,7 @@ exports.addMeal = (req, res) => {
     const mealToAdd = new Meal({
         cost: mealInput.cost,
         hungryGuy: mealInput.hungryGuy,
-        name: mealInput.name
+        name: mealInput.name,
     });
 
     mealToAdd.validate(validationError => {
@@ -169,8 +169,8 @@ exports.addMeal = (req, res) => {
 
             Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
                 $push: {
-                    meals: mealToAdd
-                }
+                    meals: mealToAdd,
+                },
             }, (error, order) => {
                 if (error) {
                     Logger.info(error.message);
@@ -195,8 +195,8 @@ exports.removeMeal = (req, res) => {
 
     Order.findOneAndUpdate({_id: mealInput.orderId, state: OrderState.Open}, {
         $pull: {
-            meals: {_id: mealInput.id}
-        }
+            meals: {_id: mealInput.id},
+        },
     }, (error, order) => {
         if (error) {
             Logger.info(error.message);

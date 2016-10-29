@@ -5,8 +5,9 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node .",
-    "lint": "eslint . --ignore-path .gitignore --ignore-pattern webpack.config.js",
+    "build": "webpack --colors",
     "build:dev": "webpack --colors --watch",
+    "lint": "eslint . --ignore-path .gitignore --ignore-pattern webpack.config.js",
     "test": "babel-tape-runner test/**/*Tests.js | faucet"
   },
   "repository": {
