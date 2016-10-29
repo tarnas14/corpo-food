@@ -7,43 +7,43 @@ const orderSchema = new Schema({
         type: Date,
         deafult: Date.now(),
         required: [true, 'deadline.required'],
-        min: [Date.now(), 'deadline.min']
+        min: [Date.now(), 'deadline.min'],
     },
     deliveryTime: {
         type: Date,
         required: [true, 'deliveryTime.required'],
-        min: [Date.now(), 'deliveryTime.min']
+        min: [Date.now(), 'deliveryTime.min'],
     },
     restaurant: {
         type: String,
         maxlength: 25,
-        required: [true, 'restaurant.required']
+        required: [true, 'restaurant.required'],
     },
     menu: {
         type: String,
-        required: [true, 'menu.required']
+        required: [true, 'menu.required'],
     },
     description: {
-        type: String
+        type: String,
     },
     author: {
         type: String,
-        required: [true, 'author.required']
+        required: [true, 'author.required'],
     },
     deliveryCost: {
         type: Number,
-        default: 0
+        default: 0,
     },
     extraCostPerMeal: {
         type: Number,
-        default: 0
+        default: 0,
     },
     _accessCode: {
         type: String,
-        required: [true, 'accessCode.required']
+        required: [true, 'accessCode.required'],
     },
     state: String,
-    meals: [{type: Schema.Types.ObjectId, ref: mealSchema}]
+    meals: [{type: Schema.Types.ObjectId, ref: mealSchema}],
 });
 
 module.exports = mongoose.model('Order', orderSchema);

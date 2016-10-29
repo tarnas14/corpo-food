@@ -1,3 +1,4 @@
 module.exports = {
-    mongoAddress: ''
+    port: '3000',
+    mongoAddress: '',
 };

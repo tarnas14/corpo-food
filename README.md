@@ -5,13 +5,19 @@
 - Run `npm install` in main repo folder
 - There are two scripts to run the app:
   - `npm start` - starts the server (needs manual restart after making changes)
-  - `npm run watch` - runs webpack in watch mode (doesn't need manual restart)
+  - `npm run build` - runs webpack in watch mode (doesn't need manual restart)
 - Install mongo if you want to use local db server
 - Setup config file (src/config.dist.js) and change its name to config.js
 
 ## Development
 
-### mongo
+### Additional package.json scripts
+
+- `npm run build:dev` - runs webpack in `watch mode`
+- `npm run lint` - runs linter
+- `npm test` - runs unit tests using `tape`
+
+### MongoDB
 Heartily recommend using dockers, they are great!
 
 on linux
