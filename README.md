@@ -5,7 +5,7 @@
 - Run `npm install` in main repo folder
 - There are two scripts to run the app:
   - `npm start` - starts the server (needs manual restart after making changes)
-  - `npm run build` - runs webpack in watch mode (doesn't need manual restart)
+  - `npm run build` - builds the client part of the app using webpack
 - Install mongo if you want to use local db server
 - Setup config file (src/config.dist.js) and change its name to config.js
 
