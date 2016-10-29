@@ -8,6 +8,7 @@ const resources = {
         app: {
             appName: 'Corpo food',
             uniqueValueProposition: ' orderuj food bez fakapu',
+            backToDashboard: 'Wróć na dashboard',
         },
         dashboard: {
             noOrdersYet: 'Nikt jeszcze nie sfokusował się na czelendża - bądź pierwszy',
@@ -60,14 +61,14 @@ const resources = {
             },
         },
         orderDetails: {
-            backToDashboard: 'Wróć na dashboard',
-            restaurant: 'Zamawiamy z',
-            orderBy: author => `Dzisiaj zamawia ${author}`,
-            orderedAt: 'Dzwoni po jedzenie o',
-            foodExecptedAt: 'Chcemy jeść o',
-            extraCostPerMeal: 'Dodatkowo do każdego zamówienia',
             deliveryCost: 'Dostawa kosztuje',
             descriptionHeader: 'Opis',
+            extraCostPerMeal: 'Dodatkowo do każdego zamówienia',
+            foodExpectedAt: 'Chcemy jeść o',
+            menu: 'Link do menu',
+            orderBy: 'Dzisiaj zamawia',
+            orderedAt: 'Dzwoni po jedzenie o',
+            orderingFrom: 'Zamawiamy z',
         },
         mealList: {
             whoIsOrdering: 'Zamawiają razem',
@@ -88,7 +89,7 @@ const resources = {
         orderManagement: {
             managerBadge: 'MENADŻER',
             states: {
-                ordered: 'Zamówione!',
+                ordered: 'Zamawiam!',
             },
         },
         notifications: {
@@ -103,6 +104,7 @@ const resources = {
         app: {
             appName: 'Corpo food',
             uniqueValueProposition: ' order food without fuckups',
+            backToDashboard: 'Back to dashboard',
         },
         dashboard: {
             noOrdersYet: 'Nobody is on the task yet - be first',
@@ -158,14 +160,14 @@ const resources = {
             },
         },
         orderDetails: {
-            backToDashboard: 'Back to dashboard',
-            restaurant: 'Ordering from',
-            orderBy: author => `${author} is ordering today`,
-            orderedAt: 'Calling at',
-            foodExecptedAt: 'We want food at',
-            extraCostPerMeal: 'Extra cost per meal',
             deliveryCost: 'Delivery cost',
             descriptionHeader: 'Description',
+            extraCostPerMeal: 'Extra cost per meal',
+            foodExpectedAt: 'We want food at',
+            menu: 'Menu link',
+            orderBy: 'Today orders',
+            orderedAt: 'Calling at',
+            orderingFrom: 'Ordering from',
         },
         mealList: {
             whoIsOrdering: 'Already ordering together',
