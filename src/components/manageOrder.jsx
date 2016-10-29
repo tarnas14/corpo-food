@@ -13,7 +13,7 @@ const ManageOrder = React.createClass({
         getOrderToManage: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
         params: React.PropTypes.object.isRequired,
-        resources: React.PropTypes.object.isRequired
+        resources: React.PropTypes.object.isRequired,
     },
 
     componentDidMount () {
@@ -68,13 +68,13 @@ const ManageOrder = React.createClass({
                 </div>
             </div>
         );
-    }
+    },
 });
 
 export default connect(
     state => ({
         order: state.activeOrder,
-        resources: state.localization.resources.orderManagement
+        resources: state.localization.resources.orderManagement,
     }),
-    { foodOrdered, getOrderToManage }
+    {foodOrdered, getOrderToManage}
 )(ManageOrder);

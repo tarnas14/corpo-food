@@ -12,7 +12,7 @@ const OrderOverview = React.createClass({
     propTypes: {
         getOrder: React.PropTypes.func.isRequired,
         order: React.PropTypes.object.isRequired,
-        params: React.PropTypes.object.isRequired
+        params: React.PropTypes.object.isRequired,
     },
 
     componentDidMount () {
@@ -21,46 +21,43 @@ const OrderOverview = React.createClass({
 
     render () {
         const {order} = this.props;
-
-        const orderLoaded = () => !order.fetching;
+        const ifOrderLoaded = content => !order.fetching ? content : null;
 
         return (
             <div>
                 <div className="row">
-                    <div className="col-xs-6">
-                        <OrderDetails
-                            order={order}
-                        />
+                    <div className="col-xs-12 col-lg-6">
+                        <OrderDetails order={order} />
                     </div>
                     {
-                        orderLoaded() ?
-                            (<div className="col-xs-6">
+                        ifOrderLoaded(
+                            <div className="col-xs-12 col-lg-6">
                                 <MealList meals={order.meals} />
                                 <SignUpForMeal />
-                            </div>) :
-                            null
+                            </div>
+                        )
                     }
                 </div>
                 {
-                    orderLoaded() ?
-                        (<div className="row">
-                            <div className="col-xs-6">
+                    ifOrderLoaded(
+                        <div className="row">
+                            <div className="col-xs-12">
                                 <Chat
                                     buildMessage={messageBuilderFactory.regularMessage()}
                                     orderId={order.id}
                                 />
                             </div>
-                        </div>) :
-                        null
+                        </div>
+                    )
                 }
             </div>
         );
-    }
+    },
 });
 
 export default connect(
     state => ({
-        order: state.activeOrder
+        order: state.activeOrder,
     }),
-    { getOrder }
+    {getOrder}
 )(OrderOverview);

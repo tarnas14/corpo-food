@@ -9,13 +9,13 @@ const SignUpForMeal = React.createClass({
         orderId: React.PropTypes.string.isRequired,
         orderedMeals: React.PropTypes.array.isRequired,
         resources: React.PropTypes.object.isRequired,
-        user: React.PropTypes.object.isRequired
+        user: React.PropTypes.object.isRequired,
     },
 
     getInitialState () {
         return {
             what: '',
-            howMuch: ''
+            howMuch: '',
         };
     },
 
@@ -43,35 +43,45 @@ const SignUpForMeal = React.createClass({
             return <SetUsername />;
         }
 
+        const inlineControlStyle = {width: 'auto'};
+
         return (
             <form className="SignUpForMeal form-inline">
-                <label>{username}</label>
-                <input
-                    className="form-control"
-                    id="what"
-                    onChange={this.handleTextChange}
-                    placeholder={resources.whatDoYouWant}
-                    required
-                    type="text"
-                    value={this.state.what}
-                />
-                <input
-                    className="form-control"
-                    id="howMuch"
-                    onChange={this.handleTextChange}
-                    placeholder={resources.menuPrice}
-                    required
-                    type="number"
-                    value={this.state.howMuch}
-                />
+                <div className="form-group">
+                    <span className="input-group">
+                        <span className="input-group-addon">{username}</span>
+                        <input
+                            className="form-control"
+                            id="what"
+                            onChange={this.handleTextChange}
+                            placeholder={resources.whatDoYouWant}
+                            required
+                            style={inlineControlStyle}
+                            type="text"
+                            value={this.state.what}
+                        />
+                        <input
+                            className="form-control"
+                            id="howMuch"
+                            onChange={this.handleTextChange}
+                            placeholder={resources.menuPrice}
+                            required
+                            style={inlineControlStyle}
+                            type="number"
+                            value={this.state.howMuch}
+                        />
+                    </span>
+                </div>
                 <button
                     className="btn btn-primary"
                     onClick={this.signUp}
                     type="button"
-                >{resources.action}</button>
+                >
+                    {resources.action}
+                </button>
             </form>
         );
-    }
+    },
 });
 
 export default connect(
@@ -79,6 +89,6 @@ export default connect(
         user: state.user,
         orderId: state.activeOrder.id,
         orderedMeals: state.activeOrder.meals,
-        resources: state.localization.resources.signUpForMeal
+        resources: state.localization.resources.signUpForMeal,
     })
 )(SignUpForMeal);

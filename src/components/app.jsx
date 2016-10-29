@@ -32,7 +32,7 @@ const store = createStore(
         errors,
         chatMessages,
         user,
-        notification
+        notification,
     }),
     applyMiddleware(thunkMiddleware)
 );
@@ -40,23 +40,37 @@ const store = createStore(
 const history = syncHistoryWithStore(browserHistory, store);
 
 const App = connect(state => ({
-    resources: state.localization.resources.app
+    resources: state.localization.resources.app,
 }))(
     React.createClass({
         propTypes: {
             children: React.PropTypes.object,
-            resources: React.PropTypes.object.isRequired
+            location: React.PropTypes.object.isRequired,
+            resources: React.PropTypes.object.isRequired,
         },
 
         render () {
+            const ifNotOnDashboard = content => this.props.location.pathname !== '/' ? content : null;
+
             return (
                 <div className="container">
                     <div className="row">
-                        <div className="col-xs-12">
+                        <div className="col-xs-12 col-md-10">
                             <h1>
                                 {this.props.resources.appName}
                                 <small>{this.props.resources.uniqueValueProposition}</small>
                             </h1>
+                        </div>
+                        <div className="col-xs-12 col-md-2">
+                            {ifNotOnDashboard(
+                                <button
+                                    className="btn btn-default btn-block"
+                                    onClick={() => browserHistory.push('/')}
+                                    style={{margin: '24px 0 10px'}}
+                                >
+                                    {this.props.resources.backToDashboard}
+                                </button>
+                            )}
                         </div>
                     </div>
                     <Notification />
@@ -68,7 +82,7 @@ const App = connect(state => ({
                     </div>
                 </div>
             );
-        }
+        },
     })
 );
 

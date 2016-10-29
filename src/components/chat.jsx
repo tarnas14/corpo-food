@@ -13,12 +13,12 @@ const Chat = React.createClass({
         chatMessages: React.PropTypes.array.isRequired,
         dispatch: React.PropTypes.func.isRequired,
         orderId: React.PropTypes.string.isRequired,
-        user: React.PropTypes.object.isRequired
+        user: React.PropTypes.object.isRequired,
     },
 
     getInitialState () {
         return {
-            socket: io()
+            socket: io(),
         };
     },
 
@@ -72,7 +72,7 @@ const Chat = React.createClass({
                 {userName ? this.renderMessageInput() : <SetUsername />}
             </div>
         );
-    }
+    },
 });
 
 export default connect(

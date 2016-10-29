@@ -1,22 +1,21 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {browserHistory} from 'react-router';
 
 import OrderState from '../enums/orderState';
+
+const dateToString = (date) => {
+    if (!date) {
+        return null;
+    }
+    const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes();
+
+    return `${date.getHours()}:${minutes}`;
+};
 
 const OrderDetails = React.createClass({
     propTypes: {
         order: React.PropTypes.object.isRequired,
-        resources: React.PropTypes.object.isRequired
-    },
-
-    _dateToString (date) {
-        if (!date) {
-            return null;
-        }
-        const minutes = date.getMinutes().toString().length === 1 ? `0${date.getMinutes()}` : date.getMinutes();
-
-        return `${date.getHours()}:${minutes}`;
+        resources: React.PropTypes.object.isRequired,
     },
 
     render () {
@@ -33,30 +32,24 @@ const OrderDetails = React.createClass({
 
         return (
             <div>
-                <button
-                    className="btn btn-default"
-                    onClick={() => browserHistory.push('/')}
-                >
-                    {resources.backToDashboard}
-                </button>
-                <h2>{order.restaurant} <span className={`label label-${stateStyle}`}>{order.state}</span></h2>
-                <p>{resources.orderBy(order.author)}</p>
-                <p>{resources.orderedAt} {this._dateToString(order.deadline)}</p>
-                <p>{resources.foodExpectedAt} {this._dateToString(order.deliveryTime)}</p>
-                <p>{resources.menu} <a href={order.menu}>{order.menu}</a></p>
-                <p>{resources.extraCostPerMeal} {order.extraCostPerMeal}</p>
-                <p>{resources.deliveryCost} {order.deliveryCost}</p>
+                <h2>{resources.orderingFrom} <strong>{order.restaurant}</strong> <span className={`label label-${stateStyle}`}>{order.state}</span></h2>
+                <p>{resources.orderBy}: <strong>{order.author}</strong></p>
+                <p>{resources.orderedAt}: <strong>{dateToString(order.deadline)}</strong></p>
+                <p>{resources.foodExpectedAt}: <strong>{dateToString(order.deliveryTime)}</strong></p>
+                <p>{resources.menu}: <strong><a href={order.menu}>{order.menu}</a></strong></p>
+                <p>{resources.extraCostPerMeal}: <strong>{order.extraCostPerMeal}</strong></p>
+                <p>{resources.deliveryCost}: <strong>{order.deliveryCost}</strong></p>
                 <div>
                     <h3>{resources.descriptionHeader}</h3>
                     <p>{order.description}</p>
                 </div>
             </div>
         );
-    }
+    },
 });
 
 export default connect(
     state => ({
-        resources: state.localization.resources.orderDetails
+        resources: state.localization.resources.orderDetails,
     })
 )(OrderDetails);
