@@ -18,16 +18,14 @@ exports.list = (req, res) => {
             return;
         }
 
-        const mappedOrders = orders.map((order) => {
-            return {
-                id: order._id,
-                deadline: order.deadline,
-                hungryGuysCount: order.meals.length,
-                author: order.author,
-                restaurant: order.restaurant,
-                state: order.state,
-            };
-        });
+        const mappedOrders = orders.map(order => ({
+            id: order._id,
+            deadline: order.deadline,
+            hungryGuysCount: order.meals.length,
+            author: order.author,
+            restaurant: order.restaurant,
+            state: order.state,
+        }));
 
         res.json(mappedOrders);
     });

@@ -5,7 +5,7 @@ import * as reducers from '../../../src/store/orders';
 test('activeOrder should be fetching by default', t => {
     t.ok(reducers.activeOrder(undefined, {}).fetching);
     t.end();
-})
+});
 
 test('activeOrder should have fetching set as true after FETCHING_ORDER', t => {
     const state = reducers.activeOrder({}, {type: 'FETCHING_ORDER'});

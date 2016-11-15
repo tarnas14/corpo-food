@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const mealSchema = require('./meal').mealSchema;
 
+const OrderModelName = 'Order';
+
 const orderSchema = new Schema({
     deadline: {
         type: Date,
@@ -46,4 +48,4 @@ const orderSchema = new Schema({
     meals: [{type: Schema.Types.ObjectId, ref: mealSchema}],
 });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model(OrderModelName, orderSchema);

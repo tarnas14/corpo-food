@@ -26,6 +26,7 @@
     "eslint-plugin-react": "^6.3.0",
     "faucet": "^0.0.1",
     "fetch-mock": "^5.5.0",
+    "mockgoose": "^6.0.8",
     "redux-mock-store": "^1.2.1",
     "tape": "^4.6.2",
     "tape-catch": "^1.0.6"
